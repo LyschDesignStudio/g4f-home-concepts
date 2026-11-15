@@ -6,15 +6,19 @@
    Com o mouse se mexendo em cima do ícone, os pontos dele ficam azulados (mais perto do cursor, mais azuis)
    e voltam devagar ao escuro quando o mouse para ou sai.
    O hero é espelhado (scaleX(-1)) no CSS, então tudo aqui é desenhado no referencial da imagem original.
+   Ao carregar, a malha se forma ponto a ponto: uma onda que sai do foco para as bordas, cada ponto
+   crescendo e ganhando opacidade (junto com a entrada do título, hero-reveal.js).
    Sem canvas ou com movimento reduzido fica a imagem estática. */
 (function () {
+  var root = document.documentElement;
+  function fallback() { root.classList.remove('herodots-pending'); } // mostra a imagem estática
   var hero = document.querySelector('.hero');
   var bg = hero && hero.querySelector('.hero__bg');
-  if (!bg) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!bg) return fallback();
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return fallback();
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext && canvas.getContext('2d');
-  if (!ctx) return;
+  if (!ctx) return fallback();
   canvas.className = 'hero__dots';
   bg.insertBefore(canvas, bg.firstChild);
   // camada do ícone azulado: por cima da malha e mais opaca que ela (a malha fica a 20%)
@@ -55,11 +59,18 @@
   var IX = (374 - OX) / STEP, IY = (254 - OY) / STEP;
 
   var COLS = Math.floor((W - OX) / STEP) + 1, ROWS = Math.floor((H - OY) / STEP) + 1;
+  // entrada: cada ponto aparece num momento, numa onda que sai do foco (com um pouco de acaso)
+  var SPREAD = 1500, JITTER = 350, GROW = 450, MAXD = Math.sqrt(1260 * 1260 + 540 * 540);
+  function rnd(n) { var x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
   var pts = [];
   for (var j = 0; j < ROWS; j++) for (var i = 0; i < COLS; i++) {
     var row = ICON[j - IY], dark = !!(row && row.charAt(i - IX) === '#');
-    pts.push({ x: OX + i * STEP, y: OY + j * STEP, dark: dark });
+    var x0 = OX + i * STEP, y0 = OY + j * STEP;
+    var dd = Math.sqrt((x0 - HOME[0]) * (x0 - HOME[0]) + (y0 - HOME[1]) * (y0 - HOME[1]));
+    pts.push({ x: x0, y: y0, dark: dark, at: Math.min(1, dd / MAXD) * SPREAD + rnd(j * COLS + i) * JITTER });
   }
+  var t0 = performance.now(), intro = true;
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
 
   // sprites: o ponto e o rastro (um cone que afina e some), um de cada cor
   function sprite(rgb) {
@@ -90,11 +101,16 @@
   function draw() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = BG; ctx.fillRect(0, 0, W, H);
-    var fx = focus[0], fy = focus[1];
+    var fx = focus[0], fy = focus[1], el = intro ? performance.now() - t0 : 1e9, pending = false;
     for (var n = 0; n < pts.length; n++) {
-      var p = pts[n], s = p.dark ? SD : SG;
+      var p = pts[n], s = p.dark ? SD : SG, a = 1;
+      if (intro) {
+        a = (el - p.at) / GROW;
+        if (a <= 0) { pending = true; continue; }
+        if (a < 1) { pending = true; a = ease(a); ctx.globalAlpha = a; } else a = 1;
+      }
       var vx = p.x - fx, vy = p.y - fy, d = Math.sqrt(vx * vx + vy * vy);
-      var L = Math.min(MAXL, Math.max(0, d - R0) * K);
+      var L = Math.min(MAXL, Math.max(0, d - R0) * K) * a;
       if (L > 0.5) {
         var c = vx / d, sn = vy / d;
         // rastro saindo do ponto para fora do foco
@@ -102,8 +118,11 @@
         ctx.drawImage(s.tail, 0, -R, L + R, R * 2);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
-      ctx.drawImage(s.dot, p.x - R, p.y - R, R * 2, R * 2);
+      var r = R * (0.3 + 0.7 * a);
+      ctx.drawImage(s.dot, p.x - r, p.y - r, r * 2, r * 2);
+      if (a < 1) ctx.globalAlpha = 1;
     }
+    if (intro && !pending) intro = false;
     drawHi();
   }
   // ícone azulado: cada ponto do ícone em azul, mais forte perto do cursor
@@ -141,7 +160,7 @@
     var on = over && performance.now() - lastMove < 250 ? 1 : 0;
     blue += (on - blue) * (on ? 0.12 : 0.03);
     draw();
-    if (visible && (Math.abs(dx) > 0.3 || Math.abs(dy) > 0.3 || Math.abs(on - blue) > 0.005)) raf = requestAnimationFrame(frame);
+    if (visible && (intro || Math.abs(dx) > 0.3 || Math.abs(dy) > 0.3 || Math.abs(on - blue) > 0.005)) raf = requestAnimationFrame(frame);
   }
   function kick() { if (!raf && visible) raf = requestAnimationFrame(frame); }
 
@@ -158,5 +177,6 @@
   window.addEventListener('resize', function () { size(); draw(); });
 
   size(); draw();
-  bg.classList.add('is-live');
+  bg.classList.add('is-live'); fallback();
+  kick();
 })();
