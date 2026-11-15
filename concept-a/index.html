@@ -35,14 +35,17 @@
 
   <!-- Hero + stats -->
   <section class="hero">
-    <div class="dots" aria-hidden="true">
-      <div class="dots__fade dots__fade--top"></div>
-      <div class="dots__fade dots__fade--bottom"></div>
-    </div>
+    <!-- Palco fixo: malha + frase ficam paradas enquanto os cards sobem por cima (scroll.js) -->
+    <div class="hero__stage">
+      <div class="dots" aria-hidden="true">
+        <div class="dots__fade dots__fade--top"></div>
+        <div class="dots__fade dots__fade--bottom"></div>
+      </div>
 
-    <div class="hero__content">
-      <h1 class="hero__title t">A G4F é a empresa brasileira de tecnologia que está por trás de soluções que transformam negócios.</h1>
-      <a class="btn btn--accent" href="#contato"><span class="t">Fale com um especialista</span><img src="assets/arrow-right.svg" width="16" height="16" alt=""></a>
+      <div class="hero__content">
+        <h1 class="hero__title t">A G4F é a empresa brasileira de tecnologia que está por trás de soluções que transformam negócios.</h1>
+        <a class="btn btn--accent" href="#contato"><span class="t">Fale com um especialista</span><img src="assets/arrow-right.svg" width="16" height="16" alt=""></a>
+      </div>
     </div>
 
     <div class="stat stat--brand" style="left:120px; top:1000px">
@@ -264,5 +267,6 @@
 </script>
 <script src="dots.js"></script>
 <script src="hero-reveal.js"></script>
+<script src="scroll.js"></script>
 </body>
 </html>
