@@ -111,15 +111,22 @@
     [-SX, SX].forEach(function (x) {
       mk('path', { class: 'nf lo', d: poly(ringAt(P, circ(TR + 1.2, 32).map(function (q) { return { u: q.u + x, v: q.v, nu: q.nu, nv: q.nv }; }), BH)) }, g);
     });
-    var shackle = mk('path', {}, g), crease = mk('path', { class: 'nf lo' }, g);
+    // a trava: preenchimento sem contorno + as duas laterais como linhas abertas, para que ela
+    // entre no corpo sem uma tampa reta desenhada; só a ponta solta (perna direita fora do furo) ganha tampa
+    var shackle = mk('path', { class: 'fo' }, g), edges = mk('path', { class: 'nf' }, g), crease = mk('path', { class: 'nf lo' }, g);
+    // a borda da frente de cada furo passa por cima da trava: ela parece entrar no cadeado
+    var rims = [-SX, SX].map(function (x) {
+      return mk('path', { class: 'nf lo', d: open(ringAt(P, run(circ(TR + 1.2, 32).map(function (q) { return { u: q.u + x, v: q.v, nu: q.nu, nv: q.nv }; }), front), BH)) }, g);
+    });
 
     function line(l) {
       var zs = ZS + l, an = 0, pts = [], k; // só sobe e desce: sem girar a trava (no artefato ela gira até 0.4 rad)
-      for (k = 0; k <= 8; k++) pts.push([-SX, 0, zs - LEG - LIFT + ((LEG + LIFT) * k) / 8]); // perna esquerda mais longa: continua presa no corpo ao destravar
+      // as pernas vão exatamente até a tampa do corpo (z = BH): o que fica dentro dele não aparece
+      var lb = Math.max(BH, zs - LEG - LIFT), rb = Math.max(BH, zs - LEG); // perna esquerda mais longa: continua presa ao destravar
+      for (k = 0; k <= 8; k++) pts.push([-SX, 0, lb + ((zs - lb) * k) / 8]);
       for (k = 1; k < 24; k++) { var t = Math.PI - (Math.PI * k) / 24; pts.push([SR * Math.cos(t), 0, zs + SR * Math.sin(t)]); }
-      for (k = 0; k <= 8; k++) pts.push([SX, 0, zs - (LEG * k) / 8]);
-      return pts.map(function (q) { var d = q[0] + SX; return [-SX + d * Math.cos(an), d * Math.sin(an), q[2]]; })
-        .filter(function (q) { return q[2] >= BH || Math.abs(q[0]) > BW || Math.abs(q[1]) > BD; });
+      for (k = 0; k <= 8; k++) pts.push([SX, 0, zs - ((zs - rb) * k) / 8]);
+      return pts.map(function (q) { var d = q[0] + SX; return [-SX + d * Math.cos(an), d * Math.sin(an), q[2]]; });
     }
     var drawn = NaN;
     function draw(l) {
@@ -132,7 +139,9 @@
         var tx = b[0] - a[0], ty = b[1] - a[1], n = Math.hypot(tx, ty) || 1; tx /= n; ty /= n;
         L.push([p[0] - ty * tw, p[1] + tx * tw]); R.push([p[0] + ty * tw, p[1] - tx * tw]); Cr.push([p[0] + ty * tw * 0.4, p[1] - tx * tw * 0.4]);
       });
-      shackle.setAttribute('d', poly(L.concat(R.reverse())));
+      shackle.setAttribute('d', poly(L.concat(R.slice().reverse())));
+      var loose = ZS + l - LEG > BH + 0.3; // a perna direita saiu do furo: a ponta dela fica à mostra
+      edges.setAttribute('d', open(L) + open(loose ? R.slice(-1).concat([L[L.length - 1]]) : []) + open(R));
       var d = '', run1 = [];
       for (var i = 2; i < Cr.length - 2; i++) {
         var fold = i > 2 && ((Cr[i][0] - Cr[i - 1][0]) * (s[i][0] - s[i - 1][0]) + (Cr[i][1] - Cr[i - 1][1]) * (s[i][1] - s[i - 1][1])) <= 0;
