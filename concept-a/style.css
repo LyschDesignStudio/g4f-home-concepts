@@ -88,12 +88,12 @@ img { display: block; }
 }
 .hero__title { font-family: var(--font-title); font-weight: 400; font-size: 68px; line-height: 1.25; text-align: center; height: 267px; }
 
-/* Hero: palavras com fade descendo (hero-reveal.js) */
+/* Hero: palavras com fade subindo (hero-reveal.js) */
 .type-pending .hero__title { visibility: hidden; }
 .hero__title .w { display: inline-block; }
 .reveal .hero__title .w { animation: word-in .55s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d, 0ms); }
-@keyframes word-in { from { opacity: 0; transform: translateY(-18px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
-.type-pending .hero__content .btn, .typing .hero__content .btn { opacity: 0; transform: translateY(-10px); pointer-events: none; }
+@keyframes word-in { from { opacity: 0; transform: translateY(18px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+.type-pending .hero__content .btn, .typing .hero__content .btn { opacity: 0; transform: translateY(10px); pointer-events: none; }
 .hero__content .btn { transition: opacity .5s ease, transform .5s cubic-bezier(.2,.8,.2,1); }
 
 .stat { position: absolute; width: 392px; height: 336px; color: var(--text-inverse); z-index: 1; }

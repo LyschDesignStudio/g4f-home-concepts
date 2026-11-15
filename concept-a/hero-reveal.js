@@ -1,5 +1,5 @@
 /* Hero: ao carregar, as palavras do título aparecem em sequência com fade,
-   descendo levemente até o lugar; em seguida o botão aparece.
+   subindo levemente até o lugar; em seguida o botão aparece.
    As palavras já estão no lugar final (só transparentes), então nada pula. */
 (function () {
   var root = document.documentElement;
