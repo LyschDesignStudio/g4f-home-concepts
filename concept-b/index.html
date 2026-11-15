@@ -12,6 +12,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Inter:wght@400&display=swap">
 <link rel="stylesheet" href="style.css">
 <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('stats-pending', 'reveal-pending', 'case-pending', 'hero-pending', 'herodots-pending');</script>
+<script>
+  /* No refresh a página sempre abre do começo (o navegador não restaura a rolagem nem pula para âncoras). */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  window.scrollTo(0, 0);
+  window.addEventListener('load', function () { window.scrollTo(0, 0); });
+</script>
 </head>
 <body>
 <!-- Concept B · Figma 4499:61207 (artboard 1920 × 5307) -->

@@ -19,6 +19,13 @@
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) { r.classList.add('cards-pending'); r.classList.add('pins-pending'); r.classList.add('footer-pending'); }
   })();
 </script>
+<script>
+  /* No refresh a página sempre abre do começo (o navegador não restaura a rolagem nem pula para âncoras). */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  window.scrollTo(0, 0);
+  window.addEventListener('load', function () { window.scrollTo(0, 0); });
+</script>
 </head>
 <body>
 <div class="page" id="page">
