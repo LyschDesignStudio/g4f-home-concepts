@@ -95,6 +95,9 @@ img { display: block; }
 @keyframes word-in { from { opacity: 0; transform: translateY(18px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
 .type-pending .hero__content .btn, .typing .hero__content .btn { opacity: 0; transform: translateY(10px); pointer-events: none; }
 .hero__content .btn { transition: opacity .5s ease, transform .5s cubic-bezier(.2,.8,.2,1); }
+/* A malha de pontos aparece junto com o botão: fade + desfoque saindo */
+.type-pending .dots, .typing .dots { opacity: 0; filter: blur(10px); }
+.dots { transition: opacity .9s ease, filter .9s ease; }
 
 .stat { position: absolute; width: 392px; height: 336px; color: var(--text-inverse); z-index: 1; }
 .stat--brand { background: var(--bg-brand); }
