@@ -1,0 +1,152 @@
+/* G4F — Concept B · tokens do Figma (G4F - Design (INT), 4499:61207) */
+:root {
+  --text-primary: #011224;
+  --text-secondary: #5b6872;
+  --text-secondary-on-dark: #bccbd8;
+  --text-inverse: #f7fafc;
+  --text-brand: #3160e6;
+  --text-accent: #ffe554;
+  --bg-brand: #3160e6;
+  --bg-inverse: #011224;
+  --bg-page: #f4f4f4;
+  --accent-300: #ffe554;
+  --brand-050: #eef3ff;
+  --brand-600: #3160e6;
+  --brand-950: #022b57;
+  --neutral-050: #f7f7f7;
+  --neutral-200: #e0dfdf;
+  --font-title: 'General Sans', system-ui, sans-serif;
+  --font-body: 'General Sans', system-ui, sans-serif;
+  --font-label: 'Archivo', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg-inverse); }
+body { background: var(--bg-page); color: var(--text-primary); font-family: var(--font-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+img { display: block; }
+h1, h2, h3 { font-weight: 400; }
+
+/* Corte de caixa de texto igual ao Figma (cap → baseline) */
+.t { text-box: trim-both cap alphabetic; }
+
+.page { width: 1920px; margin: 0 auto; background: var(--bg-page); position: relative; overflow: clip; }
+
+/* ---------- Navbar (sobre o hero, transparente) ---------- */
+.nav { position: absolute; z-index: 50; left: 0; top: 0; width: 1920px; display: flex; align-items: center; justify-content: space-between; padding: 32px 56px; }
+.nav__right { display: flex; align-items: flex-start; gap: 40px; }
+.nav__menu { display: flex; align-items: center; height: 54px; }
+.nav__item { display: flex; align-items: center; gap: 10px; height: 100%; padding: 0 24px; }
+.nav__item, .nav__cta, .nav__lang, .btn, .footer__title, .footer__company, .footer__credit {
+  font-size: 14px; line-height: 24px; letter-spacing: 0.14px; text-transform: uppercase; white-space: nowrap;
+}
+.nav__actions { display: flex; align-items: center; gap: 40px; }
+.nav__cta { display: flex; padding: 20px 24px; border: 1px solid var(--text-primary); border-radius: 5px; }
+.nav__lang { display: flex; padding: 20px; }
+
+/* ---------- Botões ---------- */
+.btn { display: inline-flex; align-items: center; gap: 16px; padding: 20px 18px 20px 24px; }
+.btn--brand { background: var(--bg-brand); color: var(--text-inverse); }
+.btn--outline { border: 1px solid var(--neutral-050); color: var(--text-inverse); }
+.btn--accent { background: var(--accent-300); color: var(--text-primary); }
+.btn--ghost { border: 1px solid var(--neutral-200); color: var(--text-inverse); }
+
+.pill {
+  display: inline-flex; align-items: center; justify-content: center; padding: 10px; border-radius: 200px; border: 1px solid var(--brand-600);
+  font-family: var(--font-label); font-weight: 500; font-size: 12px; line-height: 1.4; letter-spacing: 0.96px; white-space: nowrap; color: var(--text-brand);
+}
+.pill--accent { background: var(--accent-300); border-color: var(--accent-300); color: var(--text-primary); }
+
+.h2 { font-family: var(--font-title); font-weight: 400; font-size: 48px; line-height: 1.25; }
+
+/* ---------- Hero · 1080 ---------- */
+.hero { position: relative; height: 1080px; }
+/* malha de pontos espelhada (no Figma: rotate 180° + flip vertical) a 20%, com os três degradês por cima */
+.hero__bg { position: absolute; inset: 0; transform: scaleX(-1); pointer-events: none; }
+.hero__bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .2; }
+.hero__bg::after { content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(268.955deg, #f4f4f4 12.895%, rgba(244,244,244,0) 48.247%),
+    linear-gradient(187.213deg, #f4f4f4 8.3879%, rgba(244,244,244,0) 39.03%),
+    linear-gradient(180deg, rgba(244,244,244,0) 69.512%, #f4f4f4 96.204%); }
+.hero__content { position: absolute; left: 120px; top: 364px; width: 758px; display: flex; flex-direction: column; align-items: flex-start; gap: 90px; }
+.hero__title { font-family: var(--font-title); font-size: 59px; line-height: 1.25; }
+
+/* ---------- Números · 301 ---------- */
+.stats { display: flex; align-items: center; justify-content: space-between; padding: 80px 120px; height: 301px; font-family: var(--font-title); line-height: 1.05; }
+.stat { display: flex; flex-direction: column; align-items: flex-end; gap: 32px; }
+.stat__num { font-size: 134px; white-space: nowrap; }
+.stat__desc { font-size: 18px; text-align: center; align-self: stretch; }
+.stat--full .stat__num { align-self: stretch; } /* NPS e certificações: no Figma o número ocupa a coluna toda (alinhado à esquerda) */
+
+/* ---------- Soluções · 1146 ---------- */
+.fronts { display: flex; flex-direction: column; gap: 60px; padding: 160px 120px; }
+.fronts__intro { display: flex; flex-direction: column; gap: 24px; white-space: nowrap; }
+.fronts__lead { font-family: 'Inter', sans-serif; font-size: 20px; line-height: 1.4; color: #6b6b6b; }
+.fronts__list { display: flex; gap: 20px; }
+.front { position: relative; width: 546px; height: 680px; background: #fff; border-radius: 4px; overflow: hidden; }
+.front__content { position: absolute; left: 40px; top: 40px; width: 462px; display: flex; flex-direction: column; align-items: flex-start; gap: 40px; z-index: 1; }
+.front__copy { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+.front__title { font-family: var(--font-title); font-size: 24px; line-height: 1.4; }
+.front__desc { font-family: var(--font-body); font-weight: 500; font-size: 17px; line-height: 1.5; color: var(--text-secondary); }
+.front__ill { position: absolute; overflow: hidden; pointer-events: none; }
+.front__ill > * { position: absolute; max-width: none; }
+.front__ill--1 { bottom: 0; left: 50%; transform: translateX(-50%); width: 578px; height: 463px; }
+.front__ill--1 > * { height: 100%; left: -0.01%; top: 9.9%; width: 100.01%; }
+.front__ill--2 { left: -16px; top: 180px; width: 578px; height: 500px; }
+.front__ill--2 > * { height: 92.6%; left: -0.01%; top: 0; width: 100.01%; }
+.front__ill--3 { left: 0; top: 236px; width: 546px; height: 444px; }
+.front__ill--3 > * { height: 104.28%; left: -2.94%; top: 0; width: 105.87%; }
+
+/* Figuras animadas (fronts-anim.js + hairline.js, as mesmas do Concept A: paleta light, linha principal em azul brand) */
+.front__fig { --hl-plate:#ffffff; --hl-hi:var(--brand-600); --hl-edge:#a4a4ac; --hl-mid:#c3c3c9; --hl-lo:#e0e0e4; --hl-sw:.9; }
+.front__fig svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
+.front__fig svg :where(path, polygon, ellipse, line) { fill: var(--hl-plate); stroke: var(--hl-mid); stroke-width: var(--hl-sw); vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; transition: stroke 260ms cubic-bezier(.5,0,.1,1); }
+.front__fig svg :where(.nf) { fill: none; }
+.front__fig svg :where(.fo) { stroke: none; }
+.front__fig svg :where(.sil) { stroke: var(--hl-edge); }
+.front__fig svg :where(.hi) { stroke: var(--hl-hi); }
+.front__fig svg :where(.lo) { stroke: var(--hl-lo); }
+.front__fig svg :where(.dash) { stroke-dasharray: 1 3; }
+.front__fig svg :where(.dot) { stroke: none; fill: var(--hl-hi); transition: fill 260ms cubic-bezier(.5,0,.1,1); }
+.front__fig svg :where(.dot.m) { fill: var(--hl-edge); }
+.front__fig svg :where(.dot.off) { fill: var(--hl-lo); }
+
+/* ---------- Cases · 1080 ---------- */
+.case { position: relative; height: 1080px; overflow: hidden; background: #011224; color: #fff; }
+/* fundo: as três elipses desfocadas em color-dodge + grão do Figma, rasterizados a partir do render do Figma
+   (o color-dodge do Figma não sai igual no navegador) */
+.case__bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.case__intro { position: absolute; left: 120px; top: 260px; width: 640px; display: flex; flex-direction: column; align-items: flex-start; gap: 60px; }
+.case__client { position: absolute; left: 120px; top: 731px; font-weight: 500; font-size: 40px; line-height: 1.05; color: var(--accent-300); white-space: nowrap; }
+.case__result { position: absolute; left: 100px; top: 816px; font-family: var(--font-title); font-weight: 500; font-size: 200px; line-height: 1.05; color: var(--brand-050); white-space: nowrap; }
+.case__nav { position: absolute; right: 120px; top: 714px; display: flex; gap: 16px; }
+.case__arrow { display: flex; padding: 20px; border: 1px solid var(--neutral-200); }
+.case__arrow--prev { border-color: var(--neutral-050); }
+.case__arrow--prev img { transform: scaleX(-1); }
+.case__category { position: absolute; left: 1370px; top: 878px; display: flex; flex-direction: column; align-items: flex-start; gap: 32px; }
+.case__desc { font-size: 28px; line-height: 1.25; white-space: nowrap; }
+
+/* ---------- Sobre + rodapé · 1700 ---------- */
+.about { position: relative; height: 1700px; overflow: hidden; background: linear-gradient(to bottom, #022345, #011224 57.805%); color: var(--text-inverse); }
+.about__content { position: absolute; left: 401px; top: 263px; width: 588px; display: flex; flex-direction: column; align-items: flex-start; gap: 80px; }
+.about__copy { display: flex; flex-direction: column; gap: 40px; }
+.about__headline { white-space: nowrap; }
+.about__desc { font-family: var(--font-label); font-size: 17px; line-height: 1.4; color: var(--text-secondary-on-dark); width: 398px; }
+.about__ctas { display: flex; align-items: center; gap: 16px; }
+
+.footer__nav { position: absolute; left: 377px; top: 885px; width: 1166px; display: flex; align-items: flex-start; justify-content: space-between; }
+.footer__col { display: flex; flex-direction: column; gap: 10px; min-width: 320px; }
+.footer__title, .footer__col a { display: flex; align-items: center; height: 40px; padding: 0 24px; }
+.footer__title { color: var(--text-accent); }
+.footer__col a { font-weight: 500; font-size: 14px; line-height: 24px; letter-spacing: 0.14px; white-space: nowrap; }
+.footer__social { position: absolute; left: 1528px; top: 1027px; display: flex; flex-direction: column; gap: 24px; }
+.footer__line { position: absolute; left: 120px; top: 1174.1px; width: 1680px; height: 1px; }
+.footer__legal { position: absolute; left: 120px; right: 120px; top: 1211px; display: flex; align-items: center; justify-content: space-between; color: var(--text-secondary); }
+.footer__company, .footer__credit { display: flex; align-items: center; height: 40px; }
+.footer__company { min-width: 320px; }
+.footer__credit { width: 171px; padding: 0 24px; font-weight: 500; }
+.footer__logo { position: absolute; left: 0; top: 1337px; width: 1920px; height: 363px; overflow: hidden; }
+.footer__logo img { position: absolute; left: 50%; bottom: -125px; transform: translateX(-50%); width: 1756px; height: 488px; }
