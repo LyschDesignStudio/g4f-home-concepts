@@ -16,7 +16,7 @@
 
   var BLUE = [0, 0.3];     // trecho da rolagem presa em que o azul cobre a tela
   var BG = [0.3, 0.55];    // trecho em que o degradê aparece
-  var DATA = [0.5, 0.97];  // trecho em que os dados entram (cadenciados; completos um pouco antes da parada)
+  var DATA = [0.5, 1];     // trecho em que os dados entram (cadenciados)
   var LAG = 0.1, RISE = 40;
 
   function clamp(v) { return Math.max(0, Math.min(1, v)); }
@@ -43,46 +43,6 @@
       el.style.opacity = q.toFixed(3);
       el.style.transform = q < 1 ? 'translateY(' + (RISE * (1 - ease(q))).toFixed(1) + 'px)' : '';
     });
-  }
-
-  /* Parada no fim: descendo, quando a seção fica completa (todos os dados na tela) a rolagem para ali.
-     O resto do gesto que trouxe a pessoa até aqui (inclusive a inércia do trackpad) é ignorado; só um
-     novo gesto de rolagem (a "segunda tentativa") libera e segue para a próxima seção.
-     Subindo de volta acima do trecho, a parada se arma de novo. */
-  var QUIET = 220;            // ms sem eventos de rolagem que separam um gesto do outro
-  var armed = true, locked = false, lastInput = 0, lastY = window.scrollY;
-  function endY() {
-    var r = pin.getBoundingClientRect();
-    return r.top + window.scrollY + (r.height - section.getBoundingClientRect().height);
-  }
-  function lock(y) {
-    locked = true; armed = false;
-    window.scrollTo(0, y);
-    lastInput = performance.now();
-  }
-  function onScrollGuard() {
-    var y = window.scrollY, end = endY(), vh = window.innerHeight;
-    if (locked && Math.abs(y - end) > 1) window.scrollTo(0, end);             // segura no ponto enquanto travado
-    else if (armed && y > lastY && lastY < end && y >= end && y - end < vh) lock(end); // cruzou o fim descendo
-    if (!armed && !locked && y < end - vh * 0.25) armed = true;                // voltou para cima: arma de novo
-    lastY = window.scrollY;
-  }
-  // um gesto novo depois de uma pausa libera; enquanto o gesto que travou continua, ele é engolido
-  function intent(ev, isNewGesture) {
-    if (!locked) return;
-    var now = performance.now();
-    if (isNewGesture || now - lastInput > QUIET) { locked = false; return; }
-    lastInput = now;
-    if (ev.cancelable) ev.preventDefault();
-  }
-  if (!reduced) {
-    window.addEventListener('wheel', function (ev) { intent(ev, false); }, { passive: false });
-    window.addEventListener('touchstart', function (ev) { if (locked && performance.now() - lastInput > QUIET) locked = false; }, { passive: true });
-    window.addEventListener('touchmove', function (ev) { intent(ev, false); }, { passive: false });
-    window.addEventListener('keydown', function (ev) {
-      if (locked && /^(ArrowDown|PageDown|Space| |End)$/.test(ev.key || ev.code)) locked = false; // tecla = nova tentativa
-    });
-    window.addEventListener('scroll', onScrollGuard, { passive: true });
   }
 
   measure();
