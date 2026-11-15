@@ -5,15 +5,261 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>G4F — Concept A</title>
-<style>
-  body { margin:0; font-family: system-ui, sans-serif; min-height:100vh; display:grid; place-items:center; background:#f4f4f5; color:#0e0f12; padding:24px 16px; }
-  a { color:inherit; }
-</style>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Inter:wght@400&display=swap">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div>
-    <h1>Concept A</h1>
-    <p>Home em desenvolvimento. <a href="/">← Voltar</a></p>
-  </div>
+<div class="page" id="page">
+
+  <!-- Navbar · 4521:184604 -->
+  <header class="nav">
+    <a class="nav__logo" href="#" aria-label="G4F"><img src="assets/logo.svg" width="108" height="30" alt="G4F"></a>
+    <div class="nav__right">
+      <nav class="nav__menu">
+        <a class="nav__item" href="#solucoes">Soluções <img src="assets/arrow-down.svg" width="14" height="14" alt=""></a>
+        <a class="nav__item" href="#cases">Cases</a>
+        <a class="nav__item" href="#sobre">Sobre a G4F</a>
+        <a class="nav__item" href="#contato">Contato</a>
+      </nav>
+      <div class="nav__actions">
+        <a class="nav__action nav__action--cta" href="#contato">Fale com um especialista</a>
+        <button class="nav__action nav__action--lang" type="button">PT</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero + stats -->
+  <section class="hero">
+    <div class="dots" aria-hidden="true">
+      <div class="dots__fade dots__fade--top"></div>
+      <div class="dots__fade dots__fade--bottom"></div>
+    </div>
+
+    <div class="hero__content">
+      <h1 class="hero__title t">A G4F é a empresa brasileira de tecnologia que está por trás de soluções que transformam negócios.</h1>
+      <a class="btn btn--accent" href="#contato"><span class="t">Fale com um especialista</span><img src="assets/arrow-right.svg" width="16" height="16" alt=""></a>
+    </div>
+
+    <div class="stat stat--brand" style="left:120px; top:1000px">
+      <img class="stat__spark" src="assets/spark.svg" width="25" height="26" alt="">
+      <div class="stat__text"><p class="stat__num t">10 mil</p><p class="stat__label t">especialistas</p></div>
+    </div>
+    <div class="stat stat--inverse" style="left:512px; top:1336px">
+      <img class="stat__spark" src="assets/spark.svg" width="25" height="26" alt="">
+      <div class="stat__text"><p class="stat__num t">82,6</p><p class="stat__label t">de NPS, zona de excelência</p></div>
+    </div>
+    <div class="stat stat--inverse" style="left:1408px; top:1111px">
+      <img class="stat__spark" src="assets/spark.svg" width="25" height="26" alt="">
+      <div class="stat__text"><p class="stat__num t">+98%</p><p class="stat__label t">de renovação contratual</p></div>
+    </div>
+    <div class="stat stat--brand" style="left:1072px; top:1671px">
+      <img class="stat__spark" src="assets/spark.svg" width="25" height="26" alt="">
+      <div class="stat__text stat__text--alt"><p class="stat__num t">174</p><p class="stat__label t">certificações em cibersegurança</p></div>
+    </div>
+  </section>
+
+  <!-- Três frentes · 4525:184727 -->
+  <section class="fronts" id="solucoes">
+    <div class="fronts__intro">
+      <h2 class="h2 t">Três frentes.<br>Um único parceiro.</h2>
+      <p class="fronts__lead">Um parceiro para proteger, potencializar e operar a tecnologia que não pode parar.</p>
+    </div>
+    <div class="fronts__list">
+      <article class="front">
+        <div class="front__content">
+          <span class="pill pill--brand"><span class="t">DATA &amp; AI</span></span>
+          <div class="front__copy">
+            <h3 class="front__title">Inteligência para decisões e resultados</h3>
+            <p class="front__desc">Inteligência Artificial aplicada na prática com governança e resultados que aceleram decisões e entregam valor mensurável.</p>
+          </div>
+        </div>
+        <div class="front__ill front__ill--1"><img src="assets/ill-data-ai.png" alt=""></div>
+        <a class="front__link" href="#cases">Ver todos os cases &nbsp;→</a>
+      </article>
+      <article class="front">
+        <div class="front__content">
+          <span class="pill pill--brand"><span class="t">CYBERSECURITY</span></span>
+          <div class="front__copy">
+            <h3 class="front__title">Confiança para operar</h3>
+            <p class="front__desc">Protegemos toda a estrutura digital sob os mais rígidos padrões internacionais para que nossos clientes operem com total estabilidade e sem o risco de paralisação.</p>
+          </div>
+        </div>
+        <div class="front__ill front__ill--2"><img src="assets/ill-cyber.png" alt=""></div>
+        <a class="front__link" href="#cases">Ver todos os cases &nbsp;→</a>
+      </article>
+      <article class="front">
+        <div class="front__content">
+          <span class="pill pill--brand"><span class="t">DIGITAL &amp; MANAGED SERVICES</span></span>
+          <div class="front__copy">
+            <h3 class="front__title">Continuidade para crescer</h3>
+            <p class="front__desc">Gestão e sustentação de ambientes tecnológicos complexos e infraestruturas em nuvem, que garantem estabilidade contínua e necessária para o crescimento de nossos clientes.</p>
+          </div>
+        </div>
+        <div class="front__ill front__ill--3"><img src="assets/ill-digital.png" alt=""></div>
+        <a class="front__link" href="#cases">Ver todos os cases &nbsp;→</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Cases · 4521:156449 -->
+  <section class="cases" id="cases">
+    <h2 class="h2 t">Transformamos complexidade em confiança.</h2>
+    <div class="cases__grid">
+      <article class="case-hero">
+        <div class="case-hero__art" aria-hidden="true">
+          <div style="inset:9.7% -32.81% 6.56% 5.18%"><img src="assets/dnit-0.svg" alt=""></div>
+          <div style="inset:28.14% -2.15% 29.33% 35.84%"><span style="inset:-0.23% -0.12%"><img src="assets/dnit-1.svg" alt=""></span></div>
+          <div style="inset:13.99% 13.47% 61.45% 51.47%"><span style="inset:-0.39% -0.22%"><img src="assets/dnit-2.svg" alt=""></span></div>
+          <div style="inset:36.31% 49.38% 41.21% 20.67%"><span style="inset:-0.43% -0.26%"><img src="assets/dnit-3.svg" alt=""></span></div>
+          <div style="inset:26.39% 5.93% 64.01% 91.01%"><span style="inset:-1.01% -2.52%"><img src="assets/dnit-4.svg" alt=""></span></div>
+          <div style="inset:33.22% 16.79% 57.18% 80.14%"><span style="inset:-1.01% -2.52%"><img src="assets/dnit-5.svg" alt=""></span></div>
+          <div style="inset:48.02% 40.34% 42.38% 56.6%"><span style="inset:-1.01% -2.52%"><img src="assets/dnit-6.svg" alt=""></span></div>
+          <div style="inset:54.86% 51.2% 35.55% 45.74%"><span style="inset:-1.01% -2.52%"><img src="assets/dnit-7.svg" alt=""></span></div>
+          <div style="inset:19.5% -1.7% 37.28% 36.29%"><span style="inset:-0.22% -0.12%"><img src="assets/dnit-8.svg" alt=""></span></div>
+          <div style="inset:30.36% -17.33% 40.19% 87.38%"><span style="inset:-0.33% -0.26%"><img src="assets/dnit-9.svg" alt=""></span></div>
+          <div style="inset:51.62% 13.47% 21.18% 51.47%"><span style="inset:-0.36% -0.22%"><img src="assets/dnit-10.svg" alt=""></span></div>
+        </div>
+        <div class="case-hero__head">
+          <p class="case-hero__name t">DNIT</p>
+          <span class="pill pill--light"><span class="t">DATA &amp; AI</span></span>
+        </div>
+        <div class="case-hero__foot">
+          <p class="case-hero__num t">R$ 25 mi+</p>
+          <p class="case-hero__label t">em créditos públicos recuperados</p>
+        </div>
+      </article>
+
+      <div class="cases__side">
+        <article class="case">
+          <div class="case__head"><p class="case__name t">Banco público</p></div>
+          <div class="case__body">
+            <span class="pill pill--muted"><span class="t">CYBERSECURITY</span></span>
+            <p class="case__text t">24 mil ativos monitorados, ~16 mil EPS</p>
+          </div>
+        </article>
+        <article class="case">
+          <div class="case__head"><p class="case__name t">MEC</p></div>
+          <div class="case__body">
+            <span class="pill pill--muted"><span class="t">DATA &amp; AI</span></span>
+            <p class="case__text t">2,2 mi+ candidatos em SISU, PROUNI e FIES</p>
+          </div>
+        </article>
+        <article class="case">
+          <div class="case__head"><p class="case__name t">Governo estadual</p></div>
+          <div class="case__body">
+            <span class="pill pill--muted"><span class="t">CYBERSECURITY</span></span>
+            <p class="case__text t">498 mil itens monitorados 24x7, SLA &gt;99%</p>
+          </div>
+        </article>
+        <a class="case case--brand" href="#cases">
+          <img src="assets/spark-cases.svg" width="25" height="26" alt="">
+          <div class="case--brand__copy">
+            <p class="case--brand__title t">Conheça outros projetos da G4F</p>
+            <p class="case--brand__link">Ver todos os cases &nbsp;→</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mapa · 4525:188855 -->
+  <section class="map" id="sobre">
+    <img class="map__globe" src="assets/globe-dots.svg" width="1737.56" height="1909.53" alt="">
+    <img class="map__brasil" src="assets/globe-brasil.svg" width="738.063" height="730.497" alt="">
+    <div class="map__grad map__grad--1"></div>
+    <div class="map__grad map__grad--2"></div>
+
+    <img class="map__pin" src="assets/pin-0.svg" style="left:950px; top:850.4px" alt="">
+    <img class="map__pin" src="assets/pin-1.svg" style="left:1023.6px; top:692px" alt="">
+    <img class="map__pin" src="assets/pin-2.svg" style="left:1111.2px; top:752.2px" alt="">
+    <img class="map__pin" src="assets/pin-3.svg" style="left:1062px; top:1014.8px" alt="">
+    <img class="map__pin" src="assets/pin-4.svg" style="left:995.6px; top:1041.8px" alt="">
+    <img class="map__pin" src="assets/pin-5.svg" style="left:895.4px; top:909px" alt="">
+    <img class="map__pin" src="assets/pin-6.svg" style="left:1013.8px; top:925.2px" alt="">
+
+    <span class="map__label" style="left:894.2px; top:661.4px"><span class="t">Fortaleza</span></span>
+    <span class="map__label" style="left:1155.8px; top:716.13px"><span class="t">Recife</span></span>
+    <span class="map__label" style="left:829.6px; top:803.4px"><span class="t">Brasília · matriz</span></span>
+    <span class="map__label" style="left:786.6px; top:887.4px"><span class="t">Goiânia</span></span>
+    <span class="map__label" style="left:866.8px; top:1021px"><span class="t">São Paulo</span></span>
+    <span class="map__label" style="left:1128.4px; top:1029px"><span class="t">Rio de Janeiro</span></span>
+    <span class="map__label" style="left:1072px; top:917.4px"><span class="t">Belo Horizonte</span></span>
+
+    <div class="map__grain"></div>
+
+    <div class="map__content">
+      <div class="map__copy">
+        <h2 class="h2 t">Uma jornada de disciplina<br>e expansão constante.</h2>
+        <p class="map__lead t">17 anos de atuação. Matriz em Brasília e escritórios em seis capitais. Atuação em 22 estados.</p>
+      </div>
+      <div class="map__ctas">
+        <a class="btn btn--accent" href="#sobre"><span class="t">Sobre a G4F</span><img src="assets/arrow-right.svg" width="16" height="16" alt=""></a>
+        <a class="btn btn--ghost" href="#sobre"><span class="t">Governança e integridade</span><img src="assets/arrow-right-map-1.svg" width="16" height="16" alt=""></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer · 4532:211329 -->
+  <footer class="footer" id="contato">
+    <img class="footer__blob" src="assets/footer-blob.svg" width="1008" height="1008" alt="">
+    <div class="footer__grain"></div>
+    <div class="footer__content">
+      <div class="footer__cols">
+        <div class="footer__col">
+          <p class="footer__title t">Soluções</p>
+          <ul>
+            <li><a href="#solucoes"><span class="t">Data &amp; AI</span></a></li>
+            <li><a href="#solucoes"><span class="t">Cybersecurity</span></a></li>
+            <li><a href="#solucoes"><span class="t">Digital &amp; Managed Services</span></a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <p class="footer__title t">g4f</p>
+          <ul>
+            <li><a href="#cases"><span class="t">Cases</span></a></li>
+            <li><a href="#sobre"><span class="t">Sobre a G4F</span></a></li>
+            <li><a href="#sobre"><span class="t">Governança e integridade</span></a></li>
+            <li><a href="#contato"><span class="t">Contato</span></a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <p class="footer__title t">Mais</p>
+          <ul>
+            <li><a href="#"><span class="t">G4F na mídia</span></a></li>
+            <li><a href="#"><span class="t">Carreiras</span></a></li>
+            <li><a href="#"><span class="t">Aviso de Privacidade</span></a></li>
+            <li><a href="#"><span class="t">LGPD</span></a></li>
+            <li><a href="#"><span class="t">Canal de denúncias</span></a></li>
+          </ul>
+        </div>
+        <div class="footer__social">
+          <a href="#" aria-label="LinkedIn"><img src="assets/social-0.svg" width="16" height="16" alt=""></a>
+          <a href="#" aria-label="Instagram"><img src="assets/social-1.svg" width="16" height="16" alt=""></a>
+          <a href="#" aria-label="Facebook"><img src="assets/social-2.svg" width="16" height="16" alt=""></a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <img class="footer__line" src="assets/footer-line.svg" width="866" height="0.75" alt="">
+        <div class="footer__legal">
+          <p class="t">G4F SOLUÇÕES CORPORATIVAS LTDA - CNPJ: 07.094.346/0001-45</p>
+          <p class="t footer__credit">DESIGN BY LYSCH</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // O layout é desenhado em 1920px (artboard do Figma); abaixo disso a página escala proporcionalmente.
+  (function () {
+    var page = document.getElementById('page');
+    function fit() { page.style.zoom = Math.min(1, window.innerWidth / 1920); }
+    fit(); window.addEventListener('resize', fit);
+  })();
+</script>
 </body>
 </html>
