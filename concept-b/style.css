@@ -67,6 +67,27 @@ h1, h2, h3 { font-weight: 400; }
 .btn--accent { background: var(--accent-300); color: var(--text-primary); }
 .btn--ghost { border: 1px solid var(--neutral-200); color: var(--text-inverse); }
 
+/* ---------- Hovers (iguais ao Concept A) ---------- */
+/* menu e rodapé: mesma cor, 50% de opacidade; no "Fale com um especialista" do menu só o texto apaga, a borda fica */
+.nav__item, .nav__lang, .nav__cta .t, .footer a { transition: opacity .25s ease; }
+.nav__item:hover, .nav__item:focus-visible, .nav__lang:hover, .nav__lang:focus-visible,
+.nav__cta:hover .t, .nav__cta:focus-visible .t, .footer a:hover, .footer a:focus-visible { opacity: .5; }
+/* botões: a seta anda 3px para a direita */
+.btn > img, .btn__arrow { transition: transform .2s ease; }
+.btn:hover > img, .btn:hover .btn__arrow, .btn:focus-visible > img, .btn:focus-visible .btn__arrow { transform: translateX(3px); }
+.btn--accent, .btn--ghost, .btn--brand, .btn--outline { transition: background-color .25s ease, border-color .25s ease, color .25s ease; }
+/* amarelo → azul brand, texto e seta inverse (a seta escura troca pela clara) */
+.btn--accent:hover, .btn--accent:focus-visible { background: var(--bg-brand); color: var(--text-inverse); }
+.btn__arrow { position: relative; display: inline-flex; }
+.btn__arrow img { transition: opacity .25s ease; }
+.btn__arrow .btn__arrow-inv { position: absolute; inset: 0; opacity: 0; }
+.btn:hover .btn__arrow img:first-child, .btn:focus-visible .btn__arrow img:first-child { opacity: 0; }
+.btn:hover .btn__arrow .btn__arrow-inv, .btn:focus-visible .btn__arrow .btn__arrow-inv { opacity: 1; }
+/* contorno sobre fundo escuro/azul → fundo brand/950, a linha continua */
+.btn--ghost:hover, .btn--ghost:focus-visible, .btn--outline:hover, .btn--outline:focus-visible { background: var(--brand-950); }
+/* azul brand do hero (só existe no B) → brand/950, no mesmo passo dos outros */
+.btn--brand:hover, .btn--brand:focus-visible { background: var(--brand-950); }
+
 .pill {
   display: inline-flex; align-items: center; justify-content: center; padding: 10px; border-radius: 200px; border: 1px solid var(--brand-600);
   font-family: var(--font-label); font-weight: 500; font-size: 12px; line-height: 1.4; letter-spacing: 0.96px; white-space: nowrap; color: var(--text-brand);
