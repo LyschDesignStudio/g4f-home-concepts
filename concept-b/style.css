@@ -68,10 +68,12 @@ h1, h2, h3 { font-weight: 400; }
 .btn--ghost { border: 1px solid var(--neutral-200); color: var(--text-inverse); }
 
 /* ---------- Hovers (iguais ao Concept A) ---------- */
-/* menu e rodapé: mesma cor, 50% de opacidade; no "Fale com um especialista" do menu só o texto apaga, a borda fica */
-.nav__item, .nav__lang, .nav__cta .t, .footer a { transition: opacity .25s ease; }
-.nav__item:hover, .nav__item:focus-visible, .nav__lang:hover, .nav__lang:focus-visible,
-.nav__cta:hover .t, .nav__cta:focus-visible .t, .footer a:hover, .footer a:focus-visible { opacity: .5; }
+/* menu e rodapé: mesma cor, 50% de opacidade */
+.nav__item, .nav__lang, .footer a { transition: opacity .25s ease; }
+.nav__item:hover, .nav__item:focus-visible, .nav__lang:hover, .nav__lang:focus-visible, .footer a:hover, .footer a:focus-visible { opacity: .5; }
+/* "Fale com um especialista" do menu: fundo azul brand e texto inverse */
+.nav__cta { transition: background-color .25s ease, border-color .25s ease, color .25s ease; }
+.nav__cta:hover, .nav__cta:focus-visible { background: var(--bg-brand); border-color: var(--bg-brand); color: var(--text-inverse); }
 /* botões: a seta anda 3px para a direita */
 .btn > img, .btn__arrow { transition: transform .2s ease; }
 .btn:hover > img, .btn:hover .btn__arrow, .btn:focus-visible > img, .btn:focus-visible .btn__arrow { transform: translateX(3px); }
