@@ -169,13 +169,13 @@ img { display: block; }
 .front__link { transition: opacity .25s ease; }
 .front__link:hover, .front__link:focus-visible { opacity: .5; }
 .front__ill { position: absolute; overflow: hidden; pointer-events: none; }
-.front__ill img { position: absolute; max-width: none; }
+.front__ill > * { position: absolute; max-width: none; }
 .front__ill--1 { bottom: 0.06px; left: calc(50% + 209.68px); transform: translateX(-50%); width: 656.649px; height: 525.937px; }
-.front__ill--1 img { height: 100%; left: -0.01%; top: 9.9%; width: 100.01%; }
+.front__ill--1 > * { height: 100%; left: -0.01%; top: 9.9%; width: 100.01%; }
 .front__ill--2 { right: 0; top: -20px; width: 608.056px; height: 526px; }
-.front__ill--2 img { height: 92.6%; left: -0.01%; top: 0; width: 100.01%; }
+.front__ill--2 > * { height: 92.6%; left: -0.01%; top: 0; width: 100.01%; }
 .front__ill--3 { right: 0; top: 0; width: 646.838px; height: 526px; }
-.front__ill--3 img { height: 104.28%; left: -2.94%; top: 0; width: 105.87%; }
+.front__ill--3 > * { height: 104.28%; left: -2.94%; top: 0; width: 105.87%; }
 
 /* ---------- Cases ---------- */
 .cases { display: flex; flex-direction: column; gap: 80px; padding: 160px 120px; }
@@ -272,3 +272,17 @@ img { display: block; }
 .footer-pending .footer__line.footer__reveal { transform: scaleX(0); transform-origin: left center; filter: none;
   transition: opacity .4s ease, transform 1s cubic-bezier(.65,0,.35,1); }
 .footer-pending .footer__line.footer__reveal.is-in { transform: none; }
+
+/* Figuras animadas dos cards de soluções (fronts-anim.js + hairline.js, paleta light dos artefatos).
+   Ocupam a mesma caixa das ilustrações estáticas; o ponteiro é lido no card inteiro. */
+.front__fig { --hl-plate:#ffffff; --hl-hi:#232327; --hl-edge:#a4a4ac; --hl-mid:#c3c3c9; --hl-lo:#e0e0e4; --hl-sw:.9; }
+.front__fig svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
+.front__fig svg :where(path, polygon, ellipse, line) { fill: var(--hl-plate); stroke: var(--hl-mid); stroke-width: var(--hl-sw); vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; transition: stroke 260ms cubic-bezier(.5,0,.1,1); }
+.front__fig svg :where(.nf) { fill: none; }
+.front__fig svg :where(.sil) { stroke: var(--hl-edge); }
+.front__fig svg :where(.hi) { stroke: var(--hl-hi); }
+.front__fig svg :where(.lo) { stroke: var(--hl-lo); }
+.front__fig svg :where(.dash) { stroke-dasharray: 1 3; }
+.front__fig svg :where(.dot) { stroke: none; fill: var(--hl-hi); transition: fill 260ms cubic-bezier(.5,0,.1,1); }
+.front__fig svg :where(.dot.m) { fill: var(--hl-edge); }
+.front__fig svg :where(.dot.off) { fill: var(--hl-lo); }
