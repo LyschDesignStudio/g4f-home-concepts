@@ -16,7 +16,8 @@
   var ticking = false;
   function update() {
     ticking = false;
-    var on = nav.getBoundingClientRect().bottom <= 0;
+    // scrollY > 0: no load a navbar começa acima da tela (animação de entrada) e não pode ligar a cópia
+    var on = window.scrollY > 0 && nav.getBoundingClientRect().bottom <= 0;
     if (on === bar.classList.contains('is-on')) return;
     bar.classList.toggle('is-on', on);
     bar.setAttribute('aria-hidden', on ? 'false' : 'true');
