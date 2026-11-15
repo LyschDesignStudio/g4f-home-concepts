@@ -76,10 +76,10 @@ img { display: block; }
 .btn:hover > img { transform: translateX(3px); }
 .btn--accent { background: var(--accent-300); color: var(--text-primary); }
 .btn--ghost { border: 1px solid var(--neutral-200); color: var(--text-inverse); }
-/* hover dos CTAs: amarelo → azul brand com texto e seta inverse; outline → fundo e borda brand/950 */
+/* hover dos CTAs: amarelo → azul brand com texto e seta inverse; outline → fundo brand/950, mantendo a linha branca */
 .btn--accent, .btn--ghost { transition: background-color .25s ease, border-color .25s ease, color .25s ease; }
 .btn--accent:hover, .btn--accent:focus-visible { background: var(--bg-brand); color: var(--text-inverse); }
-.btn--ghost:hover, .btn--ghost:focus-visible { background: var(--brand-950); border-color: var(--brand-950); color: var(--text-inverse); }
+.btn--ghost:hover, .btn--ghost:focus-visible { background: var(--brand-950); color: var(--text-inverse); } /* a linha branca continua */
 .btn__arrow { position: relative; display: inline-flex; transition: transform .2s ease; }
 .btn__arrow img { transition: opacity .25s ease; }
 .btn__arrow .btn__arrow-inv { position: absolute; inset: 0; opacity: 0; }
