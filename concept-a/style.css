@@ -237,7 +237,9 @@ img { display: block; }
 .footer__title, .footer__col a { display: flex; align-items: center; height: 40px; padding: 0 24px; font-size: 14px; line-height: 24px; letter-spacing: 0.14px; }
 .footer__title { color: var(--text-accent); text-transform: uppercase; }
 .footer__col a { color: var(--text-inverse); font-weight: 500; }
-.footer__col a:hover { color: var(--text-accent); }
+/* hover dos links do rodapé: mesma cor, 50% de opacidade */
+.footer a { transition: opacity .25s ease; }
+.footer a:hover, .footer a:focus-visible { opacity: .5; }
 .footer__social { position: absolute; right: 0; top: 0; display: flex; gap: 24px; align-items: center; }
 .footer__bottom { position: relative; }
 .footer__line { width: 866px; height: 0.75px; }
