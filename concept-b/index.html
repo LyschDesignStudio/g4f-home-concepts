@@ -94,7 +94,10 @@
   <!-- Cases · 4499:61373 — entra por cima de Soluções e fica presa enquanto o degradê e os dados aparecem (case.js) -->
   <div class="case-pin">
   <section class="case" id="cases">
-    <img class="case__bg" src="assets/case-bg.jpg" width="1920" height="1080" alt="" aria-hidden="true">
+    <div class="case__bg" aria-hidden="true">
+      <img src="assets/case-bg.jpg" width="1920" height="1080" alt="">
+      <canvas class="case__gl"></canvas>
+    </div>
     <div class="case__intro">
       <h2 class="h2 case__headline t">Transformamos complexidade em confiança.</h2>
       <a class="btn btn--outline" href="#cases"><span class="t">Ver todos os cases</span><img src="assets/arrow-right-case.svg" width="16" height="16" alt=""></a>
@@ -190,5 +193,6 @@
 <script src="stats.js"></script>
 <script src="reveal.js"></script>
 <script src="case.js"></script>
+<script src="case-bg.js"></script>
 </body>
 </html>
