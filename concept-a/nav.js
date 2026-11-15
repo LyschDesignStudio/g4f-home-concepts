@@ -8,7 +8,9 @@
   var ticking = false;
   function update() {
     ticking = false;
-    nav.classList.toggle('nav--dark', map.getBoundingClientRect().top <= nav.getBoundingClientRect().bottom);
+    // com o mapa preso por baixo dos cases (map-reveal.js), vale a base dos cases: o menu escurece quando o mapa aparece atrás dele
+    var top = window.G4F && G4F.mapTop ? G4F.mapTop() : map.getBoundingClientRect().top;
+    nav.classList.toggle('nav--dark', top <= nav.getBoundingClientRect().bottom);
   }
   window.addEventListener('scroll', function () {
     if (!ticking) { ticking = true; requestAnimationFrame(update); }

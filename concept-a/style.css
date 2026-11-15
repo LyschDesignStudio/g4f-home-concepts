@@ -287,3 +287,11 @@ img { display: block; }
 .front__fig svg :where(.dot) { stroke: none; fill: var(--hl-hi); transition: fill 260ms cubic-bezier(.5,0,.1,1); }
 .front__fig svg :where(.dot.m) { fill: var(--hl-edge); }
 .front__fig svg :where(.dot.off) { fill: var(--hl-lo); }
+
+/* Cases → mapa: o mapa fica fixo na tela (sticky) por baixo da seção de cases, que sobe e o revela.
+   O invólucro sobe uma altura de tela (--reveal-h, a altura da janela em px do artboard, map-reveal.js)
+   para ficar atrás do fim dos cases e ganha a mesma altura no fim, que é o trecho em que o mapa fica parado. */
+.cases { position: relative; z-index: 2; background: #fff; }
+.map-reveal { position: relative; z-index: 0; /* abaixo de soluções (1) e cases (2): numa tela mais alta que os cases, o mapa não aparece por cima de soluções */ margin-top: calc(-1 * var(--reveal-h, 1080px)); }
+.map-reveal::after { content: ""; display: block; height: var(--reveal-h, 1080px); }
+.map-reveal > .map { position: sticky; top: 0; }

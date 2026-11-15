@@ -18,6 +18,10 @@
     ticking = false;
     var vh = window.innerHeight;
     var b = brasil.getBoundingClientRect(), f = first.getBoundingClientRect();
+    // mapa preso por baixo dos cases (map-reveal.js): mede como se ele rolasse junto, para manter o ritmo do scroll
+    var map = brasil.closest('.map'), d = 0;
+    if (map && window.G4F && G4F.mapTop) d = G4F.mapTop() - map.getBoundingClientRect().top;
+    b = { top: b.top + d, height: b.height }; f = { bottom: f.bottom + d };
     // rolagem que falta até cada marco, medida pela posição do topo do Brasil na tela
     var startTop = b.top + (vh - f.bottom);          // topo do Brasil quando Brasília entra inteira
     var endTop = vh - b.height * END_VISIBLE;        // topo do Brasil com 80% dele visível
