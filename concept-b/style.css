@@ -135,7 +135,7 @@ h1, h2, h3 { font-weight: 400; }
    Até o script assumir, ficam escondidos para não piscar. */
 .reveal-pending .fronts__intro > *, .reveal-pending .front { opacity: 0; }
 .reveal-pending .about__headline, .reveal-pending .about__desc, .reveal-pending .about__ctas > .btn,
-.reveal-pending .footer__col, .reveal-pending .footer__social, .reveal-pending .footer__line, .reveal-pending .footer__legal, .reveal-pending .footer__logo { opacity: 0; }
+.reveal-pending .footer__col, .reveal-pending .footer__social, .reveal-pending .footer__line, .reveal-pending .footer__legal, .reveal-pending .footer__logo-part { opacity: 0; }
 .front__ill { position: absolute; overflow: hidden; pointer-events: none; }
 .front__ill > * { position: absolute; max-width: none; }
 .front__ill--1 { bottom: 0; left: 50%; transform: translateX(-50%); width: 578px; height: 463px; }
@@ -232,4 +232,5 @@ h1, h2, h3 { font-weight: 400; }
 .footer__company { min-width: 320px; }
 .footer__credit { width: 171px; padding: 0 24px; font-weight: 500; }
 .footer__logo { position: absolute; left: 0; top: 1337px; width: 1920px; height: 363px; overflow: hidden; }
-.footer__logo img { position: absolute; left: 50%; bottom: -145px; transform: translateX(-50%); width: 1756px; height: 488px; }
+.footer__logo-svg { position: absolute; left: 50%; bottom: -145px; transform: translateX(-50%); width: 1756px; height: 488px; overflow: visible; }
+.footer__logo-part { transform-box: fill-box; }
