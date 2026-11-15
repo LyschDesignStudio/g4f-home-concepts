@@ -165,7 +165,9 @@ img { display: block; }
 .front__title { font-family: var(--font-title); font-weight: 400; font-size: 24px; line-height: 1.4; }
 .front__desc, .front__link { font-family: var(--font-body); font-weight: 500; font-size: 17px; line-height: 1.5; color: var(--text-secondary); width: 428px; }
 .front__link { position: absolute; left: 40px; top: 460px; white-space: pre; z-index: 1; }
-.front__link:hover { color: var(--text-brand); }
+/* hover do link dos cards: mesma cor, 50% de opacidade (igual ao menu e ao rodapé) */
+.front__link { transition: opacity .25s ease; }
+.front__link:hover, .front__link:focus-visible { opacity: .5; }
 .front__ill { position: absolute; overflow: hidden; pointer-events: none; }
 .front__ill img { position: absolute; max-width: none; }
 .front__ill--1 { bottom: 0.06px; left: calc(50% + 209.68px); transform: translateX(-50%); width: 656.649px; height: 525.937px; }
