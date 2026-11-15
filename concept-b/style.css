@@ -109,10 +109,9 @@ h1, h2, h3 { font-weight: 400; }
 .front__copy { display: flex; flex-direction: column; gap: 16px; width: 100%; }
 .front__title { font-family: var(--font-title); font-size: 24px; line-height: 1.4; }
 .front__desc { font-family: var(--font-body); font-weight: 500; font-size: 17px; line-height: 1.5; color: var(--text-secondary); }
-/* Entrada cadenciada (reveal.js): título e texto, depois os três cards, um a um */
-.reveal { transition: opacity 700ms cubic-bezier(.32,.72,0,1), transform 900ms cubic-bezier(.32,.72,0,1); }
-.reveal-pending .reveal:not(.is-in) { opacity: 0; transform: translateY(40px); }
-.reveal-pending .front.reveal:not(.is-in) { transform: translateY(80px); }
+/* Entrada cadenciada acompanhando a rolagem (reveal.js): título e texto, depois os três cards, um a um.
+   Até o script assumir, ficam escondidos para não piscar. */
+.reveal-pending .fronts__intro > *, .reveal-pending .front { opacity: 0; }
 .front__ill { position: absolute; overflow: hidden; pointer-events: none; }
 .front__ill > * { position: absolute; max-width: none; }
 .front__ill--1 { bottom: 0; left: 50%; transform: translateX(-50%); width: 578px; height: 463px; }
