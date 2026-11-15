@@ -123,7 +123,11 @@ h1, h2, h3 { font-weight: 400; }
 
 /* Figuras animadas (fronts-anim.js + hairline.js, as mesmas do Concept A: paleta light, linha principal em azul brand) */
 /* ilustrações a 80% do tamanho do Figma, presas pela base: afastam do texto do card (sobretudo o cadeado) */
-.front__ill > .front__fig { transform: scale(var(--fig-scale, .8)); transform-origin: 50% 100%; }
+.front__ill > .front__fig { transform: translateY(var(--fig-dy, 0px)) scale(var(--fig-scale, .8)); transform-origin: 50% 100%; }
+/* chip e servidores sobem até o centro do desenho ficar na mesma altura do centro do cadeado fechado
+   (medido no navegador: centro do cadeado a 489px do topo do card, chip a 526, servidores a 514) */
+.front__ill--1 > .front__fig { --fig-dy: -37px; }
+.front__ill--3 > .front__fig { --fig-dy: -25px; }
 .front__fig { --hl-plate:#ffffff; --hl-hi:var(--brand-600); --hl-edge:#a4a4ac; --hl-mid:#c3c3c9; --hl-lo:#e0e0e4; --hl-sw:.9; }
 .front__fig svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
 .front__fig svg :where(path, polygon, ellipse, line) { fill: var(--hl-plate); stroke: var(--hl-mid); stroke-width: var(--hl-sw); vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; transition: stroke 260ms cubic-bezier(.5,0,.1,1); }
