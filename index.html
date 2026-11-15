@@ -5,28 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>G4F — Concepts da Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#0e0f12; --fg:#f4f4f5; --muted:#9a9ba3; --line:#26272d; }
-  * { box-sizing:border-box; margin:0; }
-  body { font-family: system-ui, -apple-system, sans-serif; background:var(--bg); color:var(--fg); min-height:100vh; display:grid; place-items:center; padding:24px 16px; }
-  main { width:100%; max-width:880px; }
-  h1 { font-size:clamp(28px,4vw,44px); font-weight:600; letter-spacing:-.02em; }
-  p { color:var(--muted); margin-top:8px; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:40px; }
-  a { display:block; padding:32px; border:1px solid var(--line); border-radius:16px; color:inherit; text-decoration:none; transition:border-color .2s, transform .2s; }
-  a:hover { border-color:var(--fg); transform:translateY(-2px); }
-  a span { color:var(--muted); font-size:14px; }
-  a strong { display:block; font-size:24px; margin-top:8px; font-weight:600; }
+  /* Capa no estilo do deck (Figma Slides M0dhn5sOAjG75G3cuRcd3k, slide 1) */
+  :root { --bg: #181716; --cream: #fbf5ea; --muted: #8a8378; --line: rgba(251, 245, 234, .16); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: var(--cream); font-family: 'IBM Plex Mono', ui-monospace, monospace; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+  main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 72px; padding: 48px 16px; }
+  .logos { display: flex; align-items: center; justify-content: center; gap: clamp(32px, 4.2vw, 80px); }
+  .logos svg { display: block; height: auto; }
+  .logos .lysch { width: clamp(150px, 12vw, 231px); }
+  .logos .g4f { width: clamp(131px, 10.5vw, 201px); }
+  .choices { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .choice { display: flex; flex-direction: column; gap: 14px; width: 260px; padding: 22px 24px; border: 1px solid var(--line); color: var(--cream); text-decoration: none; transition: border-color .25s, background-color .25s, color .25s; }
+  .choice__label { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); transition: color .25s; }
+  .choice__go { display: flex; justify-content: space-between; align-items: center; font-size: 20px; font-weight: 500; letter-spacing: .02em; text-transform: uppercase; }
+  .choice__go span { transition: transform .25s; }
+  .choice:hover, .choice:focus-visible { background: var(--cream); border-color: var(--cream); color: var(--bg); outline: none; }
+  .choice:hover .choice__label, .choice:focus-visible .choice__label { color: var(--bg); }
+  .choice:hover .choice__go span, .choice:focus-visible .choice__go span { transform: translateX(4px); }
+  footer { display: flex; justify-content: space-between; gap: 16px; padding: 0 20px 19px; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  @media (max-width: 600px) {
+    main { gap: 56px; }
+    .choice { width: 100%; max-width: 343px; }
+    footer { flex-direction: column; gap: 4px; font-size: 11px; padding: 0 16px 16px; }
+  }
 </style>
 </head>
 <body>
 <main>
-  <h1>Site G4F — Home</h1>
-  <p>Dois caminhos de conceito para a nova home. Escolha um para navegar.</p>
-  <div class="grid">
-    <a href="/concept-a/"><span>Concept A</span><strong>Ver home</strong></a>
-    <a href="/concept-b/"><span>Concept B</span><strong>Em desenvolvimento</strong></a>
+  <div class="logos" role="img" aria-label="Lysch e G4F">
+    <svg class="lysch" viewBox="0 0 231 40" fill="#FBF5EA" aria-hidden="true"><path d="M181.582 39.9999C181.227 39.9999 180.94 39.7121 180.94 39.3572V0.64271C180.94 0.287751 181.227 0 181.582 0H193.369C193.723 0 194.01 0.287751 194.01 0.64271V13.8419C194.01 14.1969 194.298 14.4846 194.652 14.4846H217.285C217.64 14.4846 217.927 14.1969 217.927 13.8419V0.64271C217.927 0.287751 218.214 0 218.569 0H230.356C230.71 0 230.997 0.287751 230.997 0.64271V39.3572C230.997 39.7121 230.71 39.9999 230.356 39.9999H218.569C218.214 39.9999 217.927 39.7121 217.927 39.3572V26.1023C217.927 25.7473 217.64 25.4595 217.285 25.4595H194.652C194.298 25.4595 194.01 25.7473 194.01 26.1023V39.3572C194.01 39.7121 193.723 39.9999 193.369 39.9999H181.582Z"/><path d="M152.593 39.9999C136.935 39.9999 126.66 32.1059 126.66 19.9205C126.66 7.84104 136.935 0 152.593 0C166.701 0 176.721 6.2016 178.162 15.5553C178.22 15.9326 177.922 16.2649 177.541 16.2649H165.189C164.883 16.2649 164.624 16.0464 164.527 15.7556C163.515 12.7209 158.982 10.4371 152.593 10.4371C144.927 10.4371 139.98 14.2516 139.98 19.9205C139.98 25.6423 144.927 29.5099 152.593 29.5099C158.986 29.5099 163.521 27.2232 164.529 24.1406C164.625 23.8485 164.884 23.6291 165.191 23.6291H177.542C177.923 23.6291 178.221 23.9609 178.163 24.3381C176.727 33.7947 166.705 39.9999 152.593 39.9999Z"/><path d="M102.162 39.9999C86.4575 39.9999 77.2833 36.5105 76.4027 27.0614C76.3686 26.6953 76.6621 26.384 77.0291 26.384H89.2838C89.6382 26.384 89.9176 26.6748 89.9838 27.0236C90.4389 29.4221 93.6187 30.9933 101.606 30.9933C110.449 30.9933 112.118 29.8277 112.118 27.8145C112.118 25.4834 110.616 25.0066 100.938 24.4238L98.9914 24.3178C83.6961 23.4701 76.9662 19.8675 76.9662 11.7086C76.9662 3.92052 85.6984 0 99.4364 0C114.693 0 123.056 4.31113 123.962 12.2995C124.003 12.6671 123.709 12.9801 123.339 12.9801H111.091C110.736 12.9801 110.458 12.6881 110.385 12.3409C109.87 9.90962 106.257 9.0066 99.3252 9.0066C92.2615 9.0066 90.5373 10.0662 90.5373 11.7086C90.5373 13.6688 92.039 14.4106 100.994 14.9933L103.274 15.1523C116.901 16.1589 125.689 17.5364 125.689 27.3377C125.689 36.9271 116.901 39.9999 102.162 39.9999Z"/><path d="M47.001 39.9999C46.6466 39.9999 46.3593 39.7121 46.3593 39.3572V26.8579C46.3593 26.7101 46.3085 26.5669 46.2153 26.4523L25.5752 1.04839C25.234 0.628457 25.5323 0 26.0729 0H40.6464C40.8467 0 41.0355 0.0936934 41.1568 0.25331L52.3575 14.9847C52.6139 15.322 53.1204 15.3226 53.3776 14.9859L64.6323 0.252161C64.7537 0.0932222 64.9421 0 65.1419 0H79.7163C80.2569 0 80.5552 0.628456 80.214 1.04839L59.5738 26.4523C59.4807 26.5669 59.4299 26.7101 59.4299 26.8579V39.3572C59.4299 39.7121 59.1426 39.9999 58.7882 39.9999H47.001Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M0.00189988 30.8499V30.9188C0.00189988 30.9225 0.00443024 30.9257 0.00799746 30.9265C0.01099 30.9272 0.0133042 30.9296 0.0139515 30.9326C0.0392188 31.0499 0.0995753 31.1638 0.201246 31.2607L8.51863 39.1855C9.02415 39.6671 9.69475 39.9364 10.3924 39.9379L39.7128 39.9996L39.7129 39.9992L39.7132 39.9988L39.7137 39.9989L39.7141 39.9985V36.3716V30.6153C39.7141 30.2604 39.4268 29.9726 39.0725 29.9726H13.7141C13.3597 29.9726 13.0724 29.6849 13.0724 29.3299V0.717723C13.0724 0.362763 12.7852 0.0750122 12.4308 0.0750122H0.643563C0.289182 0.0750122 0.00189988 0.362764 0.00189988 0.717724V30.7516C-0.000610941 30.7842 -0.000655544 30.817 0.00189988 30.8499Z"/></svg>
+    <svg class="g4f" viewBox="0 0 202 56" fill="#FBF5EA" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M106.217 45.7736H107.466V47.4895V52.8023H117.166V48.6525C117.166 35.8659 106.799 25.5274 94.0479 25.5274H89.8623V35.112H104.559C104.53 36.8566 104.013 38.3643 102.994 39.6136C101.945 40.8915 100.553 41.8823 98.7792 42.55C97.0058 43.2177 95.6417 43.5695 92.7987 43.5695C89.9484 43.5695 87.5433 43.0454 85.5976 41.9972C83.6448 40.949 82.1659 39.3838 81.211 37.3233C80.2489 35.2269 79.7535 32.6423 79.7535 29.5695V26.3746C79.7535 24.0772 80.0479 22.0454 80.6007 20.3007C81.1535 18.5561 81.9935 17.1059 83.0992 15.8854C84.1976 14.6936 85.6264 13.7961 87.3351 13.2146C89.051 12.6331 91.0253 12.3387 93.2366 12.3387C94.7443 12.3387 96.1658 12.5469 97.5012 12.8915C98.8366 13.272 100.028 13.7961 101.077 14.4925C102.118 15.2177 102.936 16.0577 103.518 17.1059C104.099 18.1541 104.386 19.31 104.386 20.6166H117.137C117.137 17.5438 116.498 14.8372 115.249 12.5469C114 10.2495 112.226 8.33254 109.965 6.82485C107.696 5.30998 105.083 4.1469 102.154 3.39306C99.1884 2.61049 98.2838 2.22998 92.7412 2.22998C87.1915 2.22998 82.4315 3.16331 78.5043 5.08024C74.5843 6.96844 71.5976 9.84024 69.53 13.6166C67.4694 17.3931 66.45 19.2238 66.45 27.911C66.45 36.5982 68.5176 43.0741 72.6961 47.31C76.8817 51.5531 82.9484 53.671 90.9679 53.671C93.5238 53.671 95.8212 53.47 97.8817 53.032C99.9135 52.6013 101.802 51.9049 103.518 51.0002C104.128 50.6843 104.645 50.3613 105.169 50.0166C106.361 48.0423 106.217 45.7736 106.217 45.7736Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M162.89 3.08002V52.8051H175.842V33.8369H197.976V23.9364H175.842V15.5364C173.867 14.3518 171.577 14.4954 171.577 14.4954V13.2462H201.027V13.2175V3.08002H162.89Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M154.027 8.16307H148.743C148.448 9.17537 148.075 10.281 147.608 11.4441C147.142 12.6359 146.625 13.8564 146.015 15.1056C145.404 16.3549 144.823 17.5754 144.213 18.7385C143.602 19.8943 143.049 20.9138 142.497 21.7826V33.1405H128.324C129.365 32.0349 130.557 30.5846 131.835 28.7538C133.113 26.9518 134.448 24.9487 135.82 22.7446C137.184 20.5333 138.49 18.2718 139.74 15.8595C140.96 13.4759 142.03 11.1282 142.963 8.77332C143.889 6.43281 144.521 4.26461 144.902 2.23999H132.962C131.95 6.14563 130.701 9.94358 129.193 13.6482C127.685 17.3672 126.113 20.8564 124.462 24.1087C122.803 27.361 121.087 30.3549 119.35 33.0543V42.2297H142.497V52.8051H153.998V44.5559C152.024 43.3641 149.726 43.5077 149.726 43.5077V42.2656H160.56V33.1405H154.027V8.16307Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M55.8564 33.722C52.6615 30.5272 52.6615 25.3579 55.8564 22.1631V20.7128L35.1436 0H33.6933C30.4985 3.19487 25.3292 3.19487 22.1344 0H20.6841L0 20.7128V22.1631C3.19487 25.3579 3.19487 30.5272 0 33.722V35.1723L20.7128 55.8851H22.1631C25.3579 52.6903 30.5272 52.6903 33.722 55.8851H35.1723L55.8851 35.1723V33.722H55.8564ZM41.9426 32.2862L45.1949 42.9477L45.5467 44.0462L45.6328 44.3405L44.3549 45.6185L44.0605 45.5323L42.962 45.1805L32.2718 41.9282C29.4215 41.0595 26.4062 41.0595 23.5846 41.9282L12.9231 45.1805L11.8246 45.5323L11.5303 45.6185L10.2523 44.3405L10.3385 44.0462L10.6903 42.9477L13.9426 32.2862C14.8113 29.4359 14.8113 26.4492 13.9426 23.599L10.6903 12.9374L10.3385 11.839L10.2523 11.5446L11.5303 10.2667L11.8246 10.3528L12.9231 10.7046L23.5846 13.9569C26.4349 14.8256 29.4503 14.8256 32.3005 13.9569L42.962 10.7046L44.0605 10.3528L44.3549 10.2667L45.6328 11.5446L45.5467 11.839L45.1949 12.9374L41.9426 23.599C41.0738 26.4492 41.0738 29.4359 41.9426 32.2862Z"/></svg>
   </div>
+  <nav class="choices" aria-label="Escolha um concept">
+    <a class="choice" href="/concept-a/"><span class="choice__label">Home · Caminho 1</span><span class="choice__go">Concept A <span aria-hidden="true">→</span></span></a>
+    <a class="choice" href="/concept-b/"><span class="choice__label">Home · Caminho 2</span><span class="choice__go">Concept B <span aria-hidden="true">→</span></span></a>
+  </nav>
 </main>
+<footer>
+  <span>Concepts da home · Novo site G4F</span>
+  <span>Novembro 2026</span>
+</footer>
 </body>
 </html>
