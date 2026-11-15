@@ -247,3 +247,12 @@ img { display: block; }
 .footer__line { width: 866px; height: 0.75px; }
 .footer__legal { display: flex; align-items: center; justify-content: space-between; height: 40px; margin-top: 40px; padding: 0 24px; font-size: 14px; line-height: 24px; letter-spacing: 0.14px; color: var(--text-secondary); }
 .footer__credit { width: 171px; padding: 0 24px; font-weight: 500; }
+
+/* Rodapé: itens aparecem com a rolagem (footer.js), subindo com fade; a linha se desenha da esquerda.
+   Cada coluna entra um pouco depois da anterior (--d). Rolando para cima, somem de novo. */
+.footer-pending .footer__reveal { opacity: 0; transform: translateY(24px); filter: blur(4px);
+  transition: opacity .6s ease var(--d, 0ms), transform .6s cubic-bezier(.2,.8,.2,1) var(--d, 0ms), filter .6s ease var(--d, 0ms); }
+.footer-pending .footer__reveal.is-in { opacity: 1; transform: none; filter: none; }
+.footer-pending .footer__line.footer__reveal { transform: scaleX(0); transform-origin: left center; filter: none;
+  transition: opacity .4s ease, transform 1s cubic-bezier(.65,0,.35,1); }
+.footer-pending .footer__line.footer__reveal.is-in { transform: none; }
