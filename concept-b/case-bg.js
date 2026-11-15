@@ -3,7 +3,7 @@
    com a camada "grain" #d9d9d9 em multiply por cima. Onde as elipses se cruzam a soma passa do limite e o
    color-dodge acende o azul claro / ciano, igual ao Figma.
    As elipses seguem o mouse suavemente, cada uma num sentido e intensidade, então a interseção clara
-   também se mexe. Sem WebGL (ou com movimento reduzido sem mouse), fica a imagem estática de reserva.
+   também se mexe. Com o mouse parado, as elipses derivam devagar (cada uma no seu ritmo). Sem WebGL (ou com movimento reduzido sem mouse), fica a imagem estática de reserva.
    Cada case do carrossel tem as elipses num lugar (Figma 4513:137924); ao trocar de case, elas deslizam
    e giram até a nova posição (window.G4FCaseBg.go(i), chamado pelo case-slider.js). */
 (function () {
@@ -16,11 +16,14 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // elipses no artboard 1920 × 1080: cor e quanto cada uma anda com o mouse
+  // drift: deriva lenta quando o mouse está parado (amplitude em px, giro em graus, velocidades em rad/s e fase)
   var E = [
-    { col: [0x37, 0x6B, 0xFF], m: [70, 45], spin: 2 },
-    { col: [0x37, 0x6B, 0xFF], m: [-55, -35], spin: -1.5 },
-    { col: [0x2A, 0x5F, 0xF5], m: [60, -50], spin: 2.5 }
+    { col: [0x37, 0x6B, 0xFF], m: [70, 45], spin: 2, drift: { a: [95, 65], r: 4, w: [0.31, 0.23, 0.17], ph: 0 } },
+    { col: [0x37, 0x6B, 0xFF], m: [-55, -35], spin: -1.5, drift: { a: [80, 85], r: -3, w: [0.21, 0.29, 0.13], ph: 2.1 } },
+    { col: [0x2A, 0x5F, 0xF5], m: [60, -50], spin: 2.5, drift: { a: [100, 70], r: 4, w: [0.26, 0.19, 0.21], ph: 4.2 } }
   ];
+  var IDLE_MS = 700;            // sem mexer o mouse por esse tempo, a deriva volta
+  var lastMove = -1e9, idle = 1; // idle: 0 = mouse mexendo, 1 = parado (sobe e desce suave)
   // posição das três elipses em cada case: [cx, cy, rx, ry, rotação em graus]
   var CASES = [
     [[1612.75, 182.05, 711.18, 836.59, 26.83], [1014.75, 412.99, 957.75, 1126.64, -27.35], [360.28, 886.79, 666.29, 966.75, -30.79]],     // DNIT
@@ -85,14 +88,17 @@
     if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h); }
   }
 
-  var target = [0, 0], cur = [0, 0], raf = 0, visible = false;
+  var target = [0, 0], cur = [0, 0], raf = 0, visible = false, tNow = 0;
   function draw() {
-    var c = [], r = [], a = [];
+    var c = [], r = [], a = [], t = tNow / 1000;
     E.forEach(function (e, i) {
-      var g = cur0[i];
-      c.push(g[0] + e.m[0] * cur[0], g[1] + e.m[1] * cur[1]);
+      var g = cur0[i], d = e.drift, w = reduced ? 0 : idle;
+      var ox = w * d.a[0] * Math.sin(t * d.w[0] + d.ph);
+      var oy = w * d.a[1] * Math.sin(t * d.w[1] + d.ph * 1.7);
+      var or = w * d.r * Math.sin(t * d.w[2] + d.ph * 0.6);
+      c.push(g[0] + e.m[0] * cur[0] + ox, g[1] + e.m[1] * cur[1] + oy);
       r.push(g[2], g[3]);
-      a.push((g[4] + e.spin * cur[0]) * Math.PI / 180);
+      a.push((g[4] + e.spin * cur[0] + or) * Math.PI / 180);
     });
     gl.uniform2fv(uC, c); gl.uniform2fv(uR, r); gl.uniform1fv(uA, a);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -107,12 +113,17 @@
   }
   function frame(now) {
     raf = 0;
-    var busy = morphing(now || performance.now());
+    tNow = now || performance.now();
+    var busy = morphing(tNow);
     // aproxima suavemente da posição do mouse (sem tranco ao entrar/sair)
     var dx = target[0] - cur[0], dy = target[1] - cur[1];
     cur[0] += dx * 0.045; cur[1] += dy * 0.045;
+    // mouse parado: a deriva entra devagar; mexendo, ela sai devagar (sem tranco)
+    var still = tNow - lastMove > IDLE_MS ? 1 : 0;
+    idle += (still - idle) * (still ? 0.012 : 0.04);
     draw();
-    if (visible && (busy || Math.abs(dx) > 1e-4 || Math.abs(dy) > 1e-4)) raf = requestAnimationFrame(frame);
+    // sem movimento reduzido, a deriva mantém o degradê vivo enquanto a seção está na tela
+    if (visible && (!reduced || busy || Math.abs(dx) > 1e-4 || Math.abs(dy) > 1e-4)) raf = requestAnimationFrame(frame);
   }
   // troca de case: parte da forma atual (mesmo no meio de outra troca) e vai até a do case pedido;
   // a rotação segue pelo caminho mais curto (uma elipse girada 180° é a mesma elipse)
@@ -134,6 +145,7 @@
       var r = section.getBoundingClientRect();
       target[0] = ((ev.clientX - r.left) / r.width) * 2 - 1;
       target[1] = ((ev.clientY - r.top) / r.height) * 2 - 1;
+      lastMove = performance.now();
       kick();
     });
     section.addEventListener('pointerleave', function () { target[0] = 0; target[1] = 0; kick(); });
