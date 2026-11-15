@@ -211,4 +211,4 @@ h1, h2, h3 { font-weight: 400; }
 .footer__company { min-width: 320px; }
 .footer__credit { width: 171px; padding: 0 24px; font-weight: 500; }
 .footer__logo { position: absolute; left: 0; top: 1337px; width: 1920px; height: 363px; overflow: hidden; }
-.footer__logo img { position: absolute; left: 50%; bottom: -125px; transform: translateX(-50%); width: 1756px; height: 488px; }
+.footer__logo img { position: absolute; left: 50%; bottom: -145px; transform: translateX(-50%); width: 1756px; height: 488px; }
