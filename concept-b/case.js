@@ -3,6 +3,8 @@
      (sticky dentro de .case-pin, que começa sobre a última tela de Soluções).
    - Rolando, um fundo azul chapado cobre a tela toda, depois o degradê aparece por cima do azul e os dados
      entram um a um (título, botão, cliente, resultado, setas, categoria), subindo e ganhando opacidade.
+   - Enquanto o azul entra ou sai, Soluções continua andando com a rolagem: voltando, a página já se mexe
+     antes de a seção de cases sumir por completo.
    - Tudo acompanha a rolagem, nos dois sentidos. */
 (function () {
   var page = document.getElementById('page');
@@ -38,6 +40,12 @@
     var blue = clamp((p - BLUE[0]) / (BLUE[1] - BLUE[0]));
     section.style.setProperty('--case-blue', blue.toFixed(3));
     section.classList.toggle('is-off', blue < 0.5);
+    // enquanto o azul entra/sai, Soluções continua andando com a rolagem (em vez de ficar parada até o azul
+    // sumir de todo); depois que o azul cobre a tela ela fica onde parou, escondida atrás dele
+    if (fronts) {
+      var d = Math.min(Math.max(-r.top, 0), BLUE[1] * hold);
+      fronts.style.transform = d > 0 ? 'translateY(' + (-d / zoom()).toFixed(1) + 'px)' : '';
+    }
     bg.style.opacity = ease(clamp((p - BG[0]) / (BG[1] - BG[0]))).toFixed(3);
     var span = 1 - LAG * (items.length - 1);
     items.forEach(function (group, i) {
