@@ -295,3 +295,8 @@ img { display: block; }
 .map-reveal { position: relative; z-index: 0; /* abaixo de soluções (1) e cases (2): numa tela mais alta que os cases, o mapa não aparece por cima de soluções */ margin-top: calc(-1 * var(--reveal-h, 1080px)); }
 .map-reveal::after { content: ""; display: block; height: var(--reveal-h, 1080px); }
 .map-reveal > .map { position: sticky; top: 0; }
+
+/* Navbar: no load da página, desce de cima até o lugar (a cópia flutuante do Concept B não entra nisso) */
+.nav:not(.nav--float) { animation: nav-in .9s cubic-bezier(.2, .8, .2, 1) .1s both; }
+@keyframes nav-in { from { transform: translateY(-100%); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .nav:not(.nav--float) { animation: none; } }
