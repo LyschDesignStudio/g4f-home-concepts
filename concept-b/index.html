@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Inter:wght@400&display=swap">
 <link rel="stylesheet" href="style.css">
-<script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('stats-pending', 'reveal-pending');</script>
+<script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('stats-pending', 'reveal-pending', 'case-pending');</script>
 </head>
 <body>
 <!-- Concept B · Figma 4499:61207 (artboard 1920 × 5307) -->
@@ -91,7 +91,8 @@
     </div>
   </section>
 
-  <!-- Cases · 4499:61373 -->
+  <!-- Cases · 4499:61373 — entra por cima de Soluções e fica presa enquanto o degradê e os dados aparecem (case.js) -->
+  <div class="case-pin">
   <section class="case" id="cases">
     <img class="case__bg" src="assets/case-bg.jpg" width="1920" height="1080" alt="" aria-hidden="true">
     <div class="case__intro">
@@ -109,6 +110,7 @@
       <p class="case__desc t">em créditos públicos recuperados</p>
     </div>
   </section>
+  </div>
 
   <!-- Sobre + rodapé · 4503:65730 -->
   <section class="about" id="sobre">
@@ -187,5 +189,6 @@
 <script src="nav.js"></script>
 <script src="stats.js"></script>
 <script src="reveal.js"></script>
+<script src="case.js"></script>
 </body>
 </html>

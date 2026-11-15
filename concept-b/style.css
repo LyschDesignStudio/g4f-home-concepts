@@ -100,7 +100,8 @@ h1, h2, h3 { font-weight: 400; }
 .stats.is-in .stat { opacity: 1; transform: none; }
 
 /* ---------- Soluções · 1146 ---------- */
-.fronts { display: flex; flex-direction: column; gap: 60px; padding: 160px 120px; }
+/* Soluções fica presa pela base enquanto a seção de cases sobe por cima dela */
+.fronts { position: sticky; top: calc(var(--vh, 1080px) - var(--fronts-h, 1146px)); z-index: 0; display: flex; flex-direction: column; gap: 60px; padding: 160px 120px; }
 .fronts__intro { display: flex; flex-direction: column; gap: 24px; white-space: nowrap; }
 .fronts__lead { font-family: 'Inter', sans-serif; font-size: 20px; line-height: 1.4; color: #6b6b6b; }
 .fronts__list { display: flex; gap: 20px; }
@@ -154,10 +155,14 @@ h1, h2, h3 { font-weight: 400; }
 /* ---------- Cases · 1080 ---------- */
 /* ocupa a altura da tela (100vh, entre 860 e 1440: em tela em pé, como no celular, a página toda é miniatura e 100vh viraria uma seção gigante): o título acompanha a proporção do Figma (260/1080) e o bloco de baixo
    (cliente, resultado, setas, categoria) fica preso ao pé da seção, à mesma distância do Figma */
-.case { --case-h: clamp(860px, var(--vh, 1080px), 1440px); --case-dy: calc(var(--case-h) - 1080px); position: relative; height: var(--case-h); overflow: hidden; background: #011224; color: #fff; }
+/* .case-pin dá o trecho de rolagem em que a seção de cases fica presa na tela (case.js anima por ele) */
+.case-pin { position: relative; z-index: 2; height: calc(var(--case-h) + var(--case-hold)); --case-h: clamp(860px, var(--vh, 1080px), 1440px); --case-hold: var(--case-h); }
+.case { position: sticky; top: 0; --case-h: clamp(860px, var(--vh, 1080px), 1440px); --case-dy: calc(var(--case-h) - 1080px); height: var(--case-h); overflow: hidden; background: #0140be; color: #fff; }
 /* fundo: as três elipses desfocadas em color-dodge + grão do Figma, rasterizados a partir do render do Figma
    (o color-dodge do Figma não sai igual no navegador) */
 .case__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* antes do degradê, a tela fica num azul chapado (#0140be, a média do degradê, para a passagem ser suave) */
+.case-pending .case__bg, .case-pending .case__intro > *, .case-pending .case__client, .case-pending .case__result, .case-pending .case__nav, .case-pending .case__category { opacity: 0; }
 .case__client, .case__result, .case__nav, .case__category { translate: 0 var(--case-dy); }
 .case__intro { position: absolute; left: 120px; top: calc(var(--case-h) * 260 / 1080); width: 640px; display: flex; flex-direction: column; align-items: flex-start; gap: 60px; }
 .case__client { position: absolute; left: 120px; top: 731px; font-weight: 500; font-size: 40px; line-height: 1.05; color: var(--accent-300); white-space: nowrap; }
@@ -170,7 +175,7 @@ h1, h2, h3 { font-weight: 400; }
 .case__desc { font-size: 28px; line-height: 1.25; white-space: nowrap; }
 
 /* ---------- Sobre + rodapé · 1700 ---------- */
-.about { position: relative; height: 1700px; overflow: hidden; background: linear-gradient(to bottom, #022345, #011224 57.805%); color: var(--text-inverse); }
+.about { position: relative; z-index: 2; height: 1700px; overflow: hidden; background: linear-gradient(to bottom, #022345, #011224 57.805%); color: var(--text-inverse); }
 .about__content { position: absolute; left: 401px; top: 263px; width: 588px; display: flex; flex-direction: column; align-items: flex-start; gap: 80px; }
 .about__copy { display: flex; flex-direction: column; gap: 40px; }
 .about__headline { white-space: nowrap; }
