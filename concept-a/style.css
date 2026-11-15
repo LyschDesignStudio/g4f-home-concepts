@@ -202,7 +202,20 @@ img { display: block; }
 .map__grad { position: absolute; left: 0; width: 1920px; }
 .map__grad--1 { top: 0; height: 1340px; background-image: linear-gradient(32.578deg, #011224 23.403%, rgba(1,18,36,0) 31.902%); }
 .map__grad--2 { top: 1323px; height: 1323px; background-image: linear-gradient(-1.0608deg, #011224 7.7035%, rgba(1,18,36,0) 29.19%); }
-.map__pin { position: absolute; width: 41.04px; height: 41.04px; }
+.map__pin { position: absolute; width: 41.04px; height: 41.04px; cursor: pointer; outline: none; }
+/* Pins (pins.js): começam a 0% e aparecem em sequência, a partir de Brasília, no azul (#8FB0FF);
+   no hover/foco ficam amarelos (#FFE554) e mostram o nome da cidade. */
+.map__pin img { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity .3s ease, transform .3s cubic-bezier(.2,.8,.2,1); }
+.map__pin .map__pin-hover { opacity: 0; }
+.map__spot:hover .map__pin img, .map__pin:focus-visible img { transform: scale(1.15); }
+.map__spot:hover .map__pin-hover, .map__pin:focus-visible .map__pin-hover { opacity: 1; }
+.map__label { opacity: 0; filter: blur(4px); pointer-events: none; transition: opacity .3s ease, filter .3s ease; }
+.map__spot:hover .map__label, .map__spot:focus-within .map__label { opacity: 1; filter: none; }
+.pins-pending .map__pin { opacity: 0; transition: opacity .7s ease; }
+.pins-pending .map__pin > img:first-child { transform: scale(.4); transition: opacity .3s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.pins-pending .map__spot.is-in .map__pin { opacity: 1; }
+.pins-pending .map__spot.is-in .map__pin > img:first-child { transform: none; }
+.pins-pending .map__spot.is-in:hover .map__pin > img:first-child { transform: scale(1.15); }
 .map__label {
   position: absolute; height: 36px; display: flex; align-items: center; justify-content: center; padding: 12px;
   background: var(--tone-900); border: 1.2px solid var(--neutral-100); border-radius: 240px;

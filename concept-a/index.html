@@ -17,7 +17,7 @@
   (function () {
     var r = document.documentElement;
     r.classList.add('type-pending');
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) r.classList.add('cards-pending');
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) { r.classList.add('cards-pending'); r.classList.add('pins-pending'); }
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   })();
 </script>
@@ -185,21 +185,37 @@
     <div class="map__grad map__grad--1"></div>
     <div class="map__grad map__grad--2"></div>
 
-    <img class="map__pin" src="assets/pin-0.svg" style="left:950px; top:850.4px" alt="">
-    <img class="map__pin" src="assets/pin-1.svg" style="left:1023.6px; top:692px" alt="">
-    <img class="map__pin" src="assets/pin-2.svg" style="left:1111.2px; top:752.2px" alt="">
-    <img class="map__pin" src="assets/pin-3.svg" style="left:1062px; top:1014.8px" alt="">
-    <img class="map__pin" src="assets/pin-4.svg" style="left:995.6px; top:1041.8px" alt="">
-    <img class="map__pin" src="assets/pin-5.svg" style="left:895.4px; top:909px" alt="">
-    <img class="map__pin" src="assets/pin-6.svg" style="left:1013.8px; top:925.2px" alt="">
 
-    <span class="map__label" style="left:894.2px; top:661.4px"><span class="t">Fortaleza</span></span>
-    <span class="map__label" style="left:1155.8px; top:716.13px"><span class="t">Recife</span></span>
-    <span class="map__label" style="left:829.6px; top:803.4px"><span class="t">Brasília · matriz</span></span>
-    <span class="map__label" style="left:786.6px; top:887.4px"><span class="t">Goiânia</span></span>
-    <span class="map__label" style="left:866.8px; top:1021px"><span class="t">São Paulo</span></span>
-    <span class="map__label" style="left:1128.4px; top:1029px"><span class="t">Rio de Janeiro</span></span>
-    <span class="map__label" style="left:1072px; top:917.4px"><span class="t">Belo Horizonte</span></span>
+
+    <!-- Pins: aparecem em sequência (Brasília primeiro) quando o Brasil entra na tela; no hover ficam amarelos e mostram a cidade (pins.js) -->
+    <div class="map__spot" data-order="0">
+      <span class="map__pin" style="left:950px; top:850.4px" tabindex="0" aria-label="Brasília · matriz"><img src="assets/pin-1.svg" alt=""><img class="map__pin-hover" src="assets/pin-0.svg" alt=""></span>
+      <span class="map__label" style="left:829.6px; top:803.4px"><span class="t">Brasília · matriz</span></span>
+    </div>
+    <div class="map__spot" data-order="3">
+      <span class="map__pin" style="left:1023.6px; top:692px" tabindex="0" aria-label="Fortaleza"><img src="assets/pin-1.svg" alt=""><img class="map__pin-hover" src="assets/pin-0.svg" alt=""></span>
+      <span class="map__label" style="left:894.2px; top:661.4px"><span class="t">Fortaleza</span></span>
+    </div>
+    <div class="map__spot" data-order="6">
+      <span class="map__pin" style="left:1111.2px; top:752.2px" tabindex="0" aria-label="Recife"><img src="assets/pin-1.svg" alt=""><img class="map__pin-hover" src="assets/pin-0.svg" alt=""></span>
+      <span class="map__label" style="left:1155.8px; top:716.13px"><span class="t">Recife</span></span>
+    </div>
+    <div class="map__spot" data-order="5">
+      <span class="map__pin" style="left:1062px; top:1014.8px" tabindex="0" aria-label="Rio de Janeiro"><img src="assets/pin-1.svg" alt=""><img class="map__pin-hover" src="assets/pin-0.svg" alt=""></span>
+      <span class="map__label" style="left:1128.4px; top:1029px"><span class="t">Rio de Janeiro</span></span>
+    </div>
+    <div class="map__spot" data-order="4">
+      <span class="map__pin" style="left:995.6px; top:1041.8px" tabindex="0" aria-label="São Paulo"><img src="assets/pin-1.svg" alt=""><img class="map__pin-hover" src="assets/pin-0.svg" alt=""></span>
+      <span class="map__label" style="left:866.8px; top:1021px"><span class="t">São Paulo</span></span>
+    </div>
+    <div class="map__spot" data-order="1">
+      <span class="map__pin" style="left:895.4px; top:909px" tabindex="0" aria-label="Goiânia"><img src="assets/pin-1.svg" alt=""><img class="map__pin-hover" src="assets/pin-0.svg" alt=""></span>
+      <span class="map__label" style="left:786.6px; top:887.4px"><span class="t">Goiânia</span></span>
+    </div>
+    <div class="map__spot" data-order="2">
+      <span class="map__pin" style="left:1013.8px; top:925.2px" tabindex="0" aria-label="Belo Horizonte"><img src="assets/pin-1.svg" alt=""><img class="map__pin-hover" src="assets/pin-0.svg" alt=""></span>
+      <span class="map__label" style="left:1072px; top:917.4px"><span class="t">Belo Horizonte</span></span>
+    </div>
 
     <div class="map__grain"></div>
 
@@ -279,5 +295,6 @@
 <script src="fronts.js"></script>
 <script src="nav.js"></script>
 <script src="globe.js"></script>
+<script src="pins.js"></script>
 </body>
 </html>
