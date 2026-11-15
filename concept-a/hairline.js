@@ -146,7 +146,7 @@ var HL = (function () {
   return {
     clamp: clamp, lerp: lerp, rad: rad, r2: r2, poly: poly, open: open, Cam: Cam, proj: proj, fit: fit,
     rrect: rrect, circ: circ, hull: hull, ringAt: ringAt, facing: facing, run: run, prism: prism,
-    spring: spring, stepS: stepS, tween: tween, tval: tval, tset: tset, tdone: tdone,
+    spring: spring, stepS: stepS, EASE_LIFT: EASE_LIFT, reduced: reduced, tween: tween, tval: tval, tset: tset, tdone: tdone,
     mk: mk, solid: solid, put: put, place: place, register: register
   };
 })();

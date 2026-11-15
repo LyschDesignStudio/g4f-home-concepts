@@ -1,6 +1,6 @@
 /* Figuras animadas dos cards de soluções (artefatos data-ai, cybersecurity e managed-services,
-   versão light). Cada uma ocupa o lugar da ilustração estática e responde ao ponteiro
-   em qualquer ponto do card; ao sair do card ela volta ao estado de repouso.
+   versão light). Cada uma ocupa o lugar da ilustração estática e roda sozinha em loop
+   (as mesmas paradas do botão "play" dos artefatos), sem hover.
    - chip (Dados & IA): a perna mais próxima do ponteiro sai, o sinal corre até o núcleo e ele acende.
    - cadeado (Cybersecurity): o x do ponteiro abre (esquerda) ou fecha (direita) o arco.
    - torre (Managed services): o x do ponteiro define quantos módulos a pilha tem (1 a 3). */
@@ -213,17 +213,36 @@
   }
 
   /* ---------- montagem nos cards ---------- */
-  var FIGS = { chip: chip, cadeado: cadeado, torre: torre };
-  [].forEach.call(document.querySelectorAll('.front__fig[data-fig]'), function (stage) {
-    var make = FIGS[stage.dataset.fig], card = stage.closest('.front');
-    if (!make || !card) return;
-    var svg = mk('svg', { viewBox: '0 0 400 320', 'aria-hidden': 'true' }, stage);
-    var fig = make(stage, svg);
-    // o ponteiro vale no card inteiro; a posição é medida no espaço 400 × 320 da figura
-    card.addEventListener('pointermove', function (e) {
-      var r = stage.getBoundingClientRect();
-      fig.move([(e.clientX - r.left) / r.width * 400, (e.clientY - r.top) / r.height * 320]);
+  /* Sem hover: cada figura roda sozinha em loop, com um ponteiro invisível que percorre
+     as paradas do "play" do artefato (null = sai e descansa). Só anda com a figura visível. */
+  var FIGS = {
+    chip: { make: chip, stops: [[110, 200], [200, 110], [290, 200], null] },
+    cadeado: { make: cadeado, stops: [[130, 160], [300, 160], [205, 160], null] },
+    torre: { make: torre, stops: [[125, 170], [285, 170], [205, 170], null] }
+  };
+  var TRAVEL = 900, DWELL = 1200, REST = 1800, START = 600, STAGGER = 450;
+
+  function loop(stage, fig, stops, delay) {
+    var i = 0, wait = delay, t = -1, at = null, from = null;
+    HL.register(stage, function (dt) {
+      if (wait > 0) { wait -= dt * 1e3; return true; }
+      var stop = stops[i];
+      if (stop === null) { if (at) { fig.leave(); at = null; } i = (i + 1) % stops.length; wait = REST; return true; }
+      if (t < 0) { from = at || [200, 320]; t = 0; }
+      t = Math.min(TRAVEL, t + dt * 1e3);
+      var k = HL.EASE_LIFT(t / TRAVEL);
+      at = [from[0] + (stop[0] - from[0]) * k, from[1] + (stop[1] - from[1]) * k];
+      fig.move(at);
+      if (t >= TRAVEL) { i = (i + 1) % stops.length; t = -1; wait = DWELL; }
+      return true;
     });
-    card.addEventListener('pointerleave', function () { fig.leave(); });
+  }
+
+  [].forEach.call(document.querySelectorAll('.front__fig[data-fig]'), function (stage, n) {
+    var def = FIGS[stage.dataset.fig];
+    if (!def) return;
+    var svg = mk('svg', { viewBox: '0 0 400 320', 'aria-hidden': 'true' }, stage);
+    var fig = def.make(stage, svg);
+    if (!HL.reduced) loop(stage, fig, def.stops, START + STAGGER * n);
   });
 })();
