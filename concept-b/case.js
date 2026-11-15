@@ -5,7 +5,10 @@
      entram um a um (título, botão, cliente, resultado, setas, categoria), subindo e ganhando opacidade.
    - Enquanto o azul entra ou sai, Soluções continua andando com a rolagem: voltando, a página já se mexe
      antes de a seção de cases sumir por completo.
-   - Tudo acompanha a rolagem, nos dois sentidos. */
+   - Tudo acompanha a rolagem, nos dois sentidos.
+   - Descendo: assim que a seção de cases começa a aparecer, a página rola sozinha até a seção ficar inteira
+     na tela (a entrada toda toca como uma animação). Enquanto isso, rolar mais para baixo é absorvido;
+     rolar para cima, clicar ou usar o teclado cancela. Subindo (saída), segue a rolagem como antes. */
 (function () {
   var page = document.getElementById('page');
   var fronts = document.querySelector('.fronts');
@@ -30,6 +33,29 @@
   // Soluções presa pela base: o sticky precisa da altura dela
   function measure() { if (fronts) page.style.setProperty('--fronts-h', fronts.offsetHeight + 'px'); }
 
+  // rolagem automática da entrada
+  var AUTO_MS = 1500;
+  var armed = true, lastY = window.scrollY, auto = null;
+  function easeIO(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function startAuto(target) {
+    var from = window.scrollY, t0 = performance.now();
+    auto = { raf: 0 };
+    (function step(now) {
+      if (!auto) return;
+      var k = Math.min(1, (now - t0) / AUTO_MS);
+      window.scrollTo(0, from + (target - from) * easeIO(k));
+      if (k < 1) auto.raf = requestAnimationFrame(step); else auto = null;
+    })(t0);
+  }
+  function stopAuto() { if (auto) { cancelAnimationFrame(auto.raf); auto = null; } }
+  window.addEventListener('wheel', function (e) {
+    if (!auto) return;
+    if (e.deltaY < 0) stopAuto(); else e.preventDefault(); // para cima cancela; para baixo é absorvido
+  }, { passive: false });
+  window.addEventListener('touchmove', function (e) { if (auto) e.preventDefault(); }, { passive: false });
+  window.addEventListener('keydown', stopAuto);
+  window.addEventListener('mousedown', stopAuto);
+
   var ticking = false;
   function update() {
     ticking = false;
@@ -37,6 +63,11 @@
     var r = pin.getBoundingClientRect(), s = section.getBoundingClientRect();
     var hold = r.height - s.height;                      // rolagem em que cases fica presa
     var p = hold > 0 ? clamp(-r.top / hold) : 1;
+    // entrada descendo: começou a aparecer → rola sozinho até a seção ficar inteira (p = 1)
+    var y = window.scrollY, down = y > lastY; lastY = y;
+    if (p <= 0) armed = true;
+    else if (armed && down && p < 1 && !auto) { armed = false; startAuto(y + r.top + hold + 1); }
+    else if (p >= 1) armed = false;
     var blue = clamp((p - BLUE[0]) / (BLUE[1] - BLUE[0]));
     section.style.setProperty('--case-blue', blue.toFixed(3));
     section.classList.toggle('is-off', blue < 0.5);
