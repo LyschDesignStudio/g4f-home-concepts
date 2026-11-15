@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Inter:wght@400&display=swap">
 <link rel="stylesheet" href="style.css">
+<script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('stats-pending');</script>
 </head>
 <body>
 <!-- Concept B · Figma 4499:61207 (artboard 1920 × 5307) -->
@@ -44,10 +45,10 @@
 
   <!-- Números · 4513:66377 -->
   <section class="stats">
-    <div class="stat"><p class="stat__num t">+11 mil</p><p class="stat__desc t">colaboradores (95% de perfis técnicos)</p></div>
-    <div class="stat"><p class="stat__num t" style="width:322px">+300</p><p class="stat__desc t">clientes ativos</p></div>
-    <div class="stat stat--full"><p class="stat__num t">82,6</p><p class="stat__desc t">de NPS, zona de excelência</p></div>
-    <div class="stat stat--full"><p class="stat__num t">174</p><p class="stat__desc t">certificações em cibersegurança</p></div>
+    <div class="stat"><p class="stat__num t">+<span class="stat__val" data-from="8">11</span> mil</p><p class="stat__desc t">colaboradores (95% de perfis técnicos)</p></div>
+    <div class="stat"><p class="stat__num t" style="width:322px">+<span class="stat__val" data-from="280">300</span></p><p class="stat__desc t">clientes ativos</p></div>
+    <div class="stat stat--full"><p class="stat__num t"><span class="stat__val" data-from="80">82,6</span></p><p class="stat__desc t">de NPS, zona de excelência</p></div>
+    <div class="stat stat--full"><p class="stat__num t"><span class="stat__val" data-from="160">174</span></p><p class="stat__desc t">certificações em cibersegurança</p></div>
   </section>
 
   <!-- Soluções · 4499:61344 -->
@@ -184,5 +185,6 @@
 <script src="hairline.js"></script>
 <script src="fronts-anim.js"></script>
 <script src="nav.js"></script>
+<script src="stats.js"></script>
 </body>
 </html>

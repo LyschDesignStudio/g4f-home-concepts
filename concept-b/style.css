@@ -94,6 +94,10 @@ h1, h2, h3 { font-weight: 400; }
 .stat__num { font-size: 134px; white-space: nowrap; }
 .stat__desc { font-size: 18px; text-align: center; align-self: stretch; }
 .stat--full .stat__num { align-self: stretch; } /* NPS e certificações: no Figma o número ocupa a coluna toda (alinhado à esquerda) */
+/* Entrada cadenciada (stats.js): cada número sobe e aparece, um depois do outro, e conta até o valor final */
+.stats-pending .stat { opacity: 0; transform: translateY(32px); }
+.stat { transition: opacity 700ms cubic-bezier(.32,.72,0,1), transform 900ms cubic-bezier(.32,.72,0,1); }
+.stats.is-in .stat { opacity: 1; transform: none; }
 
 /* ---------- Soluções · 1146 ---------- */
 .fronts { display: flex; flex-direction: column; gap: 60px; padding: 160px 120px; }
