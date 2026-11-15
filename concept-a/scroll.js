@@ -1,8 +1,10 @@
 /* Scroll do hero (ref. Figma 4521:141743).
    A malha e a frase ficam presas na tela (.hero__stage é sticky) enquanto os cards
    de números sobem por cima, sempre no alinhamento original.
-   - Cada card aparece (fade + saindo do desfoque) quando o topo dele chega ao meio da tela,
-     e volta a se esconder se a pessoa rolar de volta para cima.
+   - Cada card aparece (fade + saindo do desfoque) quando o topo dele passa de 68% da altura
+     da tela (um pouco antes do meio), e volta a se esconder se a pessoa rolar de volta.
+     O último card (o mais baixo) dispara 200px antes, para não ficar um intervalo grande
+     depois do penúltimo.
    - A frase some com fade + desfoque ao longo dos primeiros 806px de rolagem
      (estado final do Figma: opacidade 0,1 e blur 6,5px). */
 (function () {
@@ -13,10 +15,13 @@
 
   var DISTANCE = 806;   // rolagem (px do artboard) até o estado final da frase
   var END_OPACITY = 0.1, END_BLUR = 6.5;
+  var TRIGGER = 0.68;   // fração da altura da tela em que o card aparece
+  var LAST_EARLY = 200; // px do artboard que o último card adianta
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var ticking = false;
 
   if (!reduced) cards.forEach(function (c) { c.classList.add('stat--reveal'); });
+  var last = cards.reduce(function (a, c) { return !a || c.offsetTop > a.offsetTop ? c : a; }, null);
 
   function ease(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
 
@@ -29,9 +34,10 @@
     content.style.filter = e > 0.001 ? 'blur(' + (END_BLUR * e).toFixed(2) + 'px)' : '';
 
     if (reduced) return;
-    var middle = window.innerHeight / 2;
+    var line = window.innerHeight * TRIGGER;
     for (var i = 0; i < cards.length; i++) {
-      cards[i].classList.toggle('is-in', cards[i].getBoundingClientRect().top <= middle);
+      var early = cards[i] === last ? LAST_EARLY * zoom : 0;
+      cards[i].classList.toggle('is-in', cards[i].getBoundingClientRect().top - early <= line);
     }
   }
 
