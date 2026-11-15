@@ -201,7 +201,9 @@ img { display: block; }
 .map__brasil { position: absolute; left: 522.27px; top: 535.3px; width: 738.063px; height: 730.497px; }
 .map__grad { position: absolute; left: 0; width: 1920px; }
 .map__grad--1 { top: 0; height: 1340px; background-image: linear-gradient(32.578deg, #011224 23.403%, rgba(1,18,36,0) 31.902%); }
-.map__grad--2 { top: 1323px; height: 1323px; background-image: linear-gradient(-1.0608deg, #011224 7.7035%, rgba(1,18,36,0) 29.19%); }
+/* degradê do fim do mapa: escurece a parte de baixo (sul do Brasil e borda do globo) até o azul do rodapé.
+   No Figma o nó está espelhado (y 1323); renderizado, ele ocupa o fim da seção. Fica abaixo dos pins (eles continuam nítidos). */
+.map__grad--2 { top: auto; bottom: 0; height: 1323px; pointer-events: none; background-image: linear-gradient(-1.0608deg, #011224 7.7035%, rgba(1,18,36,0) 29.19%); }
 .map__pin { position: absolute; width: 41.04px; height: 41.04px; cursor: pointer; outline: none; }
 /* Pins (pins.js): começam a 0% e aparecem em sequência, a partir de Brasília, no azul (#8FB0FF);
    no hover/foco ficam amarelos (#FFE554) e mostram o nome da cidade. */
