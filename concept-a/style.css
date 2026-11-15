@@ -102,7 +102,11 @@ img { display: block; }
 .type-pending .dots, .typing .dots { opacity: 0; filter: blur(10px); }
 .dots { transition: opacity .9s ease, filter .9s ease; }
 
-.stat { position: absolute; width: 392px; height: 336px; color: var(--text-inverse); z-index: 2; will-change: transform; }
+.stat { position: absolute; width: 392px; height: 336px; color: var(--text-inverse); z-index: 2; }
+/* cards aparecem ao chegar no meio da tela (scroll.js) */
+.stat--reveal { opacity: 0; filter: blur(10px); transform: scale(.97);
+  transition: opacity .6s ease, filter .6s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
+.stat--reveal.is-in { opacity: 1; filter: none; transform: none; }
 .stat--brand { background: var(--bg-brand); }
 .stat--inverse { background: var(--bg-inverse); }
 .stat__spark { position: absolute; left: 40px; top: 40px; width: 25px; height: 26px; }
