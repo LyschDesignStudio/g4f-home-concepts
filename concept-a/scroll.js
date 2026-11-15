@@ -20,8 +20,6 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var ticking = false;
 
-  // ao recarregar, começa do topo (o restauro automático foi desligado no <head>)
-  if (!location.hash) window.scrollTo(0, 0);
   var last = cards.reduce(function (a, c) { return !a || c.offsetTop > a.offsetTop ? c : a; }, null);
 
   function ease(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
