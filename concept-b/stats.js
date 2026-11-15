@@ -2,7 +2,8 @@
    - Entrada: quando a seção chega a 80% da altura da tela, os quatro itens aparecem cadenciados (um a cada 220ms).
    - Contagem: os números acompanham a rolagem. Cada um parte de um valor próximo (data-from) e chega ao valor
      final conforme a seção sobe da parte de baixo da tela (85%) até perto do topo (25%); cada item começa um
-     pouco depois do anterior. Rolando para cima, os números voltam junto.
+     pouco depois do anterior. A opacidade do número sobe de 0 a 100% no mesmo trajeto.
+     Rolando para cima, os números voltam junto (valor e opacidade).
    - Rolando de volta para cima até a seção descer para o pé da tela, os itens se escondem de novo. */
 (function () {
   var section = document.querySelector('.stats');
@@ -16,7 +17,7 @@
 
   var vals = [].slice.call(section.querySelectorAll('.stat__val')).map(function (el) {
     var txt = el.textContent.trim(), dec = (txt.split(',')[1] || '').length;
-    return { el: el, to: parseFloat(txt.replace(',', '.')), from: parseFloat(el.dataset.from), dec: dec, shown: '' };
+    return { el: el, num: el.closest('.stat__num'), to: parseFloat(txt.replace(',', '.')), from: parseFloat(el.dataset.from), dec: dec, shown: '' };
   });
   function fmt(v, dec) { return v.toFixed(dec).replace('.', ','); }
   function clamp(v) { return Math.max(0, Math.min(1, v)); }
@@ -27,7 +28,13 @@
   // para os números não empurrarem o layout enquanto mudam
   function lock() {
     var z = parseFloat(document.getElementById('page').style.zoom) || 1;
-    items.forEach(function (it) { it.style.width = it.getBoundingClientRect().width / z + 'px'; });
+    items.forEach(function (it) {
+      var w = it.getBoundingClientRect().width, num = it.querySelector('.stat__num');
+      it.style.width = w / z + 'px';
+      // se o número é o que dá a largura do item, prende ele pela esquerda: um valor intermediário mais largo
+      // (ex.: "10" é mais largo que "11" nessa fonte) cresce para a direita em vez de vazar para fora da margem
+      if (num.getBoundingClientRect().width >= w - 0.5) num.style.alignSelf = 'flex-start';
+    });
   }
   items.forEach(function (it, i) { it.style.transitionDelay = (i * STAGGER) + 'ms'; });
 
@@ -44,6 +51,7 @@
       var q = clamp((p - i * LAG) / span);
       var s = fmt(v.from + (v.to - v.from) * q, v.dec);
       if (s !== v.shown) { v.el.textContent = s; v.shown = s; }
+      v.num.style.opacity = q.toFixed(3); // o número vai aparecendo junto com a contagem
     });
   }
 
