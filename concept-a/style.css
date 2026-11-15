@@ -76,7 +76,9 @@ img { display: block; }
 .hero { position: relative; height: 2167px; }
 /* grade de pontos: 35 colunas (passo 55,5px) × 50 linhas (passo 44px), quadrado 4px a 8px do topo da linha */
 .dots { position: absolute; left: 0; top: -80px; width: 1920px; height: 2176px; z-index: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='55.5' height='44'%3E%3Crect y='8' width='4' height='4' fill='%23e2e2e2'/%3E%3C/svg%3E") 0 0 / 55.5px 44px repeat; }
-.dots__fade { position: absolute; left: 0; width: 1920px; }
+.dots--live { background: none; }
+.dots__canvas { position: absolute; left: 0; top: 0; width: 1920px; height: 2176px; }
+.dots__fade { position: absolute; left: 0; width: 1920px; pointer-events: none; }
 .dots__fade--top { top: 0; height: 316px; background: linear-gradient(to bottom, #fff 21.677%, rgba(255,255,255,0) 83.861%); }
 .dots__fade--bottom { top: 1351px; height: 825px; background: linear-gradient(to top, #fff 21.241%, rgba(255,255,255,0) 72.465%); }
 
