@@ -114,8 +114,8 @@
     var shackle = mk('path', {}, g), crease = mk('path', { class: 'nf lo' }, g);
 
     function line(l) {
-      var zs = ZS + l, an = clamp((l - 7) / Math.max(1, LIFT - 7), 0, 1) * 0.4, pts = [], k;
-      for (k = 0; k <= 8; k++) pts.push([-SX, 0, zs - LEG + (LEG * k) / 8]);
+      var zs = ZS + l, an = 0, pts = [], k; // só sobe e desce: sem girar a trava (no artefato ela gira até 0.4 rad)
+      for (k = 0; k <= 8; k++) pts.push([-SX, 0, zs - LEG - LIFT + ((LEG + LIFT) * k) / 8]); // perna esquerda mais longa: continua presa no corpo ao destravar
       for (k = 1; k < 24; k++) { var t = Math.PI - (Math.PI * k) / 24; pts.push([SR * Math.cos(t), 0, zs + SR * Math.sin(t)]); }
       for (k = 0; k <= 8; k++) pts.push([SX, 0, zs - (LEG * k) / 8]);
       return pts.map(function (q) { var d = q[0] + SX; return [-SX + d * Math.cos(an), d * Math.sin(an), q[2]]; })
