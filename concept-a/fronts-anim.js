@@ -123,6 +123,7 @@
       var zs = ZS + l, an = 0, pts = [], k; // só sobe e desce: sem girar a trava (no artefato ela gira até 0.4 rad)
       // as pernas vão exatamente até a tampa do corpo (z = BH): o que fica dentro dele não aparece
       var lb = Math.max(BH, zs - LEG - LIFT), rb = Math.max(BH, zs - LEG); // perna esquerda mais longa: continua presa ao destravar
+      if (zs - LEG > BH + 0.3) rb = zs - LEG + TR; // ponta solta: a reta para antes e a meia-esfera fecha até zs − LEG
       for (k = 0; k <= 8; k++) pts.push([-SX, 0, lb + ((zs - lb) * k) / 8]);
       for (k = 1; k < 24; k++) { var t = Math.PI - (Math.PI * k) / 24; pts.push([SR * Math.cos(t), 0, zs + SR * Math.sin(t)]); }
       for (k = 0; k <= 8; k++) pts.push([SX, 0, zs - ((zs - rb) * k) / 8]);
@@ -139,9 +140,18 @@
         var tx = b[0] - a[0], ty = b[1] - a[1], n = Math.hypot(tx, ty) || 1; tx /= n; ty /= n;
         L.push([p[0] - ty * tw, p[1] + tx * tw]); R.push([p[0] + ty * tw, p[1] - tx * tw]); Cr.push([p[0] + ty * tw * 0.4, p[1] - tx * tw * 0.4]);
       });
-      shackle.setAttribute('d', poly(L.concat(R.slice().reverse())));
       var loose = ZS + l - LEG > BH + 0.3; // a perna direita saiu do furo: a ponta dela fica à mostra
-      edges.setAttribute('d', open(L) + open(loose ? R.slice(-1).concat([L[L.length - 1]]) : []) + open(R));
+      var cap = [];
+      if (loose) { // ponta arredondada: meia-volta de raio tw de R até L, passando pela ponta do tubo
+        var e = s[s.length - 1], f = s[s.length - 2], ex = e[0] - f[0], ey = e[1] - f[1], en = Math.hypot(ex, ey) || 1; ex /= en; ey /= en;
+        for (var j = 1; j < 16; j++) {
+          var th = Math.PI * j / 16, c = Math.cos(th) * tw, sn = Math.sin(th) * tw;
+          cap.push([e[0] + c * ey + sn * ex, e[1] - c * ex + sn * ey]);
+        }
+      }
+      var Rr = R.slice().reverse();
+      shackle.setAttribute('d', poly(L.concat(cap.slice().reverse(), Rr)));
+      edges.setAttribute('d', open(L) + open(loose ? [R[R.length - 1]].concat(cap, [L[L.length - 1]]) : []) + open(R));
       var d = '', run1 = [];
       for (var i = 2; i < Cr.length - 2; i++) {
         var fold = i > 2 && ((Cr[i][0] - Cr[i - 1][0]) * (s[i][0] - s[i - 1][0]) + (Cr[i][1] - Cr[i - 1][1]) * (s[i][1] - s[i - 1][1])) <= 0;
