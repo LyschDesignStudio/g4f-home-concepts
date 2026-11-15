@@ -3,6 +3,8 @@
    apontando para fora do foco (um "zoom blur" proporcional à distância). O ícone da G4F aparece em pontos
    escuros no lugar em que está na imagem.
    O foco do desfoque segue o mouse suavemente; quando o mouse sai do hero, ele volta ao ponto da imagem.
+   Com o mouse se mexendo em cima do ícone, os pontos dele ficam azulados (mais perto do cursor, mais azuis)
+   e voltam devagar ao escuro quando o mouse para ou sai.
    O hero é espelhado (scaleX(-1)) no CSS, então tudo aqui é desenhado no referencial da imagem original.
    Sem canvas ou com movimento reduzido fica a imagem estática. */
 (function () {
@@ -15,6 +17,10 @@
   if (!ctx) return;
   canvas.className = 'hero__dots';
   bg.insertBefore(canvas, bg.firstChild);
+  // camada do ícone azulado: por cima da malha e mais opaca que ela (a malha fica a 20%)
+  var hi = document.createElement('canvas'), hctx = hi.getContext('2d');
+  hi.className = 'hero__dots hero__dots--hi';
+  canvas.insertAdjacentElement('afterend', hi);
 
   var W = 1920, H = 1080, STEP = 26, OX = 10, OY = 20, R = 4;
   var HOME = [660, 540];           // foco da imagem do Figma
@@ -66,15 +72,21 @@
     return { dot: dot, tail: tail };
   }
   var SG = sprite(GRAY.join(',')), SD = sprite(DARK.join(','));
+  var SB = sprite('49,96,230');    // azul da marca (#3160E6)
+  var HI_ALPHA = 0.55;             // opacidade máxima do azul na camada de cima
+  // área do ícone (com folga) no referencial da imagem
+  var IB = [374 - 40, 254 - 40, 374 + 22 * STEP + 40, 254 + 22 * STEP + 40];
+  var NEAR = 260;                  // raio em que os pontos perto do mouse ficam mais azuis
 
   var dpr = 1;
   function size() {
     dpr = Math.min(window.devicePixelRatio || 1, 2) * Math.min(1, window.innerWidth / 1920);
     dpr = Math.max(dpr, 0.5);
-    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    canvas.width = hi.width = Math.round(W * dpr); canvas.height = hi.height = Math.round(H * dpr);
   }
 
   var focus = HOME.slice(), target = HOME.slice();
+  var mouse = [-1e4, -1e4], lastMove = -1e9, blue = 0; // blue: 0 = ícone escuro, 1 = azulado
   function draw() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = BG; ctx.fillRect(0, 0, W, H);
@@ -92,6 +104,31 @@
       }
       ctx.drawImage(s.dot, p.x - R, p.y - R, R * 2, R * 2);
     }
+    drawHi();
+  }
+  // ícone azulado: cada ponto do ícone em azul, mais forte perto do cursor
+  var hiOn = false;
+  function drawHi() {
+    if (blue < 0.01) { if (hiOn) { hctx.setTransform(1, 0, 0, 1, 0, 0); hctx.clearRect(0, 0, hi.width, hi.height); hiOn = false; } return; }
+    hiOn = true;
+    hctx.setTransform(1, 0, 0, 1, 0, 0); hctx.clearRect(0, 0, hi.width, hi.height);
+    var fx = focus[0], fy = focus[1];
+    for (var n = 0; n < pts.length; n++) {
+      var p = pts[n]; if (!p.dark) continue;
+      var mx = p.x - mouse[0], my = p.y - mouse[1];
+      var near = Math.max(0, 1 - Math.sqrt(mx * mx + my * my) / NEAR);
+      hctx.globalAlpha = HI_ALPHA * blue * (0.5 + 0.5 * near);
+      var vx = p.x - fx, vy = p.y - fy, d = Math.sqrt(vx * vx + vy * vy);
+      var L = Math.min(MAXL, Math.max(0, d - R0) * K);
+      if (L > 0.5) {
+        var c = vx / d, sn = vy / d;
+        hctx.setTransform(dpr * c, dpr * sn, -dpr * sn, dpr * c, p.x * dpr, p.y * dpr);
+        hctx.drawImage(SB.tail, 0, -R, L + R, R * 2);
+      }
+      hctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      hctx.drawImage(SB.dot, p.x - R, p.y - R, R * 2, R * 2);
+    }
+    hctx.globalAlpha = 1;
   }
 
   var raf = 0, visible = true;
@@ -99,8 +136,12 @@
     raf = 0;
     var dx = target[0] - focus[0], dy = target[1] - focus[1];
     focus[0] += dx * 0.07; focus[1] += dy * 0.07;
+    // mouse se mexendo em cima do ícone: azula rápido; parado ou fora: volta devagar ao escuro
+    var over = mouse[0] > IB[0] && mouse[0] < IB[2] && mouse[1] > IB[1] && mouse[1] < IB[3];
+    var on = over && performance.now() - lastMove < 250 ? 1 : 0;
+    blue += (on - blue) * (on ? 0.12 : 0.03);
     draw();
-    if (visible && (Math.abs(dx) > 0.3 || Math.abs(dy) > 0.3)) raf = requestAnimationFrame(frame);
+    if (visible && (Math.abs(dx) > 0.3 || Math.abs(dy) > 0.3 || Math.abs(on - blue) > 0.005)) raf = requestAnimationFrame(frame);
   }
   function kick() { if (!raf && visible) raf = requestAnimationFrame(frame); }
 
@@ -109,9 +150,10 @@
     // coordenadas do artboard, espelhadas como o fundo
     target[0] = W - ((ev.clientX - r.left) / r.width) * W;
     target[1] = ((ev.clientY - r.top) / r.height) * H;
+    mouse = target.slice(); lastMove = performance.now();
     kick();
   });
-  hero.addEventListener('pointerleave', function () { target = HOME.slice(); kick(); });
+  hero.addEventListener('pointerleave', function () { target = HOME.slice(); mouse = [-1e4, -1e4]; kick(); });
   new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) kick(); }).observe(hero);
   window.addEventListener('resize', function () { size(); draw(); });
 
