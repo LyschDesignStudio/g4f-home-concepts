@@ -1,8 +1,8 @@
 /* Passagem Soluções → Cases:
-   - Soluções fica presa pela base (sticky) e a seção de cases sobe por cima dela, num azul chapado.
-   - Quando cases cobre a tela, ela fica presa (sticky dentro de .case-pin) por uma altura de tela de rolagem:
-     primeiro o degradê aparece por cima do azul, depois os dados entram um a um (título, botão, cliente,
-     resultado, setas, categoria), subindo e ganhando opacidade.
+   - Soluções fica presa pela base (sticky) e a seção de cases fica presa por cima dela, transparente
+     (sticky dentro de .case-pin, que começa sobre a última tela de Soluções).
+   - Rolando, um fundo azul chapado cobre a tela toda, depois o degradê aparece por cima do azul e os dados
+     entram um a um (título, botão, cliente, resultado, setas, categoria), subindo e ganhando opacidade.
    - Tudo acompanha a rolagem, nos dois sentidos. */
 (function () {
   var page = document.getElementById('page');
@@ -14,8 +14,9 @@
   var items = [].slice.call(section.querySelectorAll('.case__intro > *, .case__client, .case__result, .case__nav, .case__category'));
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var BG = [0, 0.35];      // trecho da rolagem presa em que o degradê aparece
-  var DATA = [0.25, 1];    // trecho em que os dados entram (cadenciados)
+  var BLUE = [0, 0.3];     // trecho da rolagem presa em que o azul cobre a tela
+  var BG = [0.3, 0.55];    // trecho em que o degradê aparece
+  var DATA = [0.5, 1];     // trecho em que os dados entram (cadenciados)
   var LAG = 0.1, RISE = 40;
 
   function clamp(v) { return Math.max(0, Math.min(1, v)); }
@@ -32,6 +33,9 @@
     var r = pin.getBoundingClientRect(), s = section.getBoundingClientRect();
     var hold = r.height - s.height;                      // rolagem em que cases fica presa
     var p = hold > 0 ? clamp(-r.top / hold) : 1;
+    var blue = clamp((p - BLUE[0]) / (BLUE[1] - BLUE[0]));
+    section.style.setProperty('--case-blue', blue.toFixed(3));
+    section.classList.toggle('is-off', blue < 0.5);
     bg.style.opacity = ease(clamp((p - BG[0]) / (BG[1] - BG[0]))).toFixed(3);
     var span = 1 - LAG * (items.length - 1);
     items.forEach(function (el, i) {
