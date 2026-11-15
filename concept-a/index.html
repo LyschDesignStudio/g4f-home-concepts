@@ -11,7 +11,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Inter:wght@400&display=swap">
 <link rel="stylesheet" href="style.css">
-<script>document.documentElement.classList.add('type-pending');</script>
+<script>
+  /* Antes da primeira pintura: esconde título e cards (evita que pisquem) e,
+     ao recarregar, volta sempre ao topo em vez de restaurar a rolagem. */
+  (function () {
+    var r = document.documentElement;
+    r.classList.add('type-pending');
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) r.classList.add('cards-pending');
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  })();
+</script>
 </head>
 <body>
 <div class="page" id="page">
