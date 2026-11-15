@@ -48,11 +48,14 @@ img { display: block; }
 }
 .nav__actions { display: flex; height: 100%; }
 .nav__action { padding: 0 30px; border-left: 1px solid var(--neutral-300); }
-.nav__item:hover, .nav__action:hover { color: var(--text-brand); }
+/* hover do menu: mesma cor, 50% de opacidade (igual ao rodapé) */
+/* nos botões da direita só o texto apaga, para a linha divisória continuar inteira */
+.nav__label { transition: opacity .25s ease; }
+.nav__item:hover, .nav__item:focus-visible, .nav__action:hover .nav__label, .nav__action:focus-visible .nav__label { opacity: .5; }
 /* Navbar no modo escuro (Figma 4521:142252): ligado pelo nav.js quando o topo do mapa encosta no menu.
    Fundo no mesmo azul-escuro do mapa (no Figma é transparente sobre ele; assim não some sobre o branco na troca), texto inverso, bordas brancas a 30% e logo/seta claros. */
 .nav { transition: background-color .35s ease, border-color .35s ease, color .35s ease; }
-.nav__item, .nav__action { transition: color .35s ease, border-color .35s ease; }
+.nav__item, .nav__action { transition: color .35s ease, border-color .35s ease, opacity .25s ease; }
 .nav__swap { position: relative; display: inline-flex; }
 .nav__swap img { transition: opacity .35s ease; }
 .nav__swap .nav__dark { position: absolute; inset: 0; opacity: 0; }
