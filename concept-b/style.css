@@ -157,9 +157,10 @@ h1, h2, h3 { font-weight: 400; }
    (cliente, resultado, setas, categoria) fica preso ao pé da seção, à mesma distância do Figma */
 /* .case-pin começa por cima da última tela de Soluções (margem negativa) e dá o trecho de rolagem em que a
    seção de cases fica presa: o azul cobre a tela toda, depois vem o degradê e os dados (case.js) */
-.case-pin { position: relative; z-index: 2; margin-top: calc(-1 * var(--case-h)); height: calc(var(--case-h) + var(--case-hold)); --case-h: clamp(860px, var(--vh, 1080px), 1440px); --case-hold: calc(var(--case-h) * 1.5); }
+.case-pin { position: relative; z-index: 2; pointer-events: none; margin-top: calc(-1 * var(--case-h)); height: calc(var(--case-h) + var(--case-hold)); --case-h: clamp(860px, var(--vh, 1080px), 1440px); --case-hold: calc(var(--case-h) * 1.5); }
 .case { position: sticky; top: 0; --case-h: clamp(860px, var(--vh, 1080px), 1440px); --case-dy: calc(var(--case-h) - 1080px); height: var(--case-h); overflow: hidden; color: #fff; }
 .case::before { content: ""; position: absolute; inset: 0; background: #0140be; opacity: var(--case-blue, 1); }
+.case { pointer-events: auto; } /* .case-pin é só o trilho do sticky: não pega o mouse, a seção sim */
 .case.is-off { pointer-events: none; } /* enquanto o azul não cobre a tela, os cards de Soluções continuam clicáveis */
 /* fundo: as três elipses desfocadas em color-dodge + grão do Figma, rasterizados a partir do render do Figma
    (o color-dodge do Figma não sai igual no navegador) */
