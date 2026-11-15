@@ -1,8 +1,8 @@
 /* Big numbers:
    - Entrada: quando a seção chega a 80% da altura da tela, os quatro itens aparecem cadenciados (um a cada 220ms).
    - Contagem: os números acompanham a rolagem. Cada um parte de um valor próximo (data-from) e chega ao valor
-     final conforme a seção sobe da parte de baixo da tela (85%) até perto do topo (25%); cada item começa um
-     pouco depois do anterior. A opacidade do número sobe de 0 a 100% no mesmo trajeto.
+     final conforme a linha dos números sobe do pé da tela até o meio dela: com os números no meio da tela,
+     todos já estão no valor final. Cada item começa um pouco depois do anterior (e todos terminam juntos no meio). A opacidade do número sobe de 0 a 100% no mesmo trajeto.
      Rolando para cima, os números voltam junto (valor e opacidade).
    - Rolando de volta para cima até a seção descer para o pé da tela, os itens se escondem de novo. */
 (function () {
@@ -12,7 +12,7 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var STAGGER = 220;          // ms entre a entrada de um item e a do próximo
   var TRIGGER = 0.8;          // fração da tela em que os itens aparecem
-  var START = 0.85, END = 0.25; // topo da seção (fração da tela) onde a contagem começa e termina
+  var START = 1, END = 0.5;   // centro da linha dos números (fração da tela) onde a contagem começa e termina
   var LAG = 0.08;             // atraso de cada item na contagem (fração do trajeto)
 
   var vals = [].slice.call(section.querySelectorAll('.stat__val')).map(function (el) {
@@ -45,7 +45,10 @@
     if (!on && top <= vh * TRIGGER) { on = true; section.classList.add('is-in'); }
     else if (on && top > vh * 0.92) { on = false; section.classList.remove('is-in'); }
 
-    var p = clamp((vh * START - top) / (vh * (START - END)));
+    var c = 0;
+    vals.forEach(function (v) { var r = v.num.getBoundingClientRect(); c += (r.top + r.bottom) / 2; });
+    c /= vals.length; // centro da linha dos números na tela
+    var p = clamp((vh * START - c) / (vh * (START - END)));
     var span = 1 - LAG * (vals.length - 1);
     vals.forEach(function (v, i) {
       var q = clamp((p - i * LAG) / span);
