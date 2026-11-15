@@ -1,4 +1,4 @@
-/* Botão flutuante (canto inferior direito) para ir ao outro concept: no A leva ao B e vice-versa.
+/* Botão flutuante (canto inferior esquerdo) para ir ao outro concept: no A leva ao B e vice-versa.
    Fica fora do #page (que é escalado com zoom), no estilo da capa: fundo escuro, texto creme, IBM Plex Mono.
    Aparece um pouco depois do load, quando a entrada do topo já aconteceu. */
 (function () {
@@ -12,7 +12,7 @@
 
   var css = document.createElement('style');
   css.textContent =
-    '.concept-switch { position: fixed; right: 24px; bottom: 24px; z-index: 1000; display: inline-flex; align-items: center; gap: 12px;' +
+    '.concept-switch { position: fixed; left: 24px; bottom: 24px; z-index: 1000; display: inline-flex; align-items: center; gap: 12px;' +
     ' padding: 14px 18px; background: #181716; color: #fbf5ea; border: 1px solid #181716; text-decoration: none;' +
     " font: 500 13px/1 'IBM Plex Mono', ui-monospace, monospace; letter-spacing: .04em; text-transform: uppercase;" +
     ' box-shadow: 0 8px 24px rgba(0, 0, 0, .18); opacity: 0; transform: translateY(12px);' +
@@ -21,7 +21,7 @@
     '.concept-switch__arrow { display: inline-block; transition: transform .25s ease; }' +
     '.concept-switch:hover, .concept-switch:focus-visible { background: #fbf5ea; color: #181716; border-color: #181716; outline: none; }' +
     '.concept-switch:hover .concept-switch__arrow, .concept-switch:focus-visible .concept-switch__arrow { transform: translateX(3px); }' +
-    '@media (max-width: 600px) { .concept-switch { right: 16px; bottom: 16px; padding: 12px 14px; font-size: 12px; } }' +
+    '@media (max-width: 600px) { .concept-switch { left: 16px; bottom: 16px; padding: 12px 14px; font-size: 12px; } }' +
     '@media (prefers-reduced-motion: reduce) { .concept-switch { transition: background-color .25s ease, color .25s ease; transform: none; } }';
   document.head.appendChild(css);
 
