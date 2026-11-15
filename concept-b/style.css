@@ -113,6 +113,8 @@ h1, h2, h3 { font-weight: 400; }
 /* Entrada cadenciada acompanhando a rolagem (reveal.js): título e texto, depois os três cards, um a um.
    Até o script assumir, ficam escondidos para não piscar. */
 .reveal-pending .fronts__intro > *, .reveal-pending .front { opacity: 0; }
+.reveal-pending .about__headline, .reveal-pending .about__desc, .reveal-pending .about__ctas > .btn,
+.reveal-pending .footer__col, .reveal-pending .footer__social, .reveal-pending .footer__line, .reveal-pending .footer__legal, .reveal-pending .footer__logo { opacity: 0; }
 .front__ill { position: absolute; overflow: hidden; pointer-events: none; }
 .front__ill > * { position: absolute; max-width: none; }
 .front__ill--1 { bottom: 0; left: 50%; transform: translateX(-50%); width: 578px; height: 463px; }
