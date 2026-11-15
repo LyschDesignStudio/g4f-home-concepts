@@ -172,7 +172,12 @@
   // O layout é desenhado em 1920px (artboard do Figma); abaixo disso a página escala proporcionalmente.
   (function () {
     var page = document.getElementById('page');
-    function fit() { page.style.zoom = Math.min(1, window.innerWidth / 1920); }
+    function fit() {
+      var z = Math.min(1, window.innerWidth / 1920);
+      page.style.zoom = z;
+      // altura da tela em px do artboard (100vh não serve aqui: dentro do zoom ele também escala)
+      page.style.setProperty('--vh', (window.innerHeight / z) + 'px');
+    }
     fit(); window.addEventListener('resize', fit);
   })();
 </script>
