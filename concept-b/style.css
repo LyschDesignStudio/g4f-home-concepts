@@ -181,8 +181,12 @@ h1, h2, h3 { font-weight: 400; }
 .case__arrow { transition: background-color 400ms cubic-bezier(.45,0,.25,1), border-color 400ms cubic-bezier(.45,0,.25,1); }
 .case__arrow:hover { background: var(--bg-inverse); border-color: var(--bg-inverse); }
 .case__arrow--prev img { transform: scaleX(-1); }
-.case__category { position: absolute; left: 1370px; top: 878px; display: flex; flex-direction: column; align-items: flex-start; gap: 32px; }
+.case__category { position: absolute; right: 120px; top: 878px; display: flex; flex-direction: column; align-items: flex-start; gap: 32px; }
 .case__desc { font-size: 28px; line-height: 1.25; white-space: nowrap; }
+/* carrossel: os cases ficam empilhados; o ativo aparece com fade (o que sai some mais rápido) */
+.case__slides { position: absolute; inset: 0; pointer-events: none; }
+.case__slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 380ms cubic-bezier(.45,0,.25,1), visibility 0s linear 380ms; }
+.case__slide.is-active { opacity: 1; visibility: visible; transition: opacity 700ms cubic-bezier(.45,0,.25,1) 220ms, visibility 0s; }
 
 /* ---------- Sobre + rodapé · 1700 ---------- */
 .about { position: relative; z-index: 2; height: 1700px; overflow: hidden; background: linear-gradient(to bottom, #022345, #011224 57.805%); color: var(--text-inverse); }

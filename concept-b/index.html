@@ -102,15 +102,44 @@
       <h2 class="h2 case__headline t">Transformamos complexidade em confiança.</h2>
       <a class="btn btn--outline" href="#cases"><span class="t">Ver todos os cases</span><img src="assets/arrow-right-case.svg" width="16" height="16" alt=""></a>
     </div>
-    <p class="case__client t">DNIT</p>
-    <p class="case__result t">R$ 25 mi+</p>
+    <!-- Carrossel · Figma 4513:137924 (4 cases; troca com fade e o degradê muda junto — case-slider.js) -->
+    <div class="case__slides" aria-live="polite">
+      <div class="case__slide is-active" role="group" aria-roledescription="slide" aria-label="1 de 4">
+        <p class="case__client t">DNIT</p>
+        <p class="case__result t">R$ 25 mi+</p>
+        <div class="case__category">
+          <span class="pill pill--accent"><span class="t">DIGITAL &amp; MANAGED SERVICES</span></span>
+          <p class="case__desc t">em créditos públicos recuperados</p>
+        </div>
+      </div>
+      <div class="case__slide" role="group" aria-roledescription="slide" aria-label="2 de 4" aria-hidden="true">
+        <p class="case__client t">Banco público</p>
+        <p class="case__result t">24 mil</p>
+        <div class="case__category">
+          <span class="pill pill--accent"><span class="t">CYBERSECURITY</span></span>
+          <p class="case__desc t">ativos monitorados, ~16 mil EPS</p>
+        </div>
+      </div>
+      <div class="case__slide" role="group" aria-roledescription="slide" aria-label="3 de 4" aria-hidden="true">
+        <p class="case__client t">MEC</p>
+        <p class="case__result t">2,2 mi+</p>
+        <div class="case__category">
+          <span class="pill pill--accent"><span class="t">DATA &amp; AI</span></span>
+          <p class="case__desc t">candidatos em SISU, PROUNI e FIES</p>
+        </div>
+      </div>
+      <div class="case__slide" role="group" aria-roledescription="slide" aria-label="4 de 4" aria-hidden="true">
+        <p class="case__client t">Governo estadual</p>
+        <p class="case__result t">498 mil</p>
+        <div class="case__category">
+          <span class="pill pill--accent"><span class="t">CYBERSECURITY</span></span>
+          <p class="case__desc t">itens monitorados 24x7, SLA &gt;99%</p>
+        </div>
+      </div>
+    </div>
     <div class="case__nav">
       <button class="case__arrow case__arrow--prev" type="button" aria-label="Case anterior"><img src="assets/arrow-nav.svg" width="20" height="20" alt=""></button>
-      <button class="case__arrow" type="button" aria-label="Próximo case"><img src="assets/arrow-nav.svg" width="20" height="20" alt=""></button>
-    </div>
-    <div class="case__category">
-      <span class="pill pill--accent"><span class="t">DIGITAL &amp; MANAGED SERVICES</span></span>
-      <p class="case__desc t">em créditos públicos recuperados</p>
+      <button class="case__arrow case__arrow--next" type="button" aria-label="Próximo case"><img src="assets/arrow-nav.svg" width="20" height="20" alt=""></button>
     </div>
   </section>
   </div>
@@ -194,5 +223,6 @@
 <script src="reveal.js"></script>
 <script src="case.js"></script>
 <script src="case-bg.js"></script>
+<script src="case-slider.js"></script>
 </body>
 </html>

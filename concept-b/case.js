@@ -11,7 +11,9 @@
   var section = document.querySelector('.case');
   if (!page || !pin || !section) return;
   var bg = section.querySelector('.case__bg');
-  var items = [].slice.call(section.querySelectorAll('.case__intro > *, .case__client, .case__result, .case__nav, .case__category'));
+  // grupos que entram em sequência (cada grupo pode ter vários elementos: um por case do carrossel)
+  var items = [':scope .case__intro > :nth-child(1)', ':scope .case__intro > :nth-child(2)', '.case__client', '.case__result', '.case__nav', '.case__category']
+    .map(function (sel) { return [].slice.call(section.querySelectorAll(sel)); });
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var BLUE = [0, 0.3];     // trecho da rolagem presa em que o azul cobre a tela
@@ -38,10 +40,12 @@
     section.classList.toggle('is-off', blue < 0.5);
     bg.style.opacity = ease(clamp((p - BG[0]) / (BG[1] - BG[0]))).toFixed(3);
     var span = 1 - LAG * (items.length - 1);
-    items.forEach(function (el, i) {
+    items.forEach(function (group, i) {
       var q = clamp(((p - DATA[0]) / (DATA[1] - DATA[0]) - i * LAG) / span);
-      el.style.opacity = q.toFixed(3);
-      el.style.transform = q < 1 ? 'translateY(' + (RISE * (1 - ease(q))).toFixed(1) + 'px)' : '';
+      group.forEach(function (el) {
+        el.style.opacity = q.toFixed(3);
+        el.style.transform = q < 1 ? 'translateY(' + (RISE * (1 - ease(q))).toFixed(1) + 'px)' : '';
+      });
     });
   }
 
