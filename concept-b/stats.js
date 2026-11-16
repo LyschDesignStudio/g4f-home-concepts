@@ -2,7 +2,7 @@
    - Entrada: quando a seção chega a 80% da altura da tela, os quatro itens aparecem cadenciados (um a cada 220ms).
    - Contagem: os números acompanham a rolagem. Cada um parte de um valor próximo (data-from) e chega ao valor
      final conforme a linha dos números sobe do pé da tela até o meio dela: com os números no meio da tela,
-     todos já estão no valor final. Cada item começa um pouco depois do anterior (e todos terminam juntos no meio). A opacidade do número sobe de 0 a 100% no mesmo trajeto.
+     todos já estão no valor final. Cada item começa um pouco depois do anterior (e todos terminam juntos no meio). A opacidade do número e da descrição sobe de 0 a 100% no mesmo trajeto.
      Rolando para cima, os números voltam junto (valor e opacidade).
    - Rolando de volta para cima até a seção descer para o pé da tela, os itens se escondem de novo.
    - O trajeto usa a altura da tela: numa tela alta, em que os números já aparecem sem rolar, a contagem parte
@@ -22,7 +22,7 @@
 
   var vals = [].slice.call(section.querySelectorAll('.stat__val')).map(function (el) {
     var txt = el.textContent.trim(), dec = (txt.split(',')[1] || '').length;
-    return { el: el, num: el.closest('.stat__num'), to: parseFloat(txt.replace(',', '.')), from: parseFloat(el.dataset.from), dec: dec, shown: '' };
+    return { el: el, num: el.closest('.stat__num'), desc: el.closest('.stat').querySelector('.stat__desc'), to: parseFloat(txt.replace(',', '.')), from: parseFloat(el.dataset.from), dec: dec, shown: '' };
   });
   function fmt(v, dec) { return v.toFixed(dec).replace('.', ','); }
   function clamp(v) { return Math.max(0, Math.min(1, v)); }
@@ -63,6 +63,7 @@
       var s = fmt(v.from + (v.to - v.from) * q, v.dec);
       if (s !== v.shown) { v.el.textContent = s; v.shown = s; }
       v.num.style.opacity = q.toFixed(3); // o número vai aparecendo junto com a contagem
+      if (v.desc) v.desc.style.opacity = q.toFixed(3); // e a descrição junto com ele (não fica visível sozinha antes)
     });
   }
 
