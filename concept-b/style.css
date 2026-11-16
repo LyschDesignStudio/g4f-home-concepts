@@ -48,7 +48,7 @@ h1, h2, h3 { font-weight: 400; }
   font-size: 14px; line-height: 24px; letter-spacing: 0.14px; text-transform: uppercase; white-space: nowrap;
 }
 .nav__actions { display: flex; align-items: center; gap: 40px; }
-.nav__cta { display: flex; padding: 20px 24px; border: 1px solid var(--text-primary); border-radius: 5px; }
+.nav__cta { display: flex; padding: 20px 24px; border: 1px solid var(--text-primary); border-radius: 5px; background: #fff; } /* fundo branco antes do hover */
 .nav__lang { display: flex; padding: 20px; }
 
 /* Menu flutuante ao rolar (4513:141718): barra branca centralizada, 1005 × 94, a 40px do topo */
