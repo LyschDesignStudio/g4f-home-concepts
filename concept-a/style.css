@@ -103,7 +103,7 @@ img { display: block; }
 .h2 { font-family: var(--font-title); font-weight: 400; font-size: 48px; line-height: 1.25; }
 
 /* ---------- Hero ---------- */
-.hero { position: relative; height: 2167px; }
+.hero { position: relative; height: 2055px; } /* 2167 no Figma, menos os 112px que o card 174 subiu */
 /* palco fixo do hero: fica preso sob a navbar enquanto os cards passam por cima */
 /* altura = tela menos a navbar (--reveal-h é a altura da janela em px do artboard, map-reveal.js), para a frase ficar no meio do que se vê */
 .hero__stage { position: sticky; top: 80px; height: calc(var(--reveal-h, 1080px) - 80px); z-index: 0; }
