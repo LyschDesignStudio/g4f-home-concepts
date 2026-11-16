@@ -54,8 +54,7 @@ h1, h2, h3 { font-weight: 400; }
 /* Menu flutuante ao rolar (4513:141718): barra branca centralizada, 1005 × 94, a 40px do topo */
 .nav--float {
   position: fixed; z-index: 60; top: 40px; left: 0; right: 0; margin: 0 auto; width: 1005px; height: 94px;
-  justify-content: flex-start; gap: 22px; padding: 22px; background: #fff; border-radius: 4px;
-  box-shadow: 0 9px 10px rgba(186,186,186,.1), 0 36px 18px rgba(186,186,186,.09), 0 81px 24px rgba(186,186,186,.05), 0 143px 28.5px rgba(186,186,186,.01);
+  justify-content: flex-start; gap: 22px; padding: 22px; background: #fff; border-radius: 4px; /* sem sombra projetada */
   opacity: 0; visibility: hidden; transform: translateY(-24px); pointer-events: none;
   transition: opacity 360ms cubic-bezier(.32,.72,0,1), transform 520ms cubic-bezier(.32,.72,0,1), visibility 0s linear 520ms;
 }
