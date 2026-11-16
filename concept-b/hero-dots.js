@@ -8,7 +8,9 @@
    O hero é espelhado (scaleX(-1)) no CSS, então tudo aqui é desenhado no referencial da imagem original.
    Ao carregar, a malha se forma ponto a ponto: uma onda que sai do foco para as bordas, cada ponto
    crescendo e ganhando opacidade (junto com a entrada do título, hero-reveal.js).
-   Sem canvas ou com movimento reduzido fica a imagem estática. */
+   Sem canvas ou com movimento reduzido fica a imagem estática.
+   Em telas acima de 1920px a malha cobre a largura toda: o desenho do Figma fica no meio (mesma grade, mesmo foco
+   e mesmo ícone) e ganha colunas extras dos dois lados. */
 (function () {
   var root = document.documentElement;
   function fallback() { root.classList.remove('herodots-pending'); } // mostra a imagem estática
@@ -26,8 +28,9 @@
   hi.className = 'hero__dots hero__dots--hi';
   canvas.insertAdjacentElement('afterend', hi);
 
-  var W = 1920, H = 1080, STEP = 26, OX = 10, OY = 20, R = 4;
-  var HOME = [660, 540];           // foco da imagem do Figma
+  var ART = 1920, W = ART, H = 1080, STEP = 26, OX = 10, OY = 20, R = 4;
+  var OFF = 0;                     // onde o artboard de 1920 começa dentro da malha (telas mais largas)
+  var HOME0 = [660, 540], HOME = HOME0.slice(); // foco da imagem do Figma
   var R0 = 250, K = 0.085, MAXL = 80; // rastro: começa a R0 do foco e cresce K px por px de distância
   var BG = '#f4f6f8', GRAY = [168, 174, 181], DARK = [69, 74, 84];
   // ícone da G4F em pontos escuros (lido da imagem; coluna 0 = x 374, linha 0 = y 254)
@@ -58,16 +61,31 @@
   ];
   var IX = (374 - OX) / STEP, IY = (254 - OY) / STEP;
 
-  var COLS = Math.floor((W - OX) / STEP) + 1, ROWS = Math.floor((H - OY) / STEP) + 1;
+  var COLS0 = Math.floor((ART - OX) / STEP) + 1, ROWS = Math.floor((H - OY) / STEP) + 1;
   // entrada: cada ponto aparece num momento, numa onda que sai do foco (com um pouco de acaso)
-  var SPREAD = 1500, JITTER = 350, GROW = 450, MAXD = Math.sqrt(1260 * 1260 + 540 * 540);
+  var SPREAD = 1500, JITTER = 350, GROW = 450;
   function rnd(n) { var x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
-  var pts = [];
-  for (var j = 0; j < ROWS; j++) for (var i = 0; i < COLS; i++) {
-    var row = ICON[j - IY], dark = !!(row && row.charAt(i - IX) === '#');
-    var x0 = OX + i * STEP, y0 = OY + j * STEP;
-    var dd = Math.sqrt((x0 - HOME[0]) * (x0 - HOME[0]) + (y0 - HOME[1]) * (y0 - HOME[1]));
-    pts.push({ x: x0, y: y0, dark: dark, at: Math.min(1, dd / MAXD) * SPREAD + rnd(j * COLS + i) * JITTER });
+  var pts = [], IB = [];
+  // monta a malha para a largura do hero (nunca menos que 1920): as colunas do Figma ficam no lugar
+  function build() {
+    var w = Math.max(ART, Math.round(hero.offsetWidth));
+    if (w === W && pts.length) return false;
+    W = w; OFF = (W - ART) / 2;
+    var extra = Math.ceil(OFF / STEP), cols = COLS0 + extra * 2;
+    HOME = [HOME0[0] + OFF, HOME0[1]];
+    var maxd = Math.sqrt(Math.pow(Math.max(HOME[0], W - HOME[0]), 2) + 540 * 540);
+    pts = [];
+    for (var j = 0; j < ROWS; j++) for (var c = 0; c < cols; c++) {
+      var i = c - extra; // coluna no referencial do Figma (negativa ou além da última nas bordas extras)
+      var row = ICON[j - IY], dark = !!(row && row.charAt(i - IX) === '#');
+      var x0 = OFF + OX + i * STEP, y0 = OY + j * STEP;
+      var dd = Math.sqrt((x0 - HOME[0]) * (x0 - HOME[0]) + (y0 - HOME[1]) * (y0 - HOME[1]));
+      pts.push({ x: x0, y: y0, dark: dark, at: Math.min(1, dd / maxd) * SPREAD + rnd(j * cols + c) * JITTER });
+    }
+    // área do ícone (com folga) no referencial da imagem
+    IB = [OFF + 374 - 40, 254 - 40, OFF + 374 + 22 * STEP + 40, 254 + 22 * STEP + 40];
+    focus = HOME.slice(); target = HOME.slice();
+    return true;
   }
   var t0 = performance.now(), intro = true;
   function ease(t) { return 1 - Math.pow(1 - t, 3); }
@@ -85,8 +103,6 @@
   var SG = sprite(GRAY.join(',')), SD = sprite(DARK.join(','));
   var SB = sprite('49,96,230');    // azul da marca (#3160E6)
   var HI_ALPHA = 0.55;             // opacidade máxima do azul na camada de cima
-  // área do ícone (com folga) no referencial da imagem
-  var IB = [374 - 40, 254 - 40, 374 + 22 * STEP + 40, 254 + 22 * STEP + 40];
   var NEAR = 260;                  // raio em que os pontos perto do mouse ficam mais azuis
 
   var dpr = 1;
@@ -97,6 +113,7 @@
   }
 
   var focus = HOME.slice(), target = HOME.slice();
+  build();
   var mouse = [-1e4, -1e4], lastMove = -1e9, blue = 0; // blue: 0 = ícone escuro, 1 = azulado
   function draw() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -174,7 +191,7 @@
   });
   hero.addEventListener('pointerleave', function () { target = HOME.slice(); mouse = [-1e4, -1e4]; kick(); });
   new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) kick(); }).observe(hero);
-  window.addEventListener('resize', function () { size(); draw(); });
+  window.addEventListener('resize', function () { build(); size(); draw(); });
 
   size(); draw();
   bg.classList.add('is-live'); fallback();

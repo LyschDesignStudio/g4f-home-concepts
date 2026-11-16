@@ -1,5 +1,5 @@
 /* Hero: ao carregar, as palavras do título aparecem em sequência com fade, subindo levemente até o lugar
-   (igual ao Concept A); em seguida o botão aparece. Ao mesmo tempo a malha de pontos se forma ao fundo
+   (igual ao Concept A). Ao mesmo tempo a malha de pontos se forma ao fundo
    (hero-dots.js). As palavras já estão no lugar final (só transparentes), então nada pula. */
 (function () {
   var root = document.documentElement;

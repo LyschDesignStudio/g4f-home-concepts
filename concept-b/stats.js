@@ -4,7 +4,11 @@
      final conforme a linha dos números sobe do pé da tela até o meio dela: com os números no meio da tela,
      todos já estão no valor final. Cada item começa um pouco depois do anterior (e todos terminam juntos no meio). A opacidade do número sobe de 0 a 100% no mesmo trajeto.
      Rolando para cima, os números voltam junto (valor e opacidade).
-   - Rolando de volta para cima até a seção descer para o pé da tela, os itens se escondem de novo. */
+   - Rolando de volta para cima até a seção descer para o pé da tela, os itens se escondem de novo.
+   - O trajeto usa a altura da tela: numa tela alta, em que os números já aparecem sem rolar, a contagem parte
+     de onde eles estão com a página no topo (e não do pé da tela). Assim, com a página no topo, os números
+     estão sempre em 0% e no valor inicial, nunca a meio caminho; e sempre sobra um trecho de rolagem
+     (MIN_RUN da tela) para a contagem acontecer. */
 (function () {
   var section = document.querySelector('.stats');
   if (!section) return;
@@ -14,6 +18,7 @@
   var TRIGGER = 0.8;          // fração da tela em que os itens aparecem
   var START = 1, END = 0.5;   // centro da linha dos números (fração da tela) onde a contagem começa e termina
   var LAG = 0.08;             // atraso de cada item na contagem (fração do trajeto)
+  var MIN_RUN = 0.2;          // trajeto mínimo da contagem (fração da tela)
 
   var vals = [].slice.call(section.querySelectorAll('.stat__val')).map(function (el) {
     var txt = el.textContent.trim(), dec = (txt.split(',')[1] || '').length;
@@ -48,7 +53,10 @@
     var c = 0;
     vals.forEach(function (v) { var r = v.num.getBoundingClientRect(); c += (r.top + r.bottom) / 2; });
     c /= vals.length; // centro da linha dos números na tela
-    var p = clamp((vh * START - c) / (vh * (START - END)));
+    // início: o pé da tela, ou onde os números estão com a página no topo, se já aparecem sem rolar
+    var from = Math.min(vh * START, c + window.scrollY);
+    var to = Math.min(vh * END, from - vh * MIN_RUN);
+    var p = clamp((from - c) / Math.max(from - to, 1));
     var span = 1 - LAG * (vals.length - 1);
     vals.forEach(function (v, i) {
       var q = clamp((p - i * LAG) / span);
