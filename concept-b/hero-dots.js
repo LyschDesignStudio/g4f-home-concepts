@@ -9,8 +9,9 @@
    Ao carregar, a malha se forma ponto a ponto: uma onda que sai do foco para as bordas, cada ponto
    crescendo e ganhando opacidade (junto com a entrada do título, hero-reveal.js).
    Sem canvas ou com movimento reduzido fica a imagem estática.
-   Em telas acima de 1920px a malha cobre a largura toda: o desenho do Figma fica no meio (mesma grade, mesmo foco
-   e mesmo ícone) e ganha colunas extras dos dois lados. */
+   O hero tem a altura da tela e, acima de 1920px, a largura toda: o desenho do Figma (1920 × 1080) fica no centro
+   do hero, na largura e na altura (mesma grade, mesmo foco e mesmo ícone), e a malha ganha colunas e linhas extras
+   dos lados, em cima e embaixo até preencher a seção (numa tela mais baixa que 1080, sobram as linhas do meio). */
 (function () {
   var root = document.documentElement;
   function fallback() { root.classList.remove('herodots-pending'); } // mostra a imagem estática
@@ -28,8 +29,9 @@
   hi.className = 'hero__dots hero__dots--hi';
   canvas.insertAdjacentElement('afterend', hi);
 
-  var ART = 1920, W = ART, H = 1080, STEP = 26, OX = 10, OY = 20, R = 4;
-  var OFF = 0;                     // onde o artboard de 1920 começa dentro da malha (telas mais largas)
+  var ART = 1920, ARTH = 1080, W = ART, H = ARTH, STEP = 26, OX = 10, OY = 20, R = 4;
+  var OFF = 0, OFFY = 0;           // onde o artboard de 1920 × 1080 começa dentro da malha (centralizado no hero)
+  var page = document.getElementById('page');
   var HOME0 = [660, 540], HOME = HOME0.slice(); // foco da imagem do Figma
   var R0 = 250, K = 0.085, MAXL = 80; // rastro: começa a R0 do foco e cresce K px por px de distância
   var BG = '#f4f6f8', GRAY = [168, 174, 181], DARK = [69, 74, 84];
@@ -61,29 +63,39 @@
   ];
   var IX = (374 - OX) / STEP, IY = (254 - OY) / STEP;
 
-  var COLS0 = Math.floor((ART - OX) / STEP) + 1, ROWS = Math.floor((H - OY) / STEP) + 1;
+  var COLS0 = Math.floor((ART - OX) / STEP) + 1, ROWS0 = Math.floor((ARTH - OY) / STEP) + 1;
   // entrada: cada ponto aparece num momento, numa onda que sai do foco (com um pouco de acaso)
   var SPREAD = 1500, JITTER = 350, GROW = 450;
   function rnd(n) { var x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
   var pts = [], IB = [];
-  // monta a malha para a largura do hero (nunca menos que 1920): as colunas do Figma ficam no lugar
+  // tamanho do hero em px do artboard: largura nunca menos que 1920; altura = a da tela, entre 860 e 1440 (igual ao CSS)
+  function heroSize() {
+    var vh = parseFloat(page && page.style.getPropertyValue('--vh')) || ARTH;
+    return [Math.max(ART, Math.round(hero.offsetWidth)), Math.round(Math.min(1440, Math.max(860, vh)))];
+  }
+  // monta a malha para o tamanho do hero: as linhas e colunas do Figma ficam no centro, as extras completam as bordas
   function build() {
-    var w = Math.max(ART, Math.round(hero.offsetWidth));
-    if (w === W && pts.length) return false;
-    W = w; OFF = (W - ART) / 2;
+    var sz = heroSize(), w = sz[0], h = sz[1];
+    if (w === W && h === H && pts.length) return false;
+    W = w; H = h; OFF = (W - ART) / 2; OFFY = (H - ARTH) / 2;
     var extra = Math.ceil(OFF / STEP), cols = COLS0 + extra * 2;
-    HOME = [HOME0[0] + OFF, HOME0[1]];
-    var maxd = Math.sqrt(Math.pow(Math.max(HOME[0], W - HOME[0]), 2) + 540 * 540);
+    var extraY = Math.ceil(Math.abs(OFFY) / STEP) + 1;
+    HOME = [HOME0[0] + OFF, HOME0[1] + OFFY];
+    var maxd = Math.sqrt(Math.pow(Math.max(HOME[0], W - HOME[0]), 2) + Math.pow(Math.max(HOME[1], H - HOME[1]), 2));
     pts = [];
-    for (var j = 0; j < ROWS; j++) for (var c = 0; c < cols; c++) {
-      var i = c - extra; // coluna no referencial do Figma (negativa ou além da última nas bordas extras)
-      var row = ICON[j - IY], dark = !!(row && row.charAt(i - IX) === '#');
-      var x0 = OFF + OX + i * STEP, y0 = OY + j * STEP;
-      var dd = Math.sqrt((x0 - HOME[0]) * (x0 - HOME[0]) + (y0 - HOME[1]) * (y0 - HOME[1]));
-      pts.push({ x: x0, y: y0, dark: dark, at: Math.min(1, dd / maxd) * SPREAD + rnd(j * cols + c) * JITTER });
+    for (var j = -extraY; j < ROWS0 + extraY; j++) {
+      var y0 = OFFY + OY + j * STEP; // j: linha no referencial do Figma (negativa ou além da última nas bordas extras)
+      if (y0 < -STEP || y0 > H + STEP) continue;
+      for (var c = 0; c < cols; c++) {
+        var i = c - extra; // coluna no referencial do Figma
+        var row = ICON[j - IY], dark = !!(row && row.charAt(i - IX) === '#');
+        var x0 = OFF + OX + i * STEP;
+        var dd = Math.sqrt((x0 - HOME[0]) * (x0 - HOME[0]) + (y0 - HOME[1]) * (y0 - HOME[1]));
+        pts.push({ x: x0, y: y0, dark: dark, at: Math.min(1, dd / maxd) * SPREAD + rnd((j + 99) * cols + c) * JITTER });
+      }
     }
     // área do ícone (com folga) no referencial da imagem
-    IB = [OFF + 374 - 40, 254 - 40, OFF + 374 + 22 * STEP + 40, 254 + 22 * STEP + 40];
+    IB = [OFF + 374 - 40, OFFY + 254 - 40, OFF + 374 + 22 * STEP + 40, OFFY + 254 + 22 * STEP + 40];
     focus = HOME.slice(); target = HOME.slice();
     return true;
   }
