@@ -259,6 +259,11 @@ h1, h2, h3 { font-weight: 400; }
 .footer__logo { position: absolute; left: 0; top: 1337px; width: 100%; height: 363px; overflow: hidden; }
 .footer__logo-svg { position: absolute; left: 50%; bottom: -145px; transform: translateX(-50%); width: 1756px; height: 488px; overflow: visible; }
 .footer__logo-part { transform-box: fill-box; }
+/* Entrada do logo (reveal.js põe .is-in quando ele entra na tela): cada peça sobe de dentro do corte de baixo
+   com fade, no próprio tempo, uma depois da outra (--d), sem depender da velocidade da rolagem */
+.reveal-pending .footer__logo-part { opacity: 0; transform: translateY(80px);
+  transition: opacity 700ms cubic-bezier(.2,.8,.2,1) var(--d, 0ms), transform 900ms cubic-bezier(.2,.8,.2,1) var(--d, 0ms); }
+.reveal-pending .footer__logo.is-in .footer__logo-part { opacity: 1; transform: none; }
 
 /* Navbar: no load da página, desce de cima até o lugar (a cópia flutuante do Concept B não entra nisso) */
 .nav:not(.nav--float) { animation: nav-in .9s cubic-bezier(.2, .8, .2, 1) .1s both; }
