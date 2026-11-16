@@ -10,7 +10,8 @@
   if (!wrap || !map) return;
   function set() {
     var zoom = parseFloat(page && page.style.zoom) || 1;
-    wrap.style.setProperty('--reveal-h', (window.innerHeight / zoom).toFixed(2) + 'px');
+    // na página toda: o hero também usa para centralizar a frase na tela
+    (page || wrap).style.setProperty('--reveal-h', (window.innerHeight / zoom).toFixed(2) + 'px');
   }
   window.G4F = window.G4F || {};
   window.G4F.mapTop = function () {

@@ -5,12 +5,12 @@
      da tela (um pouco antes do meio), e volta a se esconder se a pessoa rolar de volta.
      O último card (o mais baixo) dispara 200px antes, para não ficar um intervalo grande
      depois do penúltimo.
-   - A frase, o botão e a malha somem juntos (fade; a frase e o botão também desfocam) e chegam
+   - A frase e a malha somem juntas (fade; a frase também desfoca) e chegam
      a 0% exatamente quando o último card aparece, ou seja, com os cards 100% na tela. */
 (function () {
   var page = document.getElementById('page');
   var content = document.querySelector('.hero__content');
-  var stage = document.querySelector('.hero__stage'); // malha + frase + botão
+  var stage = document.querySelector('.hero__stage'); // malha + frase
   var cards = [].slice.call(document.querySelectorAll('.hero .stat'));
   if (!page || !content || !stage) return;
 

@@ -105,7 +105,8 @@ img { display: block; }
 /* ---------- Hero ---------- */
 .hero { position: relative; height: 2167px; }
 /* palco fixo do hero: fica preso sob a navbar enquanto os cards passam por cima */
-.hero__stage { position: sticky; top: 80px; height: 1000px; z-index: 0; }
+/* altura = tela menos a navbar (--reveal-h é a altura da janela em px do artboard, map-reveal.js), para a frase ficar no meio do que se vê */
+.hero__stage { position: sticky; top: 80px; height: calc(var(--reveal-h, 1080px) - 80px); z-index: 0; }
 .hero__content { will-change: opacity, filter; }
 /* grade de pontos: 35 colunas (passo 55,5px) × 50 linhas (passo 44px), quadrado 4px a 8px do topo da linha */
 .dots { position: absolute; left: 0; top: -80px; width: 100%; height: 2176px; z-index: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='55.5' height='44'%3E%3Crect y='8' width='4' height='4' fill='%23e2e2e2'/%3E%3C/svg%3E") 0 0 / 55.5px 44px repeat; }
@@ -115,8 +116,8 @@ img { display: block; }
 .dots__fade--top { top: 0; height: 316px; background: linear-gradient(to bottom, #fff 21.677%, rgba(255,255,255,0) 83.861%); }
 
 .hero__content {
-  position: absolute; left: 367px; top: 316px; width: 1187px; z-index: 1; margin-left: var(--frame);
-  display: flex; flex-direction: column; align-items: center; gap: 40px;
+  position: absolute; left: 367px; top: 50%; transform: translateY(-50%); width: 1187px; z-index: 1; margin-left: var(--frame);
+  display: flex; flex-direction: column; align-items: center;
 }
 .hero__title { font-family: var(--font-title); font-weight: 400; font-size: 68px; line-height: 1.25; text-align: center; height: 267px; }
 
@@ -125,9 +126,7 @@ img { display: block; }
 .hero__title .w { display: inline-block; }
 .reveal .hero__title .w { animation: word-in .55s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d, 0ms); }
 @keyframes word-in { from { opacity: 0; transform: translateY(18px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
-.type-pending .hero__content .btn, .typing .hero__content .btn { opacity: 0; transform: translateY(10px); pointer-events: none; }
-.hero__content .btn { transition: opacity .5s ease, transform .5s cubic-bezier(.2,.8,.2,1), background-color .25s ease, color .25s ease; }
-/* A malha de pontos aparece junto com o botão: fade + desfoque saindo */
+/* A malha de pontos aparece quando a frase termina de entrar: fade + desfoque saindo */
 .type-pending .dots, .typing .dots { opacity: 0; filter: blur(10px); }
 .dots { transition: opacity .9s ease, filter .9s ease; }
 
