@@ -41,7 +41,7 @@
     'varying vec2 uv;',
     'uniform vec2 C[3]; uniform vec2 R[3]; uniform float A[3]; uniform vec3 K[3];',
     'uniform float seed;',
-    'uniform vec2 span;',  // largura da seção em px do artboard e onde o artboard de 1920 começa nela (telas mais largas)
+    'uniform vec3 view;',  // seção em px do artboard (largura, altura) e a escala que faz o desenho 1920 × 1080 cobri-la
     'const float SIG = 50.0;',
     // cobertura de uma elipse sólida desfocada por gaussiana (sigma 50): 0.5 * erfc(-d / (sigma*sqrt2))
     'float erfApprox(float x){ float s = sign(x); x = abs(x); float t = 1.0/(1.0+0.3275911*x);',
@@ -54,7 +54,7 @@
     '  return 0.5 * (1.0 + erfApprox(sd / (SIG * 1.41421356))); }',
     'float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233)) + seed) * 43758.5453); }',
     'void main(){',
-    '  vec2 q = vec2(uv.x * span.x - span.y, uv.y * 1080.0);',  // na horizontal não estica: as elipses ficam no artboard central
+    '  vec2 q = (uv * view.xy - view.xy * 0.5) / view.z + vec2(960.0, 540.0);',  // como object-fit: cover, centralizado: sem esticar e sem sobrar fundo
     '  vec3 S = vec3(0.0);',
     '  for (int i = 0; i < 3; i++) S += K[i] * cover(q, C[i], R[i], A[i]);',  // plus-lighter
     '  vec3 base = vec3(1.0, 18.0, 36.0) / 255.0;',
@@ -81,15 +81,17 @@
   var uC = gl.getUniformLocation(prog, 'C'), uR = gl.getUniformLocation(prog, 'R'), uA = gl.getUniformLocation(prog, 'A'), uK = gl.getUniformLocation(prog, 'K'), uSeed = gl.getUniformLocation(prog, 'seed');
   gl.uniform3fv(uK, [].concat.apply([], E.map(function (e) { return e.col.map(function (v) { return v / 255; }); })));
   gl.uniform1f(uSeed, 0.0);
-  var uSpan = gl.getUniformLocation(prog, 'span');
+  var uView = gl.getUniformLocation(prog, 'view');
 
   // tamanho do canvas: metade da resolução da tela (é tudo desfocado; o grão continua fino)
   function size() {
     var r = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
     var w = Math.max(2, Math.round(r.width * dpr * 0.5)), h = Math.max(2, Math.round(r.height * dpr * 0.5));
     if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h); }
-    var sw = Math.max(1920, Math.round(section.offsetWidth));
-    gl.uniform2f(uSpan, sw, (sw - 1920) / 2);
+    // tamanho da seção em px do artboard (a altura acompanha a tela; a largura passa de 1920 em telas largas)
+    var z = parseFloat(document.getElementById('page').style.zoom) || 1;
+    var sw = Math.max(1920, Math.round(section.offsetWidth)), shh = r.height / z;
+    gl.uniform3f(uView, sw, shh, Math.max(sw / 1920, shh / 1080));
   }
 
   var target = [0, 0], cur = [0, 0], raf = 0, visible = false, tNow = 0;
