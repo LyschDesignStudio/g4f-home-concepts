@@ -30,6 +30,11 @@
       var level = 0;
       for (var j = i + 1; j < cards.length; j++) level += p[j];
       cards[i].style.backgroundColor = color(level);
+      // fechado: o card de baixo já cobriu mais da metade dele (mostra o link na faixa da tag)
+      var closed = i + 1 < cards.length && p[i + 1] > 0.5;
+      cards[i].classList.toggle('is-closed', closed);
+      var peek = cards[i].querySelector('.front__peek');
+      if (peek) { peek.tabIndex = closed ? 0 : -1; peek.setAttribute('aria-hidden', closed ? 'false' : 'true'); }
     }
   }
 

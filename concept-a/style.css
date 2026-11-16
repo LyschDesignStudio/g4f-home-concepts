@@ -172,6 +172,13 @@ img { display: block; }
 /* hover do link dos cards: mesma cor, 50% de opacidade (igual ao menu e ao rodapé) */
 .front__link { transition: opacity .25s ease; }
 .front__link:hover, .front__link:focus-visible { opacity: .5; }
+/* Card fechado na pilha (só a faixa da tag aparece): o link aparece na faixa, alinhado à direita, na altura da tag.
+   Só nos cards que fecham (Data & AI e Cybersecurity); fronts.js liga .is-closed quando o card de baixo já cobriu mais da metade. */
+.front__peek { position: absolute; right: 40px; top: 40px; height: 29px; /* altura da tag: o texto fica no centro dela */ display: flex; align-items: center; z-index: 2; white-space: pre;
+  font-family: var(--font-body); font-weight: 500; font-size: 17px; line-height: 1.5; color: var(--text-secondary);
+  opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s linear .3s; }
+.front.is-closed .front__peek { opacity: 1; visibility: visible; transition: opacity .3s ease; }
+.front.is-closed .front__peek:hover, .front.is-closed .front__peek:focus-visible { opacity: .5; }
 .front__ill { position: absolute; overflow: hidden; pointer-events: none; }
 .front__ill > * { position: absolute; max-width: none; }
 .front__ill--1 { bottom: 0.06px; left: calc(50% + 209.68px); transform: translateX(-50%); width: 656.649px; height: 525.937px; }
