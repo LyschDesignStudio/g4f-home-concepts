@@ -1,14 +1,27 @@
 /* Malha de pontos interativa do hero.
    A grade é a mesma do Figma (35 × 50 pontos de 4px, passo 55,5 × 44px, a 8px do topo de cada linha).
    Perto do cursor os pontos se afastam com mola, e as ligações entre vizinhos aparecem,
-   revelando a malha que se deforma; ao sair, tudo volta ao lugar com um leve balanço. */
+   revelando a malha que se deforma; ao sair, tudo volta ao lugar com um leve balanço.
+   Em telas acima de 1920px a malha cobre a largura toda: a grade continua alinhada ao artboard
+   centralizado e ganha colunas extras dos dois lados. */
 (function () {
   var host = document.querySelector('.dots');
   var hero = document.querySelector('.hero');
   if (!host || !hero) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var W = 1920, H = 2176, COLS = 35, ROWS = 50, SX = 55.5, SY = 44, OY = 8, SIZE = 4;
+  var ART = 1920, H = 2176, ROWS = 50, SX = 55.5, SY = 44, OY = 8, SIZE = 4;
+  // largura da malha em px do artboard (nunca menos que 1920) e onde o artboard começa dentro dela
+  function width() { return Math.max(ART, Math.round(host.offsetWidth)); }
+  function offset(w) { return (w - ART) / 2; }
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // malha estática (fundo do CSS): alinha a repetição ao artboard centralizado
+    var fit = function () { host.style.backgroundPositionX = (offset(width()) % SX).toFixed(2) + 'px'; };
+    fit(); window.addEventListener('resize', fit);
+    return;
+  }
+
+  var W, COLS;
   var RADIUS = 220;        // alcance do cursor (px do artboard)
   var PUSH = 46;           // deslocamento máximo
   var SPRING = 0.075, DAMP = 0.8;
@@ -20,15 +33,25 @@
   host.classList.add('dots--live');
   var ctx = canvas.getContext('2d');
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = W * dpr; canvas.height = H * dpr;
-  ctx.scale(dpr, dpr);
+  var n, hx, hy, dx, dy, vx, vy, glow;
 
-  var n = COLS * ROWS, hx = new Float32Array(n), hy = new Float32Array(n),
-      dx = new Float32Array(n), dy = new Float32Array(n), vx = new Float32Array(n), vy = new Float32Array(n),
-      glow = new Float32Array(n);
-  for (var r = 0; r < ROWS; r++) for (var c = 0; c < COLS; c++) {
-    var i = r * COLS + c; hx[i] = c * SX + SIZE / 2; hy[i] = r * SY + OY + SIZE / 2;
+  // monta a grade para a largura atual: as 35 colunas do Figma ficam no lugar e as extras entram dos lados
+  function build() {
+    var w = width();
+    if (w === W) return;
+    W = w;
+    var off = offset(W), extra = Math.ceil(off / SX);
+    COLS = 35 + extra * 2;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    n = COLS * ROWS;
+    hx = new Float32Array(n); hy = new Float32Array(n); dx = new Float32Array(n); dy = new Float32Array(n);
+    vx = new Float32Array(n); vy = new Float32Array(n); glow = new Float32Array(n);
+    for (var r = 0; r < ROWS; r++) for (var c = 0; c < COLS; c++) {
+      var i = r * COLS + c; hx[i] = off + (c - extra) * SX + SIZE / 2; hy[i] = r * SY + OY + SIZE / 2;
+    }
   }
+  build();
 
   var mx = -9999, my = -9999, active = false, raf = 0;
 
@@ -92,5 +115,6 @@
   });
   hero.addEventListener('pointerleave', function () { active = false; kick(); });
 
+  window.addEventListener('resize', function () { var w = W; build(); if (W !== w) draw(); });
   draw();
 })();
