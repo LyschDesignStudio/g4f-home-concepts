@@ -186,7 +186,7 @@ img { display: block; }
 .cases__grid { display: flex; gap: 20px; }
 .case-hero {
   position: relative; width: 830px; height: 660px; flex-shrink: 0; overflow: hidden;
-  background: var(--tone-800); color: var(--text-inverse);
+  background: var(--bg-brand); color: var(--text-inverse); /* destaque no azul mais claro; o CTA ao lado fica no escuro */
   display: flex; flex-direction: column; justify-content: space-between;
 }
 .case-hero__art { position: absolute; inset: 0; }
@@ -209,7 +209,7 @@ img { display: block; }
 .case__name { font-family: var(--font-label); font-weight: 500; font-size: 24px; line-height: 1.05; width: 276px; }
 .case__body { display: flex; flex-direction: column; align-items: flex-start; gap: 30px; padding: 48px 40px; }
 .case__text { font-family: var(--font-title); font-size: 21px; line-height: 1.25; }
-.case--brand { background: var(--bg-brand); padding: 48px 40px; justify-content: space-between; align-items: flex-start; transition: filter .2s; }
+.case--brand { background: var(--tone-800); padding: 48px 40px; justify-content: space-between; align-items: flex-start; transition: filter .2s; }
 .case--brand:hover { filter: brightness(1.08); }
 .case--brand__copy { display: flex; flex-direction: column; gap: 40px; width: 100%; }
 .case--brand__title { font-family: var(--font-title); font-size: 32px; line-height: 1.25; color: var(--text-inverse); }
