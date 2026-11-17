@@ -1,9 +1,17 @@
-/* Botão flutuante (canto inferior esquerdo) para ir ao outro concept: no A leva ao B e vice-versa.
+/* Botão flutuante (canto inferior esquerdo) para ir ao próximo concept, em ciclo: A → B → C → A.
+   Cada concept tem um nome no botão (o C é o Blue Print); A e B ficam pela letra até ganharem nome.
    Fica fora do #page (que é escalado com zoom), no estilo da capa: fundo escuro, texto creme, IBM Plex Mono.
    Aparece um pouco depois do load, quando a entrada do topo já aconteceu. */
 (function () {
-  var isA = /\/concept-a\b/.test(location.pathname);
-  var other = isA ? 'B' : 'A';
+  var CONCEPTS = [
+    { slug: 'a', name: 'Concept A' },
+    { slug: 'b', name: 'Concept B' },
+    { slug: 'c', name: 'Blue Print' }
+  ];
+  var m = location.pathname.match(/\/concept-([a-z])\b/);
+  var cur = 0;
+  CONCEPTS.forEach(function (c, i) { if (m && m[1] === c.slug) cur = i; });
+  var next = CONCEPTS[(cur + 1) % CONCEPTS.length];
 
   var font = document.createElement('link');
   font.rel = 'stylesheet';
@@ -27,8 +35,8 @@
 
   var a = document.createElement('a');
   a.className = 'concept-switch';
-  a.href = '/concept-' + other.toLowerCase() + '/';
-  a.innerHTML = 'Ir para Concept ' + other + ' <span class="concept-switch__arrow" aria-hidden="true">→</span>';
+  a.href = '/concept-' + next.slug + '/';
+  a.innerHTML = 'Ir para ' + next.name + ' <span class="concept-switch__arrow" aria-hidden="true">→</span>';
   document.body.appendChild(a);
   setTimeout(function () { a.classList.add('is-in'); }, 1200);
 })();
