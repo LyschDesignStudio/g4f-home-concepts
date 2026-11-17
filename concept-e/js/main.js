@@ -170,10 +170,13 @@
     numList.appendChild(li);
     return { li, value: li.querySelector(".num-row__value"), shown: -1 };
   });
+  const firstLine = numRows[0].li.querySelector(".num-row__line");
   function updateNumbers() {
     const r = numbersEl.getBoundingClientRect();
     const H = vh();
     numbersEl.classList.toggle("is-visible", r.top < H * 0.5 && r.bottom > 0);
+    // encostada no menu, a linha do topo da primeira linha de números some (a linha do menu já está ali; sem duplicar)
+    firstLine.style.visibility = r.top <= 0.5 ? "hidden" : "";
     const scrollable = numbersEl.offsetHeight - 2 * H;      // última tela = sobreposição da cartela
     const p = clamp(-r.top / scrollable) * (NUMBERS.length - 1);
     const entry = easeOut(range(H - r.top, H * 0.3, H));    // linha 1 chega com a própria seção
