@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Archivo:wght@400;500&display=swap">
-<link rel="stylesheet" href="style.css?v=29">
+<link rel="stylesheet" href="style.css?v=30">
 <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('hero-pending', 'reveal-pending');</script>
 <script>
   /* No refresh a página sempre abre do começo (o navegador não restaura a rolagem nem pula para âncoras). */
@@ -136,7 +136,9 @@
   <!-- Mapa · 4648:67833 -->
   <section class="map" id="sobre" data-nav="dark">
     <div class="map__inner">
-      <div class="globe" aria-hidden="true">
+      <div class="globe">
+        <!-- imagem estática do Figma: fica só se o globo ao vivo não carregar (globe.js) -->
+        <div class="globe__static" aria-hidden="true">
         <div class="g" style="inset:0 8.33%"><img src="assets/globe-0.svg" alt=""></div>
         <div class="g" style="inset:17.5% 22.92%"><img src="assets/globe-1.svg" alt=""></div>
         <div class="g" style="inset:17.5% 22.92%"><img src="assets/globe-2.svg" alt=""></div>
@@ -159,6 +161,9 @@
         <img class="globe__pin" style="inset:50.07% 47.13% 48.6% 51.77%" src="assets/pin-6.svg" alt="">
         <p class="globe__label globe__label--1"><span class="t">Brasília · matriz</span></p>
         <p class="globe__label globe__label--2"><span class="t">Belo Horizonte</span></p>
+      </div>
+        <!-- globo ao vivo (globe.js): canvas, degradês dos cantos e pins das cidades -->
+        <div class="globe__live"><div class="globe__grad globe__grad--1"></div><div class="globe__grad globe__grad--2"></div></div>
       </div>
       <div class="map__content" data-reveal>
         <div class="map__copy">
@@ -234,6 +239,10 @@
   })();
 </script>
 <script src="main.js?v=14"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-array@3.2.4/dist/d3-array.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="globe.js?v=1"></script>
 <script src="/switch.js?v=2"></script>
 </body>
 </html>
