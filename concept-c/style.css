@@ -45,9 +45,12 @@ h1, h2, h3 { font-weight: 400; }
    (ref. Figma 4673:131125; main.js põe .nav--compact). */
 .nav__logo { display: block; }
 .nav__logo-svg { display: block; overflow: visible; }
-.nav__logo-icon, .nav__logo-type { transition: transform .9s cubic-bezier(.2,.8,.2,1), opacity .6s cubic-bezier(.2,.8,.2,1); }
-.nav--compact .nav__logo-icon { transform: translateX(-32px); }
-.nav--compact .nav__logo-type { opacity: 0; transform: translateX(-16px); }
+/* o logo inteiro anda junto para a esquerda e, durante esse mesmo movimento, as letras vão sumindo
+   (mesma duração: o fade acompanha o deslocamento do começo ao fim, em vez de sumir antes) */
+.nav__logo-svg { transition: transform 1s cubic-bezier(.2,.8,.2,1); }
+.nav__logo-type { transition: opacity 1s cubic-bezier(.4,0,.6,1); }
+.nav--compact .nav__logo-svg { transform: translateX(-32px); }
+.nav--compact .nav__logo-type { opacity: 0; }
 .nav__right { display: flex; align-items: center; gap: 40px; height: 100%; }
 .nav__menu { display: flex; align-items: center; }
 .nav__item { display: flex; align-items: center; gap: 10px; padding: 28px 24px; }
