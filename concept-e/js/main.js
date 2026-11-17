@@ -50,18 +50,18 @@
       art: "cyber",
     },
     {
-      tag: "Digital & Managed Services",
-      title: "Continuidade para crescer",
-      body: "Gestão e sustentação de ambientes tecnológicos complexos e infraestruturas em nuvem, que garantem estabilidade contínua e necessária para o crescimento de nossos clientes.",
-      cta: "Conheça Digital & Managed Services",
-      art: "managed",
-    },
-    {
       tag: "Data & AI",
       title: "Inteligência para decisões e resultados",
       body: "Inteligência Artificial aplicada na prática com governança e resultados que aceleram decisões e entregam valor mensurável.",
       cta: "Conheça Data & AI",
       art: "data",
+    },
+    {
+      tag: "Digital & Managed Services",
+      title: "Continuidade para crescer",
+      body: "Gestão e sustentação de ambientes tecnológicos complexos e infraestruturas em nuvem, que garantem estabilidade contínua e necessária para o crescimento de nossos clientes.",
+      cta: "Conheça Digital & Managed Services",
+      art: "managed",
     },
   ];
 
