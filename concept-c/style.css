@@ -40,7 +40,16 @@ h1, h2, h3 { font-weight: 400; }
 
 /* ---------- Navbar · 4648:67948 ---------- */
 .nav { position: sticky; top: 0; z-index: 50; height: 80px; display: flex; align-items: center; justify-content: space-between;
-  padding-left: 56px; background: var(--bg-brand); border-bottom: 1px solid var(--line-hero); color: var(--text-inverse); }
+  padding-left: 56px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-line); color: var(--nav-fg);
+  transition: background-color .5s ease, border-color .5s ease, color .5s ease; }
+/* A navbar acompanha a cor da seção que está embaixo dela (main.js põe data-theme conforme a rolagem; ref. Figma 4673:131404):
+   azul no hero e nos números, azul-escuro em Soluções, branca em Cases, escura no mapa e preta no rodapé. */
+.nav, .nav[data-theme="blue"] { --nav-bg: var(--bg-brand); --nav-line: var(--line-hero); --nav-fg: var(--text-inverse); }
+.nav[data-theme="navy"] { --nav-bg: var(--brand-950); --nav-line: var(--line-fronts); }
+.nav[data-theme="light"] { --nav-bg: #fff; --nav-line: var(--neutral-200); --nav-fg: var(--text-primary); }
+.nav[data-theme="dark"] { --nav-bg: var(--tone-900); --nav-line: #12305a; }
+.nav[data-theme="black"] { --nav-bg: #000; --nav-line: #12305a; }
+.nav__action { transition: border-color .5s ease; }
 /* Logo: ao rolar a página, o G, o 4 e o F somem com fade e o ícone anda para a esquerda até ficar a 24px da borda
    (ref. Figma 4673:131125; main.js põe .nav--compact). */
 .nav__logo { display: block; }
@@ -55,7 +64,7 @@ h1, h2, h3 { font-weight: 400; }
 .nav__menu { display: flex; align-items: center; }
 .nav__item { display: flex; align-items: center; gap: 10px; padding: 28px 24px; }
 .nav__actions { display: flex; height: 100%; }
-.nav__action { display: flex; align-items: center; padding: 0 30px; border-left: 1px solid var(--line-hero); }
+.nav__action { display: flex; align-items: center; padding: 0 30px; border-left: 1px solid var(--nav-line); }
 .nav__item, .nav__action .label { transition: opacity .25s ease; }
 .nav__item:hover, .nav__item:focus-visible, .nav__action:hover .label, .nav__action:focus-visible .label { opacity: .5; }
 .nav { animation: nav-in 1.4s cubic-bezier(.2,.8,.2,1) .05s both; } /* mesma curva da entrada do hero */

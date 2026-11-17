@@ -61,8 +61,19 @@
   // ---- navbar: ao rolar, o logo vira só o ícone (encostado a 24px da esquerda) ----
   var nav = document.querySelector('.nav');
   if (nav) {
-    var compact = function () { nav.classList.toggle('nav--compact', window.scrollY > 8); };
+    var zones = [].slice.call(document.querySelectorAll('[data-nav]'));
+    var compact = function () {
+      nav.classList.toggle('nav--compact', window.scrollY > 8);
+      // cor da navbar: a da seção que está passando logo abaixo dela (pela linha de baixo da navbar)
+      var line = nav.getBoundingClientRect().bottom, theme = 'blue';
+      for (var i = 0; i < zones.length; i++) {
+        var r = zones[i].getBoundingClientRect();
+        if (r.top <= line && r.bottom > line) { theme = zones[i].getAttribute('data-nav'); break; }
+      }
+      if (nav.getAttribute('data-theme') !== theme) nav.setAttribute('data-theme', theme);
+    };
     window.addEventListener('scroll', compact, { passive: true });
+    window.addEventListener('resize', compact);
     compact();
   }
 
