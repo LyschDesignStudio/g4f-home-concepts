@@ -32,6 +32,8 @@
   var START = [64, -52];                   // giro inicial: o globo vem "olhando" para o norte, o Brasil embaixo
   var MOUSE = [18, 8];                     // quanto o mouse gira o globo (graus, para cada lado)
   var RISE = 420;                          // quanto o globo sobe na entrada (px do artboard)
+  var GLOBE_Y = 976;                       // centro do globo, em px do artboard a partir do topo do mapa (205 + 550 + 221)
+  var brBox = null;                        // caixa do Brasil no canvas, com o globo no lugar (para disparar os pins)
 
   var canvas = document.createElement('canvas');
   canvas.className = 'globe__canvas';
@@ -133,7 +135,7 @@
     if (reduced) { p = 1; } else {
       var z = parseFloat(page.style.zoom) || 1, vh = window.innerHeight;
       var top = map.getBoundingClientRect().top;
-      var end = vh / 2 - 1024 * z; // topo do mapa quando o centro do globo (1024px abaixo do topo) está no meio da tela
+      var end = vh / 2 - GLOBE_Y * z; // topo do mapa quando o centro do globo está no meio da tela
       p = Math.max(0, Math.min(1, (vh - top) / Math.max(vh - end, 1)));
     }
     var e = ease(p);
@@ -141,11 +143,16 @@
     rot[1] = START[1] + (HOME[1] - START[1]) * e;
     host.style.transform = layer.style.transform = 'translateY(' + ((1 - e) * RISE).toFixed(1) + 'px)'; // pins andam junto com o globo
     host.style.opacity = (p * p * (3 - 2 * p)).toFixed(3); // fade de entrada ao longo de todo o movimento (0 → 1, suave nas duas pontas)
-    // pins: crescem quando o globo chega ao lugar; se o globo voltar bem para baixo, escondem de novo
-    // começam um pouco antes de o Brasil chegar ao meio da tela, ainda com o título da seção à vista
-    // (aos 65% do trajeto o giro já está ~95% feito, pela curva; numa tela 1920×1080 o título ainda está no alto da tela)
-    if (!pinsOn && p >= 0.65) { pinsOn = true; layer.classList.add('is-on'); }
-    else if (pinsOn && p < 0.4) { pinsOn = false; layer.classList.remove('is-on'); }
+    // pins: crescem quando um pouco mais da metade do Brasil está na tela (abaixo da navbar), com o título da seção
+    // ainda à vista; se o Brasil voltar a sair por baixo da tela (rolando para cima), escondem de novo
+    if (brBox) {
+      var hr = host.getBoundingClientRect(), k = hr.height / SIZE;              // px da tela por px do canvas
+      var bt = hr.top + brBox[0][1] * k, bb = hr.top + brBox[1][1] * k;          // topo e base do Brasil na tela
+      var navB = 80 * (parseFloat(page.style.zoom) || 1);
+      var seen = (Math.min(window.innerHeight, bb) - Math.max(navB, bt)) / Math.max(bb - bt, 1);
+      if (!pinsOn && seen >= 0.55) { pinsOn = true; layer.classList.add('is-on'); }
+      else if (pinsOn && bt > window.innerHeight) { pinsOn = false; layer.classList.remove('is-on'); }
+    }
     dirty = true; kick();
   }
 
@@ -169,6 +176,7 @@
       var countries = topojson.feature(world, world.objects.countries);
       land = topojson.merge(world, world.objects.countries.geometries);
       brazil = countries.features.filter(function (f) { return f.id === '076'; })[0];
+      proj.rotate(HOME); brBox = d3.geoPath(proj).bounds(brazil);
       size(); onScroll();
       globe.classList.add('is-live'); // a partir daqui some a imagem estática
     })
