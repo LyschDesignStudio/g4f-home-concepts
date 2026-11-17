@@ -62,16 +62,15 @@
   var nav = document.querySelector('.nav');
   if (nav) {
     var zones = [].slice.call(document.querySelectorAll('[data-nav]'));
-    var footer = document.querySelector('.footer'), lastY = window.scrollY;
+    var footer = document.querySelector('.footer');
     var compact = function () {
-      var y = window.scrollY, up = y < lastY; lastY = y;
-      nav.classList.toggle('nav--compact', y > 8);
-      // rodapé inteiro na tela (descendo): a navbar recolhe; qualquer rolagem para cima a traz de volta
+      nav.classList.toggle('nav--compact', window.scrollY > 8);
+      // recolhe presa à rolagem: começa quando o rodapé começa a entrar (fim do mapa) e termina com ele inteiro na tela
       if (footer) {
-        var f = footer.getBoundingClientRect();
-        var whole = f.bottom <= window.innerHeight + 1; // a base do rodapé (fim da página) já entrou: em tela baixa, ele não cabe inteiro
-        if (up || !whole) nav.classList.remove('nav--hidden');
-        else nav.classList.add('nav--hidden');
+        var f = footer.getBoundingClientRect(), vh = window.innerHeight;
+        var p = Math.max(0, Math.min(1, (vh - f.top) / Math.min(f.height, vh)));
+        if (p > 0.99) p = 1; // arredonda o fim (a base do rodapé chega a ficar meio pixel acima)
+        nav.style.translate = p > 0 ? '0 ' + (-100 * p).toFixed(2) + '%' : '';
       }
       // cor da navbar: a da seção que está passando logo abaixo dela (pela linha de baixo da navbar)
       var line = nav.getBoundingClientRect().bottom, theme = 'blue';

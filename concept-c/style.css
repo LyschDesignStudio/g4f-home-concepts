@@ -41,10 +41,9 @@ h1, h2, h3 { font-weight: 400; }
 /* ---------- Navbar · 4648:67948 ---------- */
 .nav { position: sticky; top: 0; z-index: 50; height: 80px; display: flex; align-items: center; justify-content: space-between;
   padding-left: 56px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-line); color: var(--nav-fg);
-  transition: background-color .5s ease, border-color .5s ease, color .5s ease, translate .6s cubic-bezier(.2,.8,.2,1); }
-/* com o rodapé inteiro na tela a navbar recolhe para cima; rolando de volta para cima, ela volta (main.js põe .nav--hidden).
-   Usa translate, separado do transform da animação de entrada. */
-.nav--hidden { translate: 0 -100%; }
+  transition: background-color .5s ease, border-color .5s ease, color .5s ease; }
+/* no fim do mapa a navbar começa a recolher para cima, presa à rolagem: some de vez quando o rodapé está inteiro
+   na tela e volta junto ao rolar para cima (main.js controla o translate, separado do transform da entrada). */
 /* A navbar acompanha a cor da seção que está embaixo dela (main.js põe data-theme conforme a rolagem; ref. Figma 4673:131404):
    azul no hero e nos números, azul-escuro em Soluções, branca em Cases, escura no mapa e preta no rodapé. */
 .nav, .nav[data-theme="blue"] { --nav-bg: var(--bg-brand); --nav-line: var(--line-hero); --nav-fg: var(--text-inverse); }
