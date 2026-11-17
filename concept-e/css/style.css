@@ -12,6 +12,7 @@
   --yellow: #ffcb00;
   --paper: #f4f2ed;              /* off-white (substitui todos os brancos) */
   --paper-2: #e9e6de;
+  --rule-on-blue: var(--paper);  /* todas as linhas sobre o azul: mesma cor e 1px (menu, eixos, big numbers) */
   --navy: #001d3b;
   --muted-on-dark: #bccbd8;
 
@@ -67,7 +68,7 @@ ul, ol { list-style: none; padding: 0; }
 .nav {
   --nav-bg: var(--blue);
   --nav-fg: var(--paper);
-  --nav-line: var(--paper);
+  --nav-line: var(--rule-on-blue);
 
   position: fixed;
   inset: 0 0 auto 0;
@@ -170,7 +171,7 @@ body.s5 .hero__cases > * { clip-path: inset(-30% -10% -30% -10%); transform: non
 .hero__title .mask:nth-child(4) > span { transition-delay: 0.21s; }
 .hero__title .mask:nth-child(5) > span { transition-delay: 0.28s; }
 
-.hero__axis { left: 50%; top: var(--nav-h); bottom: 0; transform-origin: 50% 100%; transition-duration: 0.65s; }
+.hero__axis { left: round(down, 50%, 1px); color: var(--rule-on-blue); top: var(--nav-h); bottom: 0; transform-origin: 50% 100%; transition-duration: 0.65s; }
 
 .hero__cases {
   position: absolute;
@@ -224,7 +225,7 @@ body.s5 .hero__cases > * { clip-path: inset(-30% -10% -30% -10%); transform: non
    ========================================================= */
 .numbers { position: relative; height: 400vh; background: var(--blue); }
 .numbers__sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-.numbers__axis { left: 50%; top: var(--nav-h); bottom: 0; color: rgba(244, 242, 237, 0.35); transform-origin: 50% 100%; }
+.numbers__axis { left: round(down, 50%, 1px); top: var(--nav-h); bottom: 0; color: var(--rule-on-blue); transform-origin: 50% 100%; }
 .numbers.is-visible .numbers__axis { transform: none; }
 .numbers__list {
   position: absolute;
@@ -234,7 +235,7 @@ body.s5 .hero__cases > * { clip-path: inset(-30% -10% -30% -10%); transform: non
   grid-template-rows: repeat(4, 1fr);
 }
 .num-row { position: relative; display: flex; align-items: center; will-change: transform; }
-.num-row__line { left: 0; right: 0; top: 0; color: rgba(244, 242, 237, 0.35); transform: none; }
+.num-row__line { left: 0; right: 0; top: 0; color: var(--rule-on-blue); transform: none; }
 .num-row__label {
   position: absolute;
   left: var(--gutter);                 /* alinhado ao logo G4F */

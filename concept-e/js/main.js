@@ -180,7 +180,8 @@
     numRows.forEach((row, i) => {
       const e = i === 0 ? entry : easeOut(clamp((p - (i - 1)) * 1.15));
       const dist = H - nav.offsetHeight - row.li.offsetTop;
-      row.li.style.transform = i === 0 ? "" : `translate3d(0, ${((1 - e) * dist).toFixed(1)}px, 0)`;
+      // deslocamento em pixel inteiro: a linha de cada número fica nítida (sem meio pixel, que a deixava mais clara)
+      row.li.style.transform = i === 0 ? "" : `translate3d(0, ${Math.round((1 - e) * dist)}px, 0)`;
       const n = NUMBERS[i];
       const v = Math.round(n.to * e);
       if (v !== row.shown) { row.shown = v; row.value.textContent = `${n.prefix}${v}${n.suffix}`; }
