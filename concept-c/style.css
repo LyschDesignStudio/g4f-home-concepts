@@ -31,7 +31,7 @@ img { display: block; }
 h1, h2, h3 { font-weight: 400; }
 .t { text-box: trim-both cap alphabetic; }
 
-.page { width: max(1920px, 100%); margin: 0 auto; background: #fff; position: relative; overflow: clip; }
+.page { width: max(1920px, 100%); margin: 0 auto; background: linear-gradient(var(--bg-brand) 0 80px, #fff 80px); /* topo azul: a navbar desce sobre o azul */ position: relative; overflow: clip; }
 
 .label { font-size: 14px; line-height: 24px; letter-spacing: 0.14px; text-transform: uppercase; white-space: nowrap; }
 .pill { display: inline-flex; align-items: center; justify-content: center; padding: 10px; border: 1px solid; border-radius: 200px;
@@ -59,7 +59,9 @@ h1, h2, h3 { font-weight: 400; }
   background: var(--bg-brand); color: var(--text-inverse); }
 .hero__inner { position: absolute; top: -80px; bottom: 0; left: var(--frame); width: 1920px; }
 /* bloco do diagrama: da divisória (x 950) até a borda direita da tela; a divisória é a borda esquerda dele */
-.hero__stage { position: absolute; top: 0; bottom: 0; left: calc(var(--frame) + 950px); right: 0; border-left: 1px solid var(--line-hero); }
+.hero__stage, .hero__edge { position: absolute; top: 0; bottom: 0; left: calc(var(--frame) + 950px); right: 0; }
+/* a divisória é uma camada à parte, do tamanho do bloco: anda da borda direita até o lugar junto com a máscara */
+.hero__edge { z-index: 1; border-left: 1px solid var(--line-hero); pointer-events: none; }
 .hero__art { position: absolute; left: 0; top: 0; width: 969px; height: 997px; max-width: none; transform-origin: 50% 40%; }
 .hero__detail { position: absolute; z-index: 2; left: 439px; bottom: 0; width: 512px; height: 400px; }
 .hero__content { position: absolute; left: 120px; top: 240px; width: 709px; display: flex; flex-direction: column; align-items: flex-start; gap: 80px; }
@@ -67,20 +69,24 @@ h1, h2, h3 { font-weight: 400; }
 .hero__btn { border: 1px solid var(--neutral-050); }
 .hero__btn:hover, .hero__btn:focus-visible { background: var(--neutral-050); color: var(--bg-brand); }
 
-/* Entrada (main.js põe .hero-in quando as fontes carregam). Começa só com o fundo azul:
-   1. a navbar desce de cima (animação .nav, 0,1s);
-   2. o título e depois o CTA entram com fade, vindo da esquerda para a direita;
-   3. o bloco do diagrama se abre da direita para a esquerda, como uma máscara, enquanto o diagrama cresce até o lugar;
-   4. com o bloco no lugar, o quadro menor (representação do diagrama e coordenadas) desce de cima para baixo. */
+/* Entrada (main.js põe .hero-in quando as fontes carregam). Começa só com o fundo azul (a navbar inclusive):
+   1. a navbar desce de cima, com a linha de baixo (0,1s → 1s);
+   2. o título e depois o CTA entram com fade, vindo da esquerda para a direita (0,8s e 1s);
+   3. o bloco do diagrama se abre da direita para a esquerda, como uma máscara, com a divisória da esquerda
+      andando junto com a borda; ao mesmo tempo o diagrama cresce de um pouco menor até o tamanho do Figma (1,2s → 2,5s);
+   4. com o bloco no lugar, o quadro menor (representação do diagrama e coordenadas) desce de cima para baixo (2,5s → 3,4s). */
+.hero { --open: 1.3s cubic-bezier(.65,0,.35,1) 1.2s; } /* tempo da máscara: o mesmo para o bloco, a divisória e o diagrama */
 .hero__title, .hero__btn { transition: opacity .8s ease, transform .9s cubic-bezier(.2,.8,.2,1), background-color .25s ease, color .25s ease; }
-.hero__title { transition-delay: .45s; }
-.hero__btn { transition-delay: .7s, .7s, 0s, 0s; }
+.hero__title { transition-delay: .8s; }
+.hero__btn { transition-delay: 1s, 1s, 0s, 0s; }
 .hero-pending .hero__title, .hero-pending .hero__btn { opacity: 0; transform: translateX(-40px); }
-.hero__stage { transition: clip-path 1.3s cubic-bezier(.65,0,.35,1) .9s; clip-path: inset(0 0 0 0); }
+.hero__stage { clip-path: inset(0 0 0 0); transition: clip-path var(--open); }
 .hero-pending .hero__stage { clip-path: inset(0 0 0 100%); }
-.hero__art { transition: transform 1.6s cubic-bezier(.2,.8,.2,1) .9s, opacity 1s ease .9s; }
-.hero-pending .hero__art { transform: scale(.72); opacity: 0; }
-.hero__detail { transition: clip-path .9s cubic-bezier(.65,0,.35,1) 2.2s, transform .9s cubic-bezier(.2,.8,.2,1) 2.2s; clip-path: inset(0 0 0 0); }
+.hero__edge { transition: transform var(--open); }
+.hero-pending .hero__edge { transform: translateX(100%); }
+.hero__art { transition: transform var(--open); }
+.hero-pending .hero__art { transform: scale(.78); }
+.hero__detail { transition: clip-path .9s cubic-bezier(.65,0,.35,1) 2.5s, transform .9s cubic-bezier(.2,.8,.2,1) 2.5s; clip-path: inset(0 0 0 0); }
 .hero-pending .hero__detail { clip-path: inset(0 0 100% 0); transform: translateY(-40px); }
 
 /* ---------- Big numbers · 4648:67675 (coluna da direita; à esquerda, o branco da página) ---------- */
