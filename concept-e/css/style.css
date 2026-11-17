@@ -88,6 +88,8 @@ ul, ol { list-style: none; padding: 0; }
   --nav-fg: var(--blue-light);
   --nav-line: var(--blue-light);
 }
+/* fundo claro: o logo (ícone + G4F) fica no azul-escuro da marca */
+.nav[data-theme="light"] .nav__logo { color: #011224; }
 
 .nav__hline { left: 0; right: 0; bottom: 0; background: var(--nav-line); transform-origin: 100% 50%; }
 .nav__logo svg { width: max(80px, calc(108 * var(--u))); height: auto; aspect-ratio: 108 / 30; }
