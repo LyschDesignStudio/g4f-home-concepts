@@ -10,13 +10,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Geist+Mono:wght@400;500&family=Inter:wght@400&display=swap">
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=3">
 <script>
   /* Antes da primeira pintura: esconde o que entra animado (evita que pisque). */
   (function () {
     var r = document.documentElement;
-    r.classList.add('type-pending');
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) r.classList.add('reveal-pending', 'pins-pending', 'footer-pending');
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) r.classList.add('reveal-pending', 'pins-pending', 'footer-pending', 'intro-pending');
   })();
   /* No refresh a página sempre abre do começo. */
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -27,10 +26,30 @@
 </head>
 <body>
 <!-- Concept D · Figma 4660:107344 (artboard 1920 × 6798) -->
+<!-- Intro · Figma 4686:60133: o ícone da G4F aparece em linha sobre o azul, cresce, a estrela de dentro fica branca e
+     abre como uma janela até revelar o site (intro.js). Fica fora do #page: é desenhada em px da tela, sem o zoom. -->
+<div class="intro" aria-hidden="true">
+  <svg class="intro__svg" width="100%" height="100%">
+    <defs>
+      <path id="intro-out" d="M0.427 329.164C47.877 376.614 47.877 453.387 0.427 500.837L0.427 522.376L308.051 830L329.591 830C377.04 782.55 453.813 782.55 501.263 830L522.909 830L830 522.376L830 500.837C782.55 453.387 782.55 376.614 830 329.164L830 307.625L522.482 0L500.837 0C453.387 47.45 376.614 47.45 329.164 0L307.625 0L0 307.625L0 329.164Z"/>
+      <path id="intro-in" d="M200.698 348.509L150.909 185.296L145.524 168.48L144.205 163.974L163.768 144.411L168.275 145.729L185.2 151.115L348.743 200.902C392.376 214.201 438.647 214.201 481.731 200.902L644.943 151.115L661.868 145.729L666.265 144.411L685.828 163.974L684.509 168.48L679.124 185.296L629.336 348.509C616.037 392.142 616.037 437.863 629.336 481.496L679.124 644.708L684.509 661.525L685.828 666.03L666.265 685.594L661.868 684.275L644.943 678.89L481.731 629.102C438.098 615.803 391.936 615.803 348.303 629.102L185.2 678.89L168.275 684.275L163.768 685.594L144.205 666.03L145.524 661.524L150.909 644.708L200.698 481.496C213.997 437.863 213.997 392.142 200.698 348.509Z"/>
+      <mask id="intro-hole" maskUnits="userSpaceOnUse" x="-10000" y="-10000" width="20000" height="20000">
+        <rect x="-10000" y="-10000" width="20000" height="20000" fill="#fff"/>
+        <use class="intro__hole" href="#intro-in" fill="#000" opacity="0"/>
+      </mask>
+    </defs>
+    <rect class="intro__bg" x="-10000" y="-10000" width="20000" height="20000" fill="#3160e6" mask="url(#intro-hole)"/>
+    <g class="intro__icon">
+      <use class="intro__fill" href="#intro-in" fill="#fff" opacity="0"/>
+      <use class="intro__line" href="#intro-out" fill="none" stroke="#fff"/>
+      <use class="intro__line" href="#intro-in" fill="none" stroke="#fff"/>
+    </g>
+  </svg>
+</div>
 <div class="page" id="page">
 
-  <!-- Navbar flutuante · 4660:114529 -->
-  <header class="nav">
+  <!-- Navbar: abre cheia, de ponta a ponta (Figma 4660:107226), e logo depois vira a barra flutuante (4660:114529) -->
+  <header class="nav nav--full">
     <a class="nav__logo" href="#" aria-label="G4F"><img src="assets/logo.svg" width="101" height="28" alt="G4F"></a>
     <nav class="nav__menu">
       <a class="nav__item" href="#solucoes"><span class="t">Soluções</span> <img src="assets/arrow-down.svg" width="14" height="14" alt=""></a>
@@ -256,19 +275,20 @@
       var z = Math.min(1, window.innerWidth / 1920);
       page.style.zoom = z;
       page.style.setProperty('--vh', (window.innerHeight / z) + 'px');
+      page.style.setProperty('--vw', (window.innerWidth / z) + 'px');
     }
     fit(); window.addEventListener('resize', fit);
   })();
 </script>
 <script src="dots.js"></script>
-<script src="hero-reveal.js"></script>
+<script src="intro.js?v=2"></script>
 <script src="figures.js"></script>
 <script src="case-bg.js"></script>
 <script src="case-slider.js"></script>
 <script src="globe.js"></script>
 <script src="pins.js"></script>
 <script src="footer.js"></script>
-<script src="main.js?v=2"></script>
+<script src="main.js?v=3"></script>
 <script src="/switch.js?v=2"></script>
 </body>
 </html>

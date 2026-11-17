@@ -28,7 +28,7 @@
   // cascata: os cards de Soluções entram um depois do outro
   [].slice.call(document.querySelectorAll('.fronts__list > .front')).forEach(function (el, i) { el.style.setProperty('--d', (i * 140) + 'ms'); });
   var cn = document.querySelector('.case__slides'); if (cn) cn.style.setProperty('--d', '200ms');
-  var IN = 0.88;
+  var IN = 0.95; // o primeiro card de números já aparece na primeira tela (Figma, frames da intro)
   var ticking = false;
   function update() {
     ticking = false;
