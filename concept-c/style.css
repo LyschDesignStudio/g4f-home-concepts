@@ -48,7 +48,7 @@ h1, h2, h3 { font-weight: 400; }
 .nav__action { display: flex; align-items: center; padding: 0 30px; border-left: 1px solid var(--line-hero); }
 .nav__item, .nav__action .label { transition: opacity .25s ease; }
 .nav__item:hover, .nav__item:focus-visible, .nav__action:hover .label, .nav__action:focus-visible .label { opacity: .5; }
-.nav { animation: nav-in .9s cubic-bezier(.2,.8,.2,1) .05s both; } /* mesma curva da entrada do hero */
+.nav { animation: nav-in 1.4s cubic-bezier(.2,.8,.2,1) .05s both; } /* mesma curva da entrada do hero */
 @keyframes nav-in { from { transform: translateY(-100%); opacity: 0; } to { transform: none; opacity: 1; } }
 
 /* ---------- Hero · 4648:67458 ----------
@@ -71,15 +71,17 @@ h1, h2, h3 { font-weight: 400; }
 .hero__btn:hover, .hero__btn:focus-visible { background: var(--neutral-050); color: var(--bg-brand); }
 
 /* Entrada (main.js põe .hero-in quando as fontes carregam). Começa só com o fundo azul (a navbar inclusive).
-   Tudo com a mesma curva (--ease) e durações parecidas, de modo que cada parte pareça a anterior com um atraso:
-   1. a navbar desce de cima, com a linha de baixo (0,05s, 0,9s);
+   Tudo com a mesma curva (--ease) e durações parecidas e longas (cada parte começa antes de a anterior terminar,
+   mas sem pressa), de modo que pareça um único movimento com atraso entre as partes:
+   1. a navbar desce de cima, com a linha de baixo (0,05s, 1,4s);
    2. quando ela está chegando, o título (0,35s) e o CTA (0,47s) entram com fade, da esquerda para a direita;
    3. logo depois (0,59s) o bloco do diagrama se abre da direita para a esquerda, como uma máscara, com a divisória
       andando junto com a borda; ao mesmo tempo o diagrama abre como uma sanfona, de baixo para cima (as placas
       começam comprimidas sobre a de baixo e sobem, afastando-se, cada uma um pouco depois; as ligações esticam);
-   4. com o bloco no lugar, o quadro menor (representação do diagrama e coordenadas) desce de cima para baixo (1,6s). */
-.hero { --ease: cubic-bezier(.2,.8,.2,1); --open: 1.1s var(--ease) .59s; } /* máscara: o mesmo tempo para o bloco e a divisória */
-.hero__title, .hero__btn { transition: opacity .9s var(--ease), transform .9s var(--ease), background-color .25s ease, color .25s ease; }
+   4. com o bloco quase no lugar, o quadro menor (representação do diagrama e coordenadas) desce de cima para baixo (2,2s).
+   Durações: navbar, título e CTA 1,4s; bloco, divisória e placas 1,8s; quadro menor 1,3s. */
+.hero { --ease: cubic-bezier(.2,.8,.2,1); --open: 1.8s var(--ease) .59s; } /* máscara: o mesmo tempo para o bloco e a divisória */
+.hero__title, .hero__btn { transition: opacity 1.4s var(--ease), transform 1.4s var(--ease), background-color .25s ease, color .25s ease; }
 .hero__title { transition-delay: .35s, .35s, 0s, 0s; }
 .hero__btn { transition-delay: .47s, .47s, 0s, 0s; }
 .hero-pending .hero__title, .hero-pending .hero__btn { opacity: 0; transform: translateX(-40px); }
@@ -90,9 +92,9 @@ h1, h2, h3 { font-weight: 400; }
 /* sanfona (main.js põe o SVG inline para as placas poderem se mexer; sem ele fica a imagem estática).
    Abre de baixo para cima: as placas começam próximas, mais para baixo, e sobem até o lugar do Figma,
    a de baixo primeiro; as ligações entre elas ficam presas à placa de baixo e esticam para cima. */
-.bp-plate { transition: transform 1.1s var(--ease) var(--bp-d), opacity .9s var(--ease) var(--bp-d); }
+.bp-plate { transition: transform 1.8s var(--ease) var(--bp-d), opacity 1.3s var(--ease) var(--bp-d); }
 .bp-link { transform-box: fill-box; transform-origin: 50% 100%;
-  transition: transform 1.1s var(--ease) var(--bp-d), scale 1.1s var(--ease) var(--bp-d), opacity .9s var(--ease) var(--bp-d); }
+  transition: transform 1.8s var(--ease) var(--bp-d), scale 1.8s var(--ease) var(--bp-d), opacity 1.3s var(--ease) var(--bp-d); }
 .bp-plate--4 { --bp-d: .59s; } .bp-link--3 { --bp-d: .63s; }
 .bp-plate--3 { --bp-d: .67s; } .bp-link--2 { --bp-d: .71s; }
 .bp-plate--2 { --bp-d: .75s; } .bp-link--1 { --bp-d: .79s; }
@@ -105,9 +107,9 @@ h1, h2, h3 { font-weight: 400; }
 .hero-pending .bp-plate--2, .hero-pending .bp-link--1 { transform: translateY(280px); }
 .hero-pending .bp-plate--1 { transform: translateY(420px); }
 .hero-pending .bp-link { opacity: 0; scale: 1 .3; } /* a ligação começa curta (60 de 200px) e estica até a placa de cima */
-.bp-mark { transition: opacity .9s var(--ease) 1.4s; }
+.bp-mark { transition: opacity 1.3s var(--ease) 2s; }
 .hero-pending .bp-mark { opacity: 0; }
-.hero__detail { transition: clip-path .9s var(--ease) 1.6s, transform .9s var(--ease) 1.6s; clip-path: inset(0 0 0 0); }
+.hero__detail { transition: clip-path 1.3s var(--ease) 2.2s, transform 1.3s var(--ease) 2.2s; clip-path: inset(0 0 0 0); }
 .hero-pending .hero__detail { clip-path: inset(0 0 100% 0); transform: translateY(-40px); }
 
 /* ---------- Big numbers · 4648:67675 (coluna da direita; à esquerda, o branco da página) ---------- */
