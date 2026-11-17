@@ -236,8 +236,8 @@ h1, h2, h3 { font-weight: 400; }
 @property --pin { syntax: '<color>'; inherits: true; initial-value: #8fb0ff; } /* para a cor do pin ter transição */
 .globe-pin__dot { position: absolute; left: -10.5px; top: -10.5px; width: 21px; height: 21px; border-radius: 50%;
   background: radial-gradient(circle, var(--pin) 0 3.4px, transparent 3.6px), color-mix(in srgb, var(--pin) 20%, transparent);
-  --pin: #8fb0ff; scale: 0; transition: scale .7s cubic-bezier(.2,.8,.2,1) calc(var(--i) * 120ms), --pin .3s ease; }
-.globe__pins.is-on .globe-pin__dot { scale: 1; }
+  --pin: #8fb0ff; scale: 0; transition: scale .7s cubic-bezier(.2,.8,.2,1), --pin .3s ease; }
+.globe-pin.is-on .globe-pin__dot { scale: 1; } /* cada pin cresce quando a rota chega nele (globe.js) */
 .globe-pin:hover .globe-pin__dot, .globe-pin:focus-visible .globe-pin__dot { --pin: #ffe554; scale: 1.15; transition-delay: 0s; }
 .globe-pin.is-back { visibility: hidden; }
 .globe-pin__label { position: absolute; left: 18px; top: 0; transform: translateY(-50%); display: flex; align-items: center; padding: 12px;

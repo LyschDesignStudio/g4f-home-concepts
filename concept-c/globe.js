@@ -65,7 +65,6 @@
     el.className = 'globe-pin';
     el.setAttribute('aria-label', c.name);
     el.innerHTML = '<span class="globe-pin__dot"></span><span class="globe-pin__label"><span class="t">' + c.name + '</span></span>';
-    el.style.setProperty('--i', i);
     layer.appendChild(el);
     return { el: el, at: c.at };
   });
@@ -110,6 +109,7 @@
     shade.addColorStop(0, 'rgba(0,0,0,0)'); shade.addColorStop(1, 'rgba(0,0,0,.8)');
     ctx.beginPath(); ctx.arc(C, C, R + 1, 0, Math.PI * 2);
     ctx.fillStyle = shade; ctx.fill();
+    drawRoutes();
     // pins: seguem o giro; do lado de trás somem
     var center = [-r[0], -r[1]];
     pins.forEach(function (pin) {
@@ -119,12 +119,60 @@
     });
   }
 
+  // ---- rotas: de Brasília, como rotas de avião, até cada cidade ----
+  // Brasília aparece primeiro; depois sai uma rota para cada cidade, uma de cada vez (um pouco sobrepostas): a linha
+  // se desenha em arco, com um ponto na frente, e o pin da cidade cresce quando ela chega. Com todos os pins na tela,
+  // as rotas somem e fica só a interação dos pins.
+  var ROUTE = { first: 450, gap: 380, draw: 1000, hold: 700, fade: 900 }; // ms
+  var seq = { playing: false, t0: 0, shown: 0 };
+  function setPin(i, on) { pins[i].el.classList.toggle('is-on', on); }
+  function startRoutes() {
+    seq.playing = !reduced; seq.t0 = performance.now(); seq.shown = 0;
+    setPin(0, true);                                   // Brasília
+    if (reduced) pins.forEach(function (_, i) { setPin(i, true); });
+    kick();
+  }
+  function stopRoutes() { seq.playing = false; pins.forEach(function (_, i) { setPin(i, false); }); dirty = true; kick(); }
+  function arc(a, b, k) {
+    // pontos do caminho mais curto entre a e b, levantados para fora do globo como um voo (altura pelo seno)
+    var f = d3.geoInterpolate(a, b), pa = proj(a), pb = proj(b);
+    var len = Math.hypot(pb[0] - pa[0], pb[1] - pa[1]), lift = Math.min(150, len * 0.55), out = [];
+    for (var i = 0; i <= 40 * k; i++) {
+      var t = i / 40, xy = proj(f(t)), dx = xy[0] - C, dy = xy[1] - C, d = Math.hypot(dx, dy) || 1, h = Math.sin(Math.PI * t) * lift;
+      out.push([xy[0] + dx / d * h * 0.35, xy[1] + dy / d * h * 0.35 - h * 0.9]);
+    }
+    return out;
+  }
+  function drawRoutes() {
+    if (!seq.playing) return;
+    var el = performance.now() - seq.t0, n = pins.length - 1;
+    var end = ROUTE.first + (n - 1) * ROUTE.gap + ROUTE.draw;   // quando a última rota chega
+    var alpha = 1 - Math.max(0, Math.min(1, (el - end - ROUTE.hold) / ROUTE.fade));
+    if (alpha <= 0) { seq.playing = false; return; }
+    for (var i = 1; i <= n; i++) {
+      var k = (el - ROUTE.first - (i - 1) * ROUTE.gap) / ROUTE.draw;
+      if (k <= 0) continue;
+      k = Math.min(1, k); k = 1 - Math.pow(1 - k, 2);           // desacelera ao chegar
+      if (k >= 1 && !pins[i].el.classList.contains('is-on')) setPin(i, true);
+      var pts = arc(pins[0].at, pins[i].at, k);
+      if (pts.length < 2) continue;
+      ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
+      for (var j = 1; j < pts.length; j++) ctx.lineTo(pts[j][0], pts[j][1]);
+      ctx.strokeStyle = 'rgba(143,176,255,' + (0.85 * alpha).toFixed(3) + ')'; ctx.lineWidth = 1.4; ctx.stroke();
+      if (k < 1) { // ponto na frente da rota
+        var h = pts[pts.length - 1];
+        ctx.beginPath(); ctx.arc(h[0], h[1], 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,229,84,' + alpha.toFixed(3) + ')'; ctx.fill();
+      }
+    }
+  }
+
   function frame() {
     raf = 0;
     mouse[0] += (mouseT[0] - mouse[0]) * 0.06;
     mouse[1] += (mouseT[1] - mouse[1]) * 0.06;
     draw();
-    if (Math.abs(mouseT[0] - mouse[0]) > 0.001 || Math.abs(mouseT[1] - mouse[1]) > 0.001 || dirty) { dirty = false; kick(); }
+    if (Math.abs(mouseT[0] - mouse[0]) > 0.001 || Math.abs(mouseT[1] - mouse[1]) > 0.001 || dirty || seq.playing) { dirty = false; kick(); }
   }
   function kick() { if (!raf) raf = requestAnimationFrame(frame); }
 
@@ -150,8 +198,8 @@
       var bt = hr.top + brBox[0][1] * k, bb = hr.top + brBox[1][1] * k;          // topo e base do Brasil na tela
       var navB = 80 * (parseFloat(page.style.zoom) || 1);
       var seen = (Math.min(window.innerHeight, bb) - Math.max(navB, bt)) / Math.max(bb - bt, 1);
-      if (!pinsOn && seen >= 0.55) { pinsOn = true; layer.classList.add('is-on'); }
-      else if (pinsOn && bt > window.innerHeight) { pinsOn = false; layer.classList.remove('is-on'); }
+      if (!pinsOn && seen >= 0.55) { pinsOn = true; startRoutes(); }
+      else if (pinsOn && bt > window.innerHeight) { pinsOn = false; stopRoutes(); }
     }
     dirty = true; kick();
   }
