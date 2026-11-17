@@ -97,13 +97,13 @@ h1, h2, h3 { font-weight: 400; }
 .bp-plate--3 { --bp-d: 1.3s; } .bp-link--2 { --bp-d: 1.35s; }
 .bp-plate--2 { --bp-d: 1.4s; } .bp-link--1 { --bp-d: 1.45s; }
 .bp-plate--1 { --bp-d: 1.5s; }
-/* no começo as placas ficam a 60px uma da outra (no Figma, 200px) e todas mais para baixo;
+/* no começo as placas ficam a 60px uma da outra (no Figma, 200px), empilhadas sobre a de baixo;
    a ligação n (entre as placas n e n+1) anda junto com a placa de baixo (n+1) */
 .hero-pending .bp-plate { opacity: 0; }
-.hero-pending .bp-plate--4, .hero-pending .bp-link--3 { transform: translateY(60px); }
-.hero-pending .bp-plate--3, .hero-pending .bp-link--2 { transform: translateY(200px); }
-.hero-pending .bp-plate--2, .hero-pending .bp-link--1 { transform: translateY(340px); }
-.hero-pending .bp-plate--1 { transform: translateY(480px); }
+/* a placa de baixo (alvo) fica parada; as outras começam comprimidas sobre ela e sobem, afastando-se */
+.hero-pending .bp-plate--3, .hero-pending .bp-link--2 { transform: translateY(140px); }
+.hero-pending .bp-plate--2, .hero-pending .bp-link--1 { transform: translateY(280px); }
+.hero-pending .bp-plate--1 { transform: translateY(420px); }
 .hero-pending .bp-link { opacity: 0; scale: 1 .3; } /* a ligação começa curta (60 de 200px) e estica até a placa de cima */
 .bp-mark { transition: opacity .8s ease 2.4s; }
 .hero-pending .bp-mark { opacity: 0; }
