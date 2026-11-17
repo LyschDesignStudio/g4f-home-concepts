@@ -2,18 +2,18 @@
    - Entradas: cada [data-reveal] sobe com fade e sai do desfoque quando o topo passa de 88% da tela (toca inteira,
      sem depender da velocidade da rolagem); os cards de Soluções entram em cascata. Rolando para cima até o item
      sair da tela por baixo, ele volta ao início para tocar de novo.
-   - Navbar: no topo da página é a cheia, de ponta a ponta; rolando, encolhe e vira a barra flutuante (e volta a ser a
-     cheia ao voltar ao topo). Perto do fim, recolhe para cima presa à rolagem quando o rodapé entra na tela. */
+   - Navbar: a cheia fica no topo da página e sai com a rolagem; quando ela sai da tela, a flutuante desce pronta
+     (e sobe de novo ao voltar ao topo). Perto do fim, a flutuante recolhe presa à rolagem quando o rodapé entra. */
 (function () {
   var root = document.documentElement;
 
   // ---- navbar: sobe junto com a rolagem enquanto o rodapé entra; com o rodapé inteiro na tela, some ----
-  var nav = document.querySelector('.nav'), footer = document.querySelector('.footer');
+  var nav = document.querySelector('.nav--float'), bar = document.querySelector('.nav--bar'), footer = document.querySelector('.footer');
   if (nav && footer) {
     var navTick = false;
     var navUpdate = function () {
       navTick = false;
-      nav.classList.toggle('nav--full', window.scrollY <= 8);
+      nav.classList.toggle('is-on', !bar || bar.getBoundingClientRect().bottom <= 0);
       var f = footer.getBoundingClientRect(), vh = window.innerHeight;
       var p = Math.max(0, Math.min(1, (vh - f.top) / Math.min(f.height, vh)));
       if (p > 0.99) p = 1;

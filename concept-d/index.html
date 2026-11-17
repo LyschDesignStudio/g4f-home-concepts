@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Geist+Mono:wght@400;500&family=Inter:wght@400&display=swap">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 <script>
   /* Antes da primeira pintura: esconde o que entra animado (evita que pisque). */
   (function () {
@@ -47,8 +47,20 @@
 </div>
 <div class="page" id="page">
 
-  <!-- Navbar: no topo é a cheia, de ponta a ponta (Figma 4660:107226); rolando, vira a barra flutuante (4660:114529) -->
-  <header class="nav nav--full">
+  <!-- Navbar cheia (Figma 4660:107226): no topo da página, rola junto com ela -->
+  <header class="nav nav--bar">
+    <a class="nav__logo" href="#" aria-label="G4F"><img src="assets/logo.svg" width="101" height="28" alt="G4F"></a>
+    <nav class="nav__menu">
+      <a class="nav__item" href="#solucoes"><span class="t">Soluções</span> <img src="assets/arrow-down.svg" width="14" height="14" alt=""></a>
+      <a class="nav__item" href="#cases"><span class="t">Cases</span></a>
+      <a class="nav__item" href="#sobre"><span class="t">Sobre a G4F</span></a>
+      <a class="nav__item" href="#contato"><span class="t">Contato</span></a>
+    </nav>
+    <a class="nav__cta" href="#contato"><span class="t">Fale com um especialista</span></a>
+    <button class="nav__lang" type="button"><span class="t">PT</span></button>
+  </header>
+  <!-- Navbar flutuante (Figma 4660:114529): desce pronta quando a cheia sai da tela (main.js) -->
+  <header class="nav nav--float">
     <a class="nav__logo" href="#" aria-label="G4F"><img src="assets/logo.svg" width="101" height="28" alt="G4F"></a>
     <nav class="nav__menu">
       <a class="nav__item" href="#solucoes"><span class="t">Soluções</span> <img src="assets/arrow-down.svg" width="14" height="14" alt=""></a>
@@ -287,7 +299,7 @@
 <script src="globe.js"></script>
 <script src="pins.js"></script>
 <script src="footer.js"></script>
-<script src="main.js?v=4"></script>
+<script src="main.js?v=5"></script>
 <script src="/switch.js?v=2"></script>
 </body>
 </html>
