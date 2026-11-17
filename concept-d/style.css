@@ -81,6 +81,17 @@ h1, h2, h3 { font-weight: 400; }
 /* ---------- Intro (intro.js) ---------- */
 .intro { position: fixed; inset: 0; z-index: 2147483000; pointer-events: auto; }
 .intro__svg { position: absolute; inset: 0; display: block; }
+/* Durante a intro, a janela mostra só o fundo branco: malha, menu, título, botão e cards ficam escondidos.
+   Coberta a tela (.intro-out), entram em sequência: malha → menu descendo do topo → título → botão → cards. */
+.intro-pending .dots, .intro-pending .nav, .intro-pending .hero__title, .intro-pending .hero__cta, .intro-pending .hero .stat[data-reveal] { opacity: 0; }
+.intro-out .dots { animation: intro-dots 1s ease .05s both; }
+.intro-out .nav { animation: intro-nav .85s cubic-bezier(.2,.8,.2,1) .4s both; }
+.intro-out .hero__title { animation: intro-up .9s cubic-bezier(.2,.8,.2,1) .8s both; }
+.intro-out .hero__cta { animation: intro-up .9s cubic-bezier(.2,.8,.2,1) 1.05s both; }
+.intro-out .hero .stat.is-in { animation: intro-up .9s cubic-bezier(.2,.8,.2,1) 1.3s both; }
+@keyframes intro-dots { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: none; } }
+@keyframes intro-nav { from { transform: translateY(-100%); } to { transform: none; } }
+@keyframes intro-up { from { opacity: 0; transform: translateY(28px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
 /* o botão "voltar para o índice" (switch.js) só aparece depois da intro */
 .intro-pending .concept-switch { visibility: hidden; }
 

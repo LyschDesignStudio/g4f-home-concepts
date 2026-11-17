@@ -2,7 +2,9 @@
    1. fundo azul e, no centro, o ícone da G4F só em linha (120px numa tela de 1080);
    2. o ícone cresce e, já enquanto cresce, a estrela de dentro é uma janela (máscara) que mostra o site por dentro;
       ele segue crescendo até a janela cobrir a tela toda (o azul sai pelas bordas);
-   3. o site fica com a navbar cheia, de ponta a ponta; a barra flutuante só aparece quando a página rola (main.js).
+      Dentro da janela só aparece o fundo branco do site;
+   3. coberta a tela, o hero entra em sequência (CSS .intro-out): a malha de pontos, o menu descendo do topo, o título,
+      o botão e os cards de números. A barra flutuante só aparece quando a página rola (main.js).
    A rolagem fica travada até o fim. Com movimento reduzido não há intro: o site abre direto. */
 (function () {
   var root = document.documentElement;
@@ -93,8 +95,10 @@
   function finish() {
     if (done) return; done = true;
     intro.remove();
+    root.classList.add('intro-out');
     root.classList.remove('intro-pending');
     unlock();
+    setTimeout(function () { root.classList.remove('intro-out'); }, 2600); // fim da entrada do hero
   }
 
   // ?intro=pause: a intro fica parada para conferir quadro a quadro (G4FIntro.at(segundos))
