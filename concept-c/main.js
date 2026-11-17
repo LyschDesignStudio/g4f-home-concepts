@@ -13,13 +13,26 @@
     .then(function (txt) { if (txt && txt.indexOf('<svg') > -1) art.innerHTML = txt.slice(txt.indexOf('<svg')); })
     .catch(function () {}); // sem o SVG inline fica a imagem estática (sem sanfona)
   if (root.classList.contains('hero-pending')) {
+    // a página só rola depois que a entrada do hero termina (diagrama aberto e todos os elementos na tela)
+    var KEYS = { ' ': 1, PageDown: 1, PageUp: 1, End: 1, Home: 1, ArrowDown: 1, ArrowUp: 1 };
+    var block = function (e) { if (e.type !== 'keydown' || KEYS[e.key]) e.preventDefault(); };
+    var unlock = function () {
+      window.removeEventListener('wheel', block, { passive: false });
+      window.removeEventListener('touchmove', block, { passive: false });
+      window.removeEventListener('keydown', block);
+    };
+    window.addEventListener('wheel', block, { passive: false });
+    window.addEventListener('touchmove', block, { passive: false });
+    window.addEventListener('keydown', block);
+    setTimeout(unlock, 8000); // segurança: se a entrada não chegar a tocar, a rolagem volta assim mesmo
     var started = false;
     var start = function () {
       if (started) return; started = true;
       // dois quadros: o estado inicial (só o fundo azul) chega a ser pintado antes de a transição começar
       requestAnimationFrame(function () { requestAnimationFrame(function () {
         root.classList.add('hero-in'); root.classList.remove('hero-pending');
-        setTimeout(function () { root.classList.add('hero-settled'); }, 3600); // fim da entrada (a última parte termina ~3,4s)
+        // fim da entrada (a última parte, o quadro menor, termina ~3,4s): libera a rolagem
+        setTimeout(function () { root.classList.add('hero-settled'); unlock(); }, 3500);
       }); });
     };
     Promise.all([document.fonts && document.fonts.ready ? document.fonts.ready : null, svgReady]).then(start);
