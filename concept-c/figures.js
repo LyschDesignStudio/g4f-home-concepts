@@ -43,7 +43,9 @@
           var g = back(seg(t, 1.0 + k * 0.2, 1.7 + k * 0.2)), s = inn(seg(t, 6.4 + (8 - k) * 0.05, 6.9 + (8 - k) * 0.05));
           var v = Math.max(0, g * (1 - s)), h = +el.getAttribute('data-h');
           // sobe inteiro de dentro do chão: a base do bloco é uma máscara (clip-path no SVG), então nada distorce
-          set(el, 'translateY(' + (h * (1 - v)).toFixed(1) + 'px)');
+          // desce um pouco além da própria altura (+24px), para não sobrar nenhuma lasca do topo dentro da máscara da base;
+          // e, recolhido, fica invisível
+          set(el, 'translateY(' + ((h + 24) * (1 - v)).toFixed(1) + 'px)', v > 0.001 ? 1 : 0);
         });
         var up = out(seg(t, 3.3, 3.8)) * (1 - inn(seg(t, 6.2, 6.5)));
         set(stem, 'scaleY(' + up.toFixed(4) + ')', up);
