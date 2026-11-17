@@ -291,7 +291,7 @@ body.s5 .hero__cases > * { clip-path: inset(-30% -10% -30% -10%); transform: non
   position: absolute;
   left: calc(646 * var(--u));
   width: max(12px, calc(16 * var(--u)));
-  top: var(--nav-h); bottom: 0;
+  top: 0; bottom: 0;                    /* a linha vertical ocupa a seção inteira, do topo ao pé */
   display: flex; flex-direction: column; align-items: center;
   gap: calc(27 * var(--u));
 }
