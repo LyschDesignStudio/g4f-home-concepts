@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Geist+Mono:wght@400;500&family=Inter:wght@400&display=swap">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 <script>
   /* Antes da primeira pintura: esconde o que entra animado (evita que pisque). */
   (function () {
@@ -74,18 +74,22 @@
 
   <!-- Hero + números · 4660:114555 -->
   <section class="hero">
-    <div class="dots" aria-hidden="true"><div class="dots__fade"></div></div>
+    <!-- Palco preso na tela (sticky): malha, título e botão ficam parados enquanto os cards sobem por cima (hero-scroll.js) -->
+    <div class="hero__stage">
+      <div class="hero__grid"><div class="dots" aria-hidden="true"></div></div>
+      <div class="hero__content">
+        <h1 class="hero__title t">A G4F é a empresa brasileira de tecnologia que entrega soluções que transformam empresas e governos.</h1>
+        <a class="btn btn--accent hero__cta" href="#contato"><span class="t">Fale com um especialista</span><span class="btn__arrow"><img src="assets/arrow-right.svg" width="16" height="16" alt=""><img class="btn__arrow-inv" src="assets/arrow-right-map-1.svg" width="16" height="16" alt=""></span></a>
+      </div>
+    </div>
+    <div class="dots__fade" aria-hidden="true"></div>
     <div class="hero__fade" aria-hidden="true"></div>
 
-    <div class="hero__content">
-      <h1 class="hero__title t">A G4F é a empresa brasileira de tecnologia que entrega soluções que transformam empresas e governos.</h1>
-      <a class="btn btn--accent hero__cta" href="#contato"><span class="t">Fale com um especialista</span><span class="btn__arrow"><img src="assets/arrow-right.svg" width="16" height="16" alt=""><img class="btn__arrow-inv" src="assets/arrow-right-map-1.svg" width="16" height="16" alt=""></span></a>
-    </div>
-
-    <div class="stat" style="left:120px; top:980px" data-reveal><p class="stat__num t">+11 mil</p><p class="stat__desc">colaboradores<br>(95% de perfis técnicos)</p></div>
-    <div class="stat" style="left:544px; top:1326px" data-reveal><p class="stat__num t">+300</p><p class="stat__desc">clientes ativos</p></div>
-    <div class="stat" style="left:968px; top:1106px" data-reveal><p class="stat__num t">82,6</p><p class="stat__desc">de NPS, zona<br>de excelência</p></div>
-    <div class="stat stat--dark" style="left:1392px; top:1386px" data-reveal><p class="stat__num t">174</p><p class="stat__desc">certificações em<br>cibersegurança</p></div>
+    <!-- números: contam até o valor final conforme a rolagem (prontos com o bloco no meio da tela) -->
+    <div class="stat" style="left:120px; top:980px"><p class="stat__num t">+<span class="stat__val" data-to="11">11</span> mil</p><p class="stat__desc">colaboradores<br>(95% de perfis técnicos)</p></div>
+    <div class="stat" style="left:544px; top:1326px"><p class="stat__num t">+<span class="stat__val" data-to="300">300</span></p><p class="stat__desc">clientes ativos</p></div>
+    <div class="stat" style="left:968px; top:1106px"><p class="stat__num t"><span class="stat__val" data-to="82.6" data-dec="1">82,6</span></p><p class="stat__desc">de NPS, zona<br>de excelência</p></div>
+    <div class="stat stat--dark" style="left:1392px; top:1386px"><p class="stat__num t"><span class="stat__val" data-to="174">174</span></p><p class="stat__desc">certificações em<br>cibersegurança</p></div>
   </section>
 
   <!-- Soluções · 4660:114554 -->
@@ -300,6 +304,7 @@
 <script src="pins.js"></script>
 <script src="footer.js"></script>
 <script src="main.js?v=5"></script>
+<script src="hero-scroll.js?v=2"></script>
 <script src="/switch.js?v=2"></script>
 </body>
 </html>

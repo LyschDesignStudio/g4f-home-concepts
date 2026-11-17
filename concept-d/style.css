@@ -84,7 +84,7 @@ h1, h2, h3 { font-weight: 400; }
 /* Durante a intro a malha, o menu, o título, o botão e os cards ficam escondidos.
    .intro-grid (ainda crescendo a janela): a malha se forma do centro da tela para fora, saindo do desfoque.
    .intro-out (tela coberta): a barra cheia descendo do topo → título → botão → cards. */
-.intro-pending .dots, .intro-pending .nav--bar, .intro-pending .hero__title, .intro-pending .hero__cta, .intro-pending .hero .stat[data-reveal] { opacity: 0; }
+.intro-pending .dots, .intro-pending .nav--bar, .intro-pending .hero__title, .intro-pending .hero__cta, .intro-pending .hero .stat { opacity: 0; }
 @property --grid-r { syntax: '<length>'; inherits: false; initial-value: 0px; }
 .intro-grid .dots {
   -webkit-mask-image: radial-gradient(circle at 50% calc(var(--vh, 1080px) / 2), #000 var(--grid-r), transparent calc(var(--grid-r) + 420px));
@@ -95,7 +95,8 @@ h1, h2, h3 { font-weight: 400; }
 .intro-out .nav--bar { animation: intro-nav .85s cubic-bezier(.2,.8,.2,1) .1s both; }
 .intro-out .hero__title { animation: intro-up .9s cubic-bezier(.2,.8,.2,1) .4s both; }
 .intro-out .hero__cta { animation: intro-up .9s cubic-bezier(.2,.8,.2,1) .65s both; }
-.intro-out .hero .stat.is-in { animation: intro-up .9s cubic-bezier(.2,.8,.2,1) .9s both; }
+.intro-out .hero .stat { animation: intro-rise .9s cubic-bezier(.2,.8,.2,1) .9s both; }
+@keyframes intro-rise { from { opacity: 0; } to { opacity: 1; } } /* cards: sem blur (a subida vem da rolagem, hero-scroll.js) */
 @keyframes intro-nav { from { transform: translateY(-100%); } to { transform: none; } }
 @keyframes intro-up { from { opacity: 0; transform: translateY(28px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
 /* o botão "voltar para o índice" (switch.js) só aparece depois da intro */
@@ -125,21 +126,24 @@ h1, h2, h3 { font-weight: 400; }
 .h2 { font-family: var(--font-title); font-size: 48px; line-height: 1.25; }
 
 /* ---------- Hero + números · 1912 ---------- */
-.hero { position: relative; height: 1912px; overflow: hidden; background: #fff; }
+.hero { position: relative; height: 1912px; overflow: clip; background: #fff; }
+/* palco preso: fica na tela enquanto o hero rola; os cards (z 2) e o branco do fim da malha passam por cima */
+.hero__stage { position: sticky; top: 0; height: var(--vh, 1080px); z-index: 0; }
+.hero__grid { position: absolute; inset: 0; }
 /* malha de pontos (dots.js): mesma grade do Concept A, 55,5 × 44px */
 .dots { position: absolute; left: 0; top: 0; width: 100%; height: 2176px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='55.5' height='44'%3E%3Crect y='8' width='4' height='4' fill='%23e2e2e2'/%3E%3C/svg%3E") 0 0 / 55.5px 44px repeat; transition: opacity .9s ease, filter .9s ease; }
 .dots--live { background: none; }
 .dots__canvas { position: absolute; left: 0; top: 0; width: 100%; height: 2176px; }
 /* Rectangle 23: a malha some em branco para baixo */
-.dots__fade { position: absolute; left: 0; top: 1351px; width: 100%; height: 825px; pointer-events: none; background: linear-gradient(to top, #fff 21.241%, rgba(255,255,255,0) 72.465%); }
+.dots__fade { position: absolute; z-index: 1; left: 0; top: 1351px; width: 100%; height: 825px; pointer-events: none; background: linear-gradient(to top, #fff 21.241%, rgba(255,255,255,0) 72.465%); }
 /* Rectangle 30: o branco passa para o cinza de Soluções */
-.hero__fade { position: absolute; left: 0; top: 1692px; width: 100%; height: 220px; pointer-events: none; background: linear-gradient(to bottom, rgba(247,247,247,0), var(--neutral-050)); }
+.hero__fade { position: absolute; z-index: 1; left: 0; top: 1692px; width: 100%; height: 220px; pointer-events: none; background: linear-gradient(to bottom, rgba(247,247,247,0), var(--neutral-050)); }
 
 .hero__content { position: absolute; left: 456px; margin-left: var(--frame); top: 374px; width: 1008px; display: flex; flex-direction: column; align-items: center; gap: 80px; z-index: 1; }
 .hero__title { font-family: var(--font-title); font-size: 60px; line-height: 1.25; text-align: center; }
 
 /* cards de números: 392 × 336, número no topo e descrição (mono) no pé */
-.stat { position: absolute; margin-left: var(--frame); width: 392px; height: 336px; background: var(--stat-1); color: var(--text-inverse); z-index: 2; }
+.stat { position: absolute; will-change: transform; margin-left: var(--frame); width: 392px; height: 336px; background: var(--stat-1); color: var(--text-inverse); z-index: 2; }
 .stat--dark { background: var(--stat-2); }
 .stat__num { position: absolute; left: 40px; top: 40px; font-family: var(--font-title); font-size: 80px; line-height: 1.05; white-space: nowrap; }
 .stat__desc { position: absolute; left: 40px; bottom: 30px; font-family: var(--font-mono); font-size: 20px; line-height: 1.6; }
@@ -268,6 +272,4 @@ h1, h2, h3 { font-weight: 400; }
 .reveal-pending [data-reveal] { opacity: 0; translate: 0 40px; filter: blur(6px);
   transition: opacity .8s ease var(--d, 0ms), translate .9s cubic-bezier(.2,.8,.2,1) var(--d, 0ms), filter .8s ease var(--d, 0ms), box-shadow 650ms cubic-bezier(.45,0,.25,1); }
 .reveal-pending [data-reveal].is-in { opacity: 1; translate: none; filter: none; }
-.reveal-pending .stat[data-reveal] { translate: 0 60px; }
-.reveal-pending .stat[data-reveal].is-in { translate: none; }
 
