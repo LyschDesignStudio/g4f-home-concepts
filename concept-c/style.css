@@ -7,6 +7,7 @@
   --bg-brand: #3160e6;
   --brand-050: #eef3ff;
   --brand-950: #022b57;
+  --fronts-bg: #001d3b;   /* fundo de Soluções (e da navbar sobre ela) */
   --tone-900: #021f3d;
   --tone-950: #011224;
   --neutral-050: #f7f7f7;
@@ -47,7 +48,7 @@ h1, h2, h3 { font-weight: 400; }
 /* A navbar acompanha a cor da seção que está embaixo dela (main.js põe data-theme conforme a rolagem; ref. Figma 4673:131404):
    azul no hero e nos números, azul-escuro em Soluções, branca em Cases, escura no mapa e preta no rodapé. */
 .nav, .nav[data-theme="blue"] { --nav-bg: var(--bg-brand); --nav-line: var(--line-hero); --nav-fg: var(--text-inverse); }
-.nav[data-theme="navy"] { --nav-bg: var(--brand-950); --nav-line: var(--line-fronts); }
+.nav[data-theme="navy"] { --nav-bg: var(--fronts-bg); --nav-line: var(--line-fronts); }
 .nav[data-theme="light"] { --nav-bg: #fff; --nav-line: var(--neutral-200); --nav-fg: var(--text-primary); }
 .nav[data-theme="dark"] { --nav-bg: var(--tone-900); --nav-line: #12305a; }
 .nav[data-theme="black"] { --nav-bg: #000; --nav-line: #12305a; }
@@ -164,7 +165,7 @@ h1, h2, h3 { font-weight: 400; }
 .stat__desc { width: 370px; font-size: 18px; line-height: 1.6; }
 
 /* ---------- Soluções · 4648:67688 ---------- */
-.fronts { position: relative; background: var(--brand-950); color: var(--text-inverse); padding-top: 120px; }
+.fronts { position: relative; background: var(--fronts-bg); color: var(--text-inverse); padding-top: 120px; }
 .fronts__intro { margin-left: var(--frame); padding: 0 80px; display: flex; flex-direction: column; gap: 24px; }
 .fronts__title { font-size: 40px; line-height: 1.25; }
 .fronts__lead { font-size: 20px; line-height: 1.4; color: var(--text-secondary-on-dark); }
@@ -172,7 +173,7 @@ h1, h2, h3 { font-weight: 400; }
 /* Cada card tem uma linha em cima: a do primeiro separa o header dos cards (ref. Figma 4673:131404).
    Ao rolar, o card trava quando o topo dele encosta na base da navbar e o seguinte rola por cima dele
    (mesmo fundo, então cobre o de baixo); o último fecha a seção com a linha de baixo. */
-.front { position: sticky; top: 80px; height: 900px; background: var(--brand-950); border-top: 1px solid var(--line-fronts); }
+.front { position: sticky; top: 80px; height: 900px; background: var(--fronts-bg); border-top: 1px solid var(--line-fronts); }
 .front:last-child { border-bottom: 1px solid var(--line-fronts); }
 .front__inner { position: absolute; top: 0; left: var(--frame); width: 1920px; height: 100%; }
 .front .pill { position: absolute; left: 80px; top: 80px; border-color: var(--brand-050); color: var(--text-inverse); }
