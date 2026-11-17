@@ -148,6 +148,7 @@ body.s5 .hero__cases > * { clip-path: inset(-30% -10% -30% -10%); transform: non
    ========================================================= */
 .hero {
   position: relative;
+  z-index: 1;                 /* fica por cima do começo da seção de números, que sobe por baixo dele */
   height: 100vh;
   height: 100svh;
   min-height: 620px;
@@ -223,7 +224,8 @@ body.s5 .hero__cases > * { clip-path: inset(-30% -10% -30% -10%); transform: non
 /* =========================================================
    02 · BIG NUMBERS — empilhados
    ========================================================= */
-.numbers { position: relative; height: 400vh; background: var(--blue); }
+/* sobe a altura do menu por baixo do hero: a lista (que começa abaixo do menu) encosta direto no hero, sem faixa vazia */
+.numbers { position: relative; height: 400vh; margin-top: calc(-1 * var(--nav-h)); background: var(--blue); }
 .numbers__sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .numbers__axis { left: round(down, 50%, 1px); top: var(--nav-h); bottom: 0; color: var(--rule-on-blue); transform-origin: 50% 100%; }
 .numbers.is-visible .numbers__axis { transform: none; }
