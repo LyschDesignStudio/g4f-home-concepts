@@ -39,7 +39,7 @@
   var ctx = canvas.getContext('2d');
   var layer = document.createElement('div');
   layer.className = 'globe__pins';
-  host.appendChild(layer);
+  globe.appendChild(layer); // por cima dos degradês, que ficam fixos na seção
 
   var proj = d3.geoOrthographic().scale(R).translate([C, C]).clipAngle(90).precision(0.3);
   var path = d3.geoPath(proj, ctx);
@@ -133,7 +133,7 @@
     var e = ease(p);
     rot[0] = START[0] + (HOME[0] - START[0]) * e;
     rot[1] = START[1] + (HOME[1] - START[1]) * e;
-    host.style.transform = 'translateY(' + ((1 - e) * RISE).toFixed(1) + 'px)';
+    host.style.transform = layer.style.transform = 'translateY(' + ((1 - e) * RISE).toFixed(1) + 'px)'; // pins andam junto com o globo
     host.style.opacity = (p * p * (3 - 2 * p)).toFixed(3); // fade de entrada ao longo de todo o movimento (0 → 1, suave nas duas pontas)
     // pins: crescem quando o globo chega ao lugar; se o globo voltar bem para baixo, escondem de novo
     // começam um pouco antes de o Brasil chegar ao meio da tela, ainda com o título da seção à vista

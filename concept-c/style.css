@@ -228,9 +228,10 @@ h1, h2, h3 { font-weight: 400; }
 .globe__live { position: absolute; left: 410px; top: 253px; width: 1100px; height: 1100px; will-change: transform, opacity; }
 .globe:not(.is-live) .globe__live { display: none; }
 .globe__canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-/* os degradês que escurecem os cantos ficam por cima do globo (e sobem junto com ele); os pins, por cima de tudo */
-.globe__live .globe__grad { left: -410px; top: -8px; width: 1920px; height: 1317px; bottom: auto; }
-.globe__pins { position: absolute; inset: 0; }
+/* os degradês do Figma ficam fixos por cima do globo (escurecem os cantos e levam ao preto do rodapé);
+   os pins ficam numa camada própria, por cima deles, com o mesmo deslocamento do globo (globe.js) */
+.globe__grad { z-index: 1; }
+.globe__pins { position: absolute; z-index: 2; left: 410px; top: 253px; width: 1100px; height: 1100px; }
 .globe-pin { position: absolute; left: 0; top: 0; width: 0; height: 0; padding: 0; }
 @property --pin { syntax: '<color>'; inherits: true; initial-value: #8fb0ff; } /* para a cor do pin ter transição */
 .globe-pin__dot { position: absolute; left: -10.5px; top: -10.5px; width: 21px; height: 21px; border-radius: 50%;
