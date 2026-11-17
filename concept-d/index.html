@@ -26,8 +26,8 @@
 </head>
 <body>
 <!-- Concept D · Figma 4660:107344 (artboard 1920 × 6798) -->
-<!-- Intro · Figma 4686:60133: o ícone da G4F aparece em linha sobre o azul, cresce, a estrela de dentro fica branca e
-     abre como uma janela até revelar o site (intro.js). Fica fora do #page: é desenhada em px da tela, sem o zoom. -->
+<!-- Intro · Figma 4686:60133: o ícone da G4F aparece em linha sobre o azul e cresce; a estrela de dentro é uma janela
+     que já mostra o site enquanto cresce, até cobrir a tela (intro.js). Fica fora do #page: é desenhada em px da tela, sem o zoom. -->
 <div class="intro" aria-hidden="true">
   <svg class="intro__svg" width="100%" height="100%">
     <defs>
@@ -40,7 +40,6 @@
     </defs>
     <rect class="intro__bg" x="-10000" y="-10000" width="20000" height="20000" fill="#3160e6" mask="url(#intro-hole)"/>
     <g class="intro__icon">
-      <use class="intro__fill" href="#intro-in" fill="#fff" opacity="0"/>
       <use class="intro__line" href="#intro-out" fill="none" stroke="#fff"/>
       <use class="intro__line" href="#intro-in" fill="none" stroke="#fff"/>
     </g>
@@ -48,7 +47,7 @@
 </div>
 <div class="page" id="page">
 
-  <!-- Navbar: abre cheia, de ponta a ponta (Figma 4660:107226), e logo depois vira a barra flutuante (4660:114529) -->
+  <!-- Navbar: no topo é a cheia, de ponta a ponta (Figma 4660:107226); rolando, vira a barra flutuante (4660:114529) -->
   <header class="nav nav--full">
     <a class="nav__logo" href="#" aria-label="G4F"><img src="assets/logo.svg" width="101" height="28" alt="G4F"></a>
     <nav class="nav__menu">
@@ -281,14 +280,14 @@
   })();
 </script>
 <script src="dots.js"></script>
-<script src="intro.js?v=2"></script>
+<script src="intro.js?v=5"></script>
 <script src="figures.js"></script>
 <script src="case-bg.js"></script>
 <script src="case-slider.js"></script>
 <script src="globe.js"></script>
 <script src="pins.js"></script>
 <script src="footer.js"></script>
-<script src="main.js?v=3"></script>
+<script src="main.js?v=4"></script>
 <script src="/switch.js?v=2"></script>
 </body>
 </html>

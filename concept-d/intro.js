@@ -1,26 +1,21 @@
 /* Intro do Concept D (Figma 4686:60133), antes de o site aparecer:
    1. fundo azul e, no centro, o ícone da G4F só em linha (120px numa tela de 1080);
-   2. o ícone cresce até 830px e a estrela de dentro se enche de branco;
-   3. a estrela vira uma janela: o branco some e ela continua crescendo, mostrando o site por dentro,
-      até cobrir a tela toda (o azul sai pelas bordas);
-   4. o site fica com a navbar cheia, de ponta a ponta; logo depois ela encolhe e vira a barra flutuante.
-   A rolagem fica travada até o fim. Com movimento reduzido não há intro: o site abre direto, já com a barra flutuante. */
+   2. o ícone cresce e, já enquanto cresce, a estrela de dentro é uma janela (máscara) que mostra o site por dentro;
+      ele segue crescendo até a janela cobrir a tela toda (o azul sai pelas bordas);
+   3. o site fica com a navbar cheia, de ponta a ponta; a barra flutuante só aparece quando a página rola (main.js).
+   A rolagem fica travada até o fim. Com movimento reduzido não há intro: o site abre direto. */
 (function () {
   var root = document.documentElement;
   var intro = document.querySelector('.intro');
-  var nav = document.querySelector('.nav');
-  function floatNav() { if (nav) nav.classList.remove('nav--full'); }
 
   if (!intro || !root.classList.contains('intro-pending')) {
     if (intro) intro.remove();
-    floatNav();
     return;
   }
 
   var svg = intro.querySelector('svg');
   var icon = intro.querySelector('.intro__icon');
   var hole = intro.querySelector('.intro__hole');
-  var fill = intro.querySelector('.intro__fill');
   var lines = [].slice.call(intro.querySelectorAll('.intro__line'));
   var bg = intro.querySelector('.intro__bg');
 
@@ -39,23 +34,23 @@
   function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function seg(t, a, b) { return clamp((t - a) / (b - a)); }
   function inOut(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function sine(x) { return 0.5 - 0.5 * Math.cos(Math.PI * x); }
   function out(x) { return 1 - Math.pow(1 - x, 3); }
-  function expoIn(x) { return x === 0 ? 0 : Math.pow(2, 10 * x - 10); }
 
   // linha do tempo (s)
   var T_LINE = [0.15, 0.95];   // o ícone em linha aparece
-  var T_GROW = [1.25, 2.15];   // cresce de 120 até 830 (proporção de uma tela de 1080)
-  var T_FILL = [1.55, 2.15];   // a estrela se enche de branco
-  var T_OPEN = [2.35, 3.45];   // a janela abre: o branco some e a estrela cresce até cobrir a tela
-  var T_END = 3.45;
+  var T_GROW = [1.2, 3.4];     // cresce de 120px (numa tela de 1080) até a janela cobrir a tela
+  var T_HOLE = [1.2, 1.5];     // a janela (máscara) se abre logo no começo do crescimento
+  var T_LINEOUT = [2.6, 3.2];  // as linhas saem quando o ícone já passou das bordas
+  var T_END = 3.4;
 
   var W, H;
   function size() { W = window.innerWidth; H = window.innerHeight; svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); }
   size(); window.addEventListener('resize', size);
 
-  // tamanho do ícone (px) em que a estrela cobre a tela: o miolo dela (no meio dos lados côncavos) mede ~429/830
-  // do ícone; com folga, para os cantos da tela também ficarem por dentro das pontas
-  function coverSize() { return Math.max(W, H) * 830 / 429 * 1.9; }
+  // tamanho do ícone (px) em que a estrela cobre a tela: o ponto mais fundo dos lados côncavos fica a 214/830 do
+  // centro, então o ícone precisa de ~1,94× o maior lado da tela; com uma folga pequena (os cantos ficam nas pontas)
+  function coverSize() { return Math.max(W, H) * 2.15; }
 
   function place(px) {
     var k = px / 830;
@@ -67,24 +62,22 @@
   var t0 = null, done = false;
   function render(t) {
     var u = H / 1080;
-    var small = 120 * u, mid = 830 * u;
+    var small = 120 * u;
 
     var a = out(seg(t, T_LINE[0], T_LINE[1]));
-    var g = inOut(seg(t, T_GROW[0], T_GROW[1]));
-    var o = seg(t, T_OPEN[0], T_OPEN[1]);
-    var px = small * (0.85 + 0.15 * a) + (mid - small) * g;
-    // abrindo: acelera no começo e no fim (expo), para a passagem pela tela inteira ser rápida
-    px += (coverSize() - mid) * expoIn(o);
+    var g = sine(seg(t, T_GROW[0], T_GROW[1]));
+    // crescimento em escala exponencial (o zoom parece constante ao olho), com saída e chegada suaves
+    var start = small * (0.85 + 0.15 * a);
+    var px = start * Math.pow(coverSize() / start, g);
     place(px);
 
-    lines.forEach(function (l) { l.setAttribute('opacity', (a * (1 - out(seg(t, T_OPEN[0], T_OPEN[0] + 0.5)))).toFixed(3)); });
-    // linha fina e constante na tela (1.5px), por mais que o ícone cresça
-    lines.forEach(function (l) { l.setAttribute('stroke-width', (1.5 * 830 / px).toFixed(4)); });
-    // a estrela se enche de branco e, ao abrir, o branco sai e revela o site
-    var f = out(seg(t, T_FILL[0], T_FILL[1])) * (1 - out(seg(t, T_OPEN[0], T_OPEN[0] + 0.45)));
-    fill.setAttribute('opacity', f.toFixed(3));
-    // o furo da máscara só passa a existir quando a janela abre (antes, o azul é inteiro atrás do branco)
-    hole.setAttribute('opacity', t >= T_OPEN[0] ? '1' : '0');
+    var lo = a * (1 - out(seg(t, T_LINEOUT[0], T_LINEOUT[1])));
+    lines.forEach(function (l) {
+      l.setAttribute('opacity', lo.toFixed(3));
+      l.setAttribute('stroke-width', (1.5 * 830 / px).toFixed(4)); // linha fina e constante na tela (1.5px)
+    });
+    // a janela abre logo que o ícone começa a crescer: o site aparece dentro da estrela
+    hole.setAttribute('opacity', out(seg(t, T_HOLE[0], T_HOLE[1])).toFixed(3));
   }
   function frame(now) {
     if (done) return;
@@ -102,8 +95,6 @@
     intro.remove();
     root.classList.remove('intro-pending');
     unlock();
-    // o site fica um instante com a navbar cheia (Figma, frame 4) e então ela vira a barra flutuante
-    setTimeout(floatNav, 700);
   }
 
   // ?intro=pause: a intro fica parada para conferir quadro a quadro (G4FIntro.at(segundos))

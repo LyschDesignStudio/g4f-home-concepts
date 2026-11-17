@@ -41,8 +41,8 @@ h1, h2, h3 { font-weight: 400; }
 .page { width: max(1920px, 100%); margin: 0 auto; background: #fff; position: relative; overflow: clip; }
 
 /* ---------- Navbar ---------- */
-/* Barra flutuante (4660:114529): branca, centralizada, a 40px do topo. Depois da intro ela começa cheia
-   (.nav--full, 4660:107226: de ponta a ponta, 80px, divisórias à direita) e encolhe até a flutuante. */
+/* Barra flutuante (4660:114529): branca, centralizada, a 40px do topo. No topo da página ela é a cheia
+   (.nav--full, 4660:107226: de ponta a ponta, 80px, divisórias à direita); rolando, encolhe até a flutuante (main.js). */
 .nav {
   position: fixed; z-index: 60; top: 40px; left: 0; right: 0; margin: 0 auto; width: 995px; height: 94px;
   display: flex; align-items: center; gap: 22px; padding: 22px; background: #fff; border-radius: 4px;
