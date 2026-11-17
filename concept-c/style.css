@@ -118,10 +118,11 @@ h1, h2, h3 { font-weight: 400; }
    diagrama comprime de novo, o reverso da entrada (--c, de 0 a 1): as placas voltam a se juntar sobre a de baixo e as
    ligações encurtam. Usa translate/scale separados do transform da entrada, então as duas coisas não se atrapalham. */
 .hero__stage, .hero__edge { translate: 0 calc(-1 * var(--push, 0px)); }
-.bp-plate--3, .bp-link--2 { translate: 0 calc(var(--c, 0) * 140px); }
-.bp-plate--2, .bp-link--1 { translate: 0 calc(var(--c, 0) * 280px); }
-.bp-plate--1 { translate: 0 calc(var(--c, 0) * 420px); }
-.bp-link { scale: 1 calc(1 - var(--c, 0) * .7); }
+/* comprime só metade do caminho da entrada: as placas ficam a 130px uma da outra no fim (no Figma, 200px) */
+.bp-plate--3, .bp-link--2 { translate: 0 calc(var(--c, 0) * 70px); }
+.bp-plate--2, .bp-link--1 { translate: 0 calc(var(--c, 0) * 140px); }
+.bp-plate--1 { translate: 0 calc(var(--c, 0) * 210px); }
+.bp-link { scale: 1 calc(1 - var(--c, 0) * .35); }
 /* depois da entrada, nada de transição nas placas: elas seguem a rolagem sem atraso */
 .hero-settled .bp-plate, .hero-settled .bp-link { transition: none; }
 .bp-mark { transition: opacity 1.3s var(--ease) 1.45s; }
@@ -138,7 +139,8 @@ h1, h2, h3 { font-weight: 400; }
 .intro > .hero { position: sticky; top: 80px; z-index: 1; }
 .stats-row { position: relative; z-index: 2; height: 1000px; pointer-events: none; } /* só a coluna pega o mouse */
 .stats-row .stats { pointer-events: auto; }
-.stats { position: absolute; top: 0; bottom: 0; left: calc(var(--frame) + 951px); right: 0; display: flex; flex-direction: column;
+.stats { position: absolute; top: 0; bottom: 0; left: calc(var(--frame) + 950px); right: 0; display: flex; flex-direction: column;
+  border-left: 1px solid var(--line-hero); /* continua a divisória do hero: apoio para o quadro menor da esquerda */
   background: var(--bg-brand); border-top: 1px solid var(--line-hero); color: var(--text-inverse); }
 /* a coluna vai até a borda direita da tela; o conteúdo fica nos 969px do artboard (padding da direita cresce junto) */
 .stat { flex: 1 0 0; display: flex; align-items: center; justify-content: space-between; padding: 80px calc(80px + 100% - 969px) 80px 80px; }
