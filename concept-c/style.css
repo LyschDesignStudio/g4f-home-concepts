@@ -74,9 +74,9 @@ h1, h2, h3 { font-weight: 400; }
    1. a navbar desce de cima, com a linha de baixo (0,1s → 1s);
    2. o título e depois o CTA entram com fade, vindo da esquerda para a direita (0,8s e 1s);
    3. o bloco do diagrama se abre da direita para a esquerda, como uma máscara, com a divisória da esquerda
-      andando junto com a borda; ao mesmo tempo o diagrama abre como uma sanfona: as quatro placas começam
-      próximas, mais para cima, e descem até o lugar do Figma, cada uma um pouco depois da de cima, aparecendo
-      com fade; as ligações verticais entre elas se esticam junto (1,2s → ~2,8s);
+      andando junto com a borda; ao mesmo tempo o diagrama abre como uma sanfona, de baixo para cima: as quatro
+      placas começam próximas, mais para baixo, e sobem até o lugar do Figma, cada uma um pouco depois da de
+      baixo, aparecendo com fade; as ligações verticais entre elas se esticam junto (1,2s → ~2,8s);
    4. com o bloco no lugar, o quadro menor (representação do diagrama e coordenadas) desce de cima para baixo (2,5s → 3,4s). */
 .hero { --open: 1.3s cubic-bezier(.65,0,.35,1) 1.2s; } /* tempo da máscara: o mesmo para o bloco, a divisória e o diagrama */
 .hero__title, .hero__btn { transition: opacity .8s ease, transform .9s cubic-bezier(.2,.8,.2,1), background-color .25s ease, color .25s ease; }
@@ -87,21 +87,24 @@ h1, h2, h3 { font-weight: 400; }
 .hero-pending .hero__stage { clip-path: inset(0 0 0 100%); }
 .hero__edge { transition: transform var(--open); }
 .hero-pending .hero__edge { transform: translateX(100%); }
-/* sanfona (main.js põe o SVG inline para as placas poderem se mexer; sem ele fica a imagem estática) */
-.bp-plate, .bp-link { transition: transform 1.5s cubic-bezier(.2,.8,.2,1) var(--bp-d), opacity .9s ease var(--bp-d); }
-.bp-link { transform-box: fill-box; transform-origin: 50% 0; }
-.bp-plate--1 { --bp-d: 1.2s; } .bp-link--1 { --bp-d: 1.25s; }
-.bp-plate--2 { --bp-d: 1.3s; } .bp-link--2 { --bp-d: 1.35s; }
-.bp-plate--3 { --bp-d: 1.4s; } .bp-link--3 { --bp-d: 1.45s; }
-.bp-plate--4 { --bp-d: 1.5s; }
-/* no começo as placas ficam a 60px uma da outra (no Figma, 200px) e todas mais para cima */
+/* sanfona (main.js põe o SVG inline para as placas poderem se mexer; sem ele fica a imagem estática).
+   Abre de baixo para cima: as placas começam próximas, mais para baixo, e sobem até o lugar do Figma,
+   a de baixo primeiro; as ligações entre elas ficam presas à placa de baixo e esticam para cima. */
+.bp-plate { transition: transform 1.5s cubic-bezier(.2,.8,.2,1) var(--bp-d), opacity .9s ease var(--bp-d); }
+.bp-link { transform-box: fill-box; transform-origin: 50% 100%;
+  transition: transform 1.5s cubic-bezier(.2,.8,.2,1) var(--bp-d), scale 1.5s cubic-bezier(.2,.8,.2,1) var(--bp-d), opacity .9s ease var(--bp-d); }
+.bp-plate--4 { --bp-d: 1.2s; } .bp-link--3 { --bp-d: 1.25s; }
+.bp-plate--3 { --bp-d: 1.3s; } .bp-link--2 { --bp-d: 1.35s; }
+.bp-plate--2 { --bp-d: 1.4s; } .bp-link--1 { --bp-d: 1.45s; }
+.bp-plate--1 { --bp-d: 1.5s; }
+/* no começo as placas ficam a 60px uma da outra (no Figma, 200px) e todas mais para baixo;
+   a ligação n (entre as placas n e n+1) anda junto com a placa de baixo (n+1) */
 .hero-pending .bp-plate { opacity: 0; }
-.hero-pending .bp-plate--1, .hero-pending .bp-link--1 { transform: translateY(-60px); }
-.hero-pending .bp-plate--2, .hero-pending .bp-link--2 { transform: translateY(-200px); }
-.hero-pending .bp-plate--3, .hero-pending .bp-link--3 { transform: translateY(-340px); }
-.hero-pending .bp-plate--4 { transform: translateY(-480px); }
-.hero-pending .bp-link { opacity: 0; scale: 1 .3; } /* a ligação começa curta (60 de 200px) e estica até a placa de baixo */
-.bp-link { transition: transform 1.5s cubic-bezier(.2,.8,.2,1) var(--bp-d), scale 1.5s cubic-bezier(.2,.8,.2,1) var(--bp-d), opacity .9s ease var(--bp-d); }
+.hero-pending .bp-plate--4, .hero-pending .bp-link--3 { transform: translateY(60px); }
+.hero-pending .bp-plate--3, .hero-pending .bp-link--2 { transform: translateY(200px); }
+.hero-pending .bp-plate--2, .hero-pending .bp-link--1 { transform: translateY(340px); }
+.hero-pending .bp-plate--1 { transform: translateY(480px); }
+.hero-pending .bp-link { opacity: 0; scale: 1 .3; } /* a ligação começa curta (60 de 200px) e estica até a placa de cima */
 .bp-mark { transition: opacity .8s ease 2.4s; }
 .hero-pending .bp-mark { opacity: 0; }
 .hero__detail { transition: clip-path .9s cubic-bezier(.65,0,.35,1) 2.5s, transform .9s cubic-bezier(.2,.8,.2,1) 2.5s; clip-path: inset(0 0 0 0); }
