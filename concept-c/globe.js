@@ -136,8 +136,10 @@
     host.style.transform = 'translateY(' + ((1 - e) * RISE).toFixed(1) + 'px)';
     host.style.opacity = (p * p * (3 - 2 * p)).toFixed(3); // fade de entrada ao longo de todo o movimento (0 → 1, suave nas duas pontas)
     // pins: crescem quando o globo chega ao lugar; se o globo voltar bem para baixo, escondem de novo
-    if (!pinsOn && p >= 0.98) { pinsOn = true; layer.classList.add('is-on'); }
-    else if (pinsOn && p < 0.6) { pinsOn = false; layer.classList.remove('is-on'); }
+    // começam um pouco antes de o Brasil chegar ao meio da tela, ainda com o título da seção à vista
+    // (aos 65% do trajeto o giro já está ~95% feito, pela curva; numa tela 1920×1080 o título ainda está no alto da tela)
+    if (!pinsOn && p >= 0.65) { pinsOn = true; layer.classList.add('is-on'); }
+    else if (pinsOn && p < 0.4) { pinsOn = false; layer.classList.remove('is-on'); }
     dirty = true; kick();
   }
 
