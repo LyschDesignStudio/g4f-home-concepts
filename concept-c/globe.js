@@ -102,6 +102,12 @@
     // contorno da esfera
     ctx.beginPath(); path({ type: 'Sphere' });
     ctx.strokeStyle = '#457fff'; ctx.lineWidth = 1.4; ctx.stroke();
+    // sombra da base (Figma, Ellipse 7): por cima de tudo, o globo escurece da metade para baixo até quase preto,
+    // fazendo a passagem para o rodapé (preto a 80% na base)
+    var shade = ctx.createLinearGradient(0, C - 22.5, 0, C + R);
+    shade.addColorStop(0, 'rgba(0,0,0,0)'); shade.addColorStop(1, 'rgba(0,0,0,.8)');
+    ctx.beginPath(); ctx.arc(C, C, R + 1, 0, Math.PI * 2);
+    ctx.fillStyle = shade; ctx.fill();
     // pins: seguem o giro; do lado de trás somem
     var center = [-r[0], -r[1]];
     pins.forEach(function (pin) {
