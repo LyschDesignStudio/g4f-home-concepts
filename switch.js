@@ -1,18 +1,7 @@
-/* Botão flutuante (canto inferior esquerdo) para ir ao próximo concept, em ciclo: A → B → C → A.
-   Cada concept tem um nome no botão (o C é o Blue Print); A e B ficam pela letra até ganharem nome.
+/* Botão flutuante (canto inferior esquerdo) para voltar ao índice, a capa com a escolha dos concepts.
    Fica fora do #page (que é escalado com zoom), no estilo da capa: fundo escuro, texto creme, IBM Plex Mono.
    Aparece um pouco depois do load, quando a entrada do topo já aconteceu. */
 (function () {
-  var CONCEPTS = [
-    { slug: 'a', name: 'Concept A' },
-    { slug: 'b', name: 'Concept B' },
-    { slug: 'c', name: 'Blue Print' }
-  ];
-  var m = location.pathname.match(/\/concept-([a-z])\b/);
-  var cur = 0;
-  CONCEPTS.forEach(function (c, i) { if (m && m[1] === c.slug) cur = i; });
-  var next = CONCEPTS[(cur + 1) % CONCEPTS.length];
-
   var font = document.createElement('link');
   font.rel = 'stylesheet';
   font.href = 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap';
@@ -28,15 +17,15 @@
     '.concept-switch.is-in { opacity: 1; transform: none; }' +
     '.concept-switch__arrow { display: inline-block; transition: transform .25s ease; }' +
     '.concept-switch:hover, .concept-switch:focus-visible { background: #fbf5ea; color: #181716; border-color: #181716; outline: none; }' +
-    '.concept-switch:hover .concept-switch__arrow, .concept-switch:focus-visible .concept-switch__arrow { transform: translateX(3px); }' +
+    '.concept-switch:hover .concept-switch__arrow, .concept-switch:focus-visible .concept-switch__arrow { transform: translateX(-3px); }' +
     '@media (max-width: 600px) { .concept-switch { left: 16px; bottom: 16px; padding: 12px 14px; font-size: 12px; } }' +
     '@media (prefers-reduced-motion: reduce) { .concept-switch { transition: background-color .25s ease, color .25s ease; transform: none; } }';
   document.head.appendChild(css);
 
   var a = document.createElement('a');
   a.className = 'concept-switch';
-  a.href = '/concept-' + next.slug + '/';
-  a.innerHTML = 'Ir para ' + next.name + ' <span class="concept-switch__arrow" aria-hidden="true">→</span>';
+  a.href = '/';
+  a.innerHTML = '<span class="concept-switch__arrow" aria-hidden="true">←</span> Voltar para o índice';
   document.body.appendChild(a);
   setTimeout(function () { a.classList.add('is-in'); }, 1200);
 })();
