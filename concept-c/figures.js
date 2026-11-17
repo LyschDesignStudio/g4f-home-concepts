@@ -1,7 +1,8 @@
 /* Soluções · ilustrações animadas (Concept C · Blue Print)
    As três ilustrações do Figma viram SVG inline e cada parte delas anima sozinha, em loop, enquanto o card está na
    tela (no espírito das figuras "hairline" dos outros concepts: curvas suaves, molas, nada de fade do bloco inteiro).
-   - Data & AI: a base se abre, os blocos crescem do chão um a um (o mais alto, no centro, por último) e, quando ele
+   - Data & AI: a base se abre, os blocos sobem de dentro do chão um a um, como barras 3D (a base de cada um é uma
+     máscara, nada distorce; o mais alto, no centro, por último) e, quando ele
      termina, sobe a haste e a estrela aparece em cima, dentro do anel; depois tudo recolhe e recomeça.
    - Cybersecurity (proteção): a caixa fica no chão; a gaiola tracejada desce do alto e fecha sobre ela, a fechadura
      "tranca" (pulsa) e, trancada, ondas de proteção saem da base; depois a gaiola sobe e abre de novo.
@@ -32,8 +33,9 @@
         set(base, 'scale(' + (0.92 + 0.08 * b).toFixed(4) + ')', b);
         blocks.forEach(function (el, k) {
           var g = back(seg(t, 0.5 + k * 0.2, 1.2 + k * 0.2)), s = inn(seg(t, 6.1 + (8 - k) * 0.07, 6.6 + (8 - k) * 0.07));
-          var v = Math.max(0, g * (1 - s));
-          set(el, 'scaleY(' + v.toFixed(4) + ')', Math.min(1, v * 4));
+          var v = Math.max(0, g * (1 - s)), h = +el.getAttribute('data-h');
+          // sobe inteiro de dentro do chão: a base do bloco é uma máscara (clip-path no SVG), então nada distorce
+          set(el, 'translateY(' + (h * (1 - v)).toFixed(1) + 'px)');
         });
         var up = out(seg(t, 2.4, 2.9)) * (1 - inn(seg(t, 5.7, 6.0)));
         set(stem, 'scaleY(' + up.toFixed(4) + ')', up);
