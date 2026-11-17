@@ -1,27 +1,19 @@
 /* Concept C · Blue Print
-   - Hero: as palavras do título entram em cadência (igual aos outros concepts); depois a planta e o botão.
+   - Hero: sequência de entrada em CSS (navbar, título, CTA, bloco do diagrama em máscara, quadro menor).
    - Entradas: cada [data-reveal] sobe com fade quando entra na tela (tocam inteiras, sem depender da velocidade
      da rolagem); rolando para cima até sair da tela por baixo, voltam ao início para tocar de novo. */
 (function () {
   var root = document.documentElement;
 
-  // ---- hero ----
-  var title = document.querySelector('.hero__title');
-  if (title && root.classList.contains('hero-pending')) {
-    var text = title.textContent.trim(), words = text.split(/\s+/);
-    title.setAttribute('aria-label', text);
-    title.textContent = '';
-    words.forEach(function (w, i) {
-      var s = document.createElement('span');
-      s.className = 'w'; s.textContent = w; s.setAttribute('aria-hidden', 'true');
-      s.style.setProperty('--d', (i * 40) + 'ms');
-      title.appendChild(s);
-      if (i < words.length - 1) title.appendChild(document.createTextNode(' '));
-    });
+  // ---- hero: a sequência de entrada é toda em CSS; aqui só dispara quando as fontes carregam ----
+  if (root.classList.contains('hero-pending')) {
     var started = false;
     var start = function () {
       if (started) return; started = true;
-      root.classList.add('hero-in'); root.classList.remove('hero-pending');
+      // dois quadros: o estado inicial (só o fundo azul) chega a ser pintado antes de a transição começar
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        root.classList.add('hero-in'); root.classList.remove('hero-pending');
+      }); });
     };
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
     setTimeout(start, 1200);

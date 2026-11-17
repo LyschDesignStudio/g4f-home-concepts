@@ -41,9 +41,10 @@
 
   <!-- Hero · 4648:67458 -->
   <section class="hero">
-    <div class="hero__inner">
-      <div class="hero__divider" aria-hidden="true"></div>
+    <div class="hero__stage">
       <img class="hero__art" src="assets/hero-blueprint.svg" width="969" height="997" alt="Símbolo da G4F em vista explodida, desenhado como planta técnica">
+    </div>
+    <div class="hero__inner">
       <img class="hero__detail" src="assets/hero-detail.svg" width="512" height="400" alt="">
       <div class="hero__content">
         <h1 class="hero__title t">A G4F é a empresa brasileira de tecnologia que entrega soluções que transformam empresas e governos.</h1>
@@ -218,7 +219,12 @@
   // O layout é desenhado em 1920px (artboard do Figma); abaixo disso a página escala proporcionalmente.
   (function () {
     var page = document.getElementById('page');
-    function fit() { page.style.zoom = Math.min(1, window.innerWidth / 1920); }
+    function fit() {
+      var z = Math.min(1, window.innerWidth / 1920);
+      page.style.zoom = z;
+      // altura da tela em px do artboard (100vh não serve aqui: dentro do zoom ele também escala); o hero usa
+      page.style.setProperty('--vh', (window.innerHeight / z) + 'px');
+    }
     fit(); window.addEventListener('resize', fit);
   })();
 </script>
