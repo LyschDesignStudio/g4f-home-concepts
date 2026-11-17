@@ -62,8 +62,17 @@
   var nav = document.querySelector('.nav');
   if (nav) {
     var zones = [].slice.call(document.querySelectorAll('[data-nav]'));
+    var footer = document.querySelector('.footer'), lastY = window.scrollY;
     var compact = function () {
-      nav.classList.toggle('nav--compact', window.scrollY > 8);
+      var y = window.scrollY, up = y < lastY; lastY = y;
+      nav.classList.toggle('nav--compact', y > 8);
+      // rodapé inteiro na tela (descendo): a navbar recolhe; qualquer rolagem para cima a traz de volta
+      if (footer) {
+        var f = footer.getBoundingClientRect();
+        var whole = f.bottom <= window.innerHeight + 1; // a base do rodapé (fim da página) já entrou: em tela baixa, ele não cabe inteiro
+        if (up || !whole) nav.classList.remove('nav--hidden');
+        else nav.classList.add('nav--hidden');
+      }
       // cor da navbar: a da seção que está passando logo abaixo dela (pela linha de baixo da navbar)
       var line = nav.getBoundingClientRect().bottom, theme = 'blue';
       for (var i = 0; i < zones.length; i++) {
