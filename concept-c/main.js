@@ -58,6 +58,15 @@
     push();
   }
 
+  // ---- cases: o card com o mouse em cima vira o grande; saindo da grade, o primeiro volta a ser o grande ----
+  var grid = document.querySelector('.cases__grid');
+  if (grid) {
+    var cards = [].slice.call(grid.querySelectorAll('.case'));
+    var activate = function (card) { cards.forEach(function (c) { c.classList.toggle('is-active', c === card); }); };
+    cards.forEach(function (c) { c.addEventListener('mouseenter', function () { activate(c); }); });
+    grid.addEventListener('mouseleave', function () { activate(cards[0]); });
+  }
+
   // ---- navbar: ao rolar, o logo vira só o ícone (encostado a 24px da esquerda) ----
   var nav = document.querySelector('.nav');
   if (nav) {

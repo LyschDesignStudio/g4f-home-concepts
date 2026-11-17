@@ -193,8 +193,12 @@ h1, h2, h3 { font-weight: 400; }
 .cases__btn { padding: 20px 18px 20px 24px; border: 1px solid var(--text-primary); }
 .cases__btn:hover, .cases__btn:focus-visible { background: var(--text-primary); color: var(--text-inverse); }
 .cases__grid { display: flex; gap: 20px; height: 600px; }
-.case { display: flex; flex-direction: column; justify-content: space-between; background: var(--neutral-050); flex: 1 0 0; min-width: 0; transition: background-color .8s cubic-bezier(.4,0,.2,1), color .8s cubic-bezier(.4,0,.2,1); }
-.case--wide { flex: 0 0 830px; }
+/* O card ativo é o grande (830px) e os outros dois dividem o resto (406,5px cada): começa no primeiro e passa para o
+   card com o mouse em cima; saindo da grade, volta ao primeiro (main.js troca .is-active). A largura muda por flex-grow,
+   proporcional às medidas do Figma, com a mesma curva suave das cores. */
+.case { display: flex; flex-direction: column; justify-content: space-between; background: var(--neutral-050); flex: 406.5 1 0; min-width: 0; overflow: hidden;
+  transition: flex-grow .8s cubic-bezier(.4,0,.2,1), background-color .8s cubic-bezier(.4,0,.2,1), color .8s cubic-bezier(.4,0,.2,1); }
+.case.is-active { flex-grow: 830; }
 /* hover (ref. Figma 4678:132069): fundo azul brand, textos claros e a tag com borda clara */
 .case:hover { background: var(--bg-brand); color: var(--text-inverse); }
 .case:hover .pill { border-color: #efeeee; color: var(--text-inverse); }
@@ -251,6 +255,6 @@ h1, h2, h3 { font-weight: 400; }
 /* ---------- Entradas com a rolagem (reveal.js): sobe com fade quando entra na tela ---------- */
 /* inclui as trocas de cor (sem atraso): sem isso, esta regra apagava a transição de fundo e texto do hover dos cards de Cases */
 .reveal-pending [data-reveal] { opacity: 0; transform: translateY(32px); transition: opacity .8s ease var(--d, 0ms), transform .9s cubic-bezier(.2,.8,.2,1) var(--d, 0ms),
-  background-color .8s cubic-bezier(.4,0,.2,1), color .8s cubic-bezier(.4,0,.2,1); }
+  background-color .8s cubic-bezier(.4,0,.2,1), color .8s cubic-bezier(.4,0,.2,1), flex-grow .8s cubic-bezier(.4,0,.2,1); }
 .reveal-pending [data-reveal].is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .nav { animation: none; } }
