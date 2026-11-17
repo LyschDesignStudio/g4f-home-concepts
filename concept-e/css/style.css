@@ -114,6 +114,8 @@ ul, ol { list-style: none; padding: 0; }
 .nav__actions { display: flex; height: 100%; }
 .nav__cta, .nav__lang { position: relative; display: flex; align-items: center; justify-content: center; height: 100%; }
 .nav__cta { padding: 0 calc(30 * var(--u)); }
+/* CTA e PT do menu: texto no meio exato da altura (caixa recortada na altura das maiúsculas) */
+.nav__cta > .nav__cta-label, .nav__lang > .reveal-fade { text-box: trim-both cap alphabetic; text-align: center; }
 .nav__lang { width: var(--nav-h); }            /* quadrado perfeito */
 .nav__vline { left: 0; top: 0; bottom: 0; background: var(--nav-line); transform-origin: 50% 0; transition: transform 0.45s var(--ease); }
 
@@ -521,8 +523,10 @@ body.s5 .hero__cases > * { clip-path: inset(-30% -10% -30% -10%); transform: non
 .journey.show-text .journey__links { clip-path: inset(0 0 0 0); transform: none; }
 
 .btn {
-  display: inline-flex; align-items: center;
-  padding: max(14px, calc(20 * var(--u))) calc(18 * var(--u)) max(14px, calc(20 * var(--u))) calc(24 * var(--u));
+  /* texto centralizado na largura e na altura: padding igual dos dois lados e a caixa do texto recortada
+     na altura das maiúsculas (o espaço das letras com perna não empurra o texto para cima) */
+  display: inline-block; text-align: center; text-box: trim-both cap alphabetic;
+  padding: max(14px, calc(20 * var(--u))) calc(24 * var(--u));
   font-size: max(11px, calc(14 * var(--u)));
   letter-spacing: 0.01em;
   text-transform: uppercase;
