@@ -43,13 +43,6 @@
 
   const FRONTS = [
     {
-      tag: "Data & AI",
-      title: "Inteligência para decisões e resultados",
-      body: "Inteligência Artificial aplicada na prática com governança e resultados que aceleram decisões e entregam valor mensurável.",
-      cta: "Conheça Data & AI",
-      art: "data",
-    },
-    {
       tag: "Cybersecurity",
       title: "Confiança para operar",
       body: "Protegemos toda a estrutura digital sob os mais rígidos padrões internacionais para que nossos clientes operem com total estabilidade e sem o risco de paralisação.",
@@ -62,6 +55,13 @@
       body: "Gestão e sustentação de ambientes tecnológicos complexos e infraestruturas em nuvem, que garantem estabilidade contínua e necessária para o crescimento de nossos clientes.",
       cta: "Conheça Digital & Managed Services",
       art: "managed",
+    },
+    {
+      tag: "Data & AI",
+      title: "Inteligência para decisões e resultados",
+      body: "Inteligência Artificial aplicada na prática com governança e resultados que aceleram decisões e entregam valor mensurável.",
+      cta: "Conheça Data & AI",
+      art: "data",
     },
   ];
 
