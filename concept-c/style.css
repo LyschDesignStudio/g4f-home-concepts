@@ -78,7 +78,7 @@ h1, h2, h3 { font-weight: 400; }
    3. logo depois (0,59s) o bloco do diagrama se abre da direita para a esquerda, como uma máscara, com a divisória
       andando junto com a borda; ao mesmo tempo o diagrama abre como uma sanfona, de baixo para cima (as placas
       começam comprimidas sobre a de baixo e sobem, afastando-se, cada uma um pouco depois; as ligações esticam);
-   4. com o bloco quase no lugar, o quadro menor (representação do diagrama e coordenadas) sobe inteiro, de baixo para cima, com fade (2,2s).
+   4. assim que o bloco chega ao lugar, o quadro menor (representação do diagrama e coordenadas) sobe inteiro, de baixo para cima, com fade (1,45s).
    Durações: navbar, título e CTA 1,4s; bloco, divisória e placas 1,8s; quadro menor 1,3s. */
 .hero { --ease: cubic-bezier(.2,.8,.2,1); --open: 1.8s var(--ease) .59s; } /* máscara: o mesmo tempo para o bloco e a divisória */
 .hero__title, .hero__btn { transition: opacity 1.4s var(--ease), transform 1.4s var(--ease), background-color .25s ease, color .25s ease; }
@@ -107,9 +107,9 @@ h1, h2, h3 { font-weight: 400; }
 .hero-pending .bp-plate--2, .hero-pending .bp-link--1 { transform: translateY(280px); }
 .hero-pending .bp-plate--1 { transform: translateY(420px); }
 .hero-pending .bp-link { opacity: 0; scale: 1 .3; } /* a ligação começa curta (60 de 200px) e estica até a placa de cima */
-.bp-mark { transition: opacity 1.3s var(--ease) 2s; }
+.bp-mark { transition: opacity 1.3s var(--ease) 1.45s; }
 .hero-pending .bp-mark { opacity: 0; }
-.hero__detail { transition: opacity 1.3s var(--ease) 2.2s, transform 1.3s var(--ease) 2.2s; }
+.hero__detail { transition: opacity 1.3s var(--ease) 1.45s, transform 1.3s var(--ease) 1.45s; } /* quando o bloco chega ao lugar (a curva desacelera: aos 1,45s ele já está ~90% aberto) */
 .hero-pending .hero__detail { opacity: 0; transform: translateY(80px); } /* o quadro inteiro sobe até o lugar, com fade (sem máscara) */
 
 /* ---------- Big numbers · 4648:67675 (coluna da direita; à esquerda, o branco da página) ---------- */
