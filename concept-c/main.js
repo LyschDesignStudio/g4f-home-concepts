@@ -25,6 +25,14 @@
     setTimeout(start, 1500);
   }
 
+  // ---- navbar: ao rolar, o logo vira só o ícone (encostado a 24px da esquerda) ----
+  var nav = document.querySelector('.nav');
+  if (nav) {
+    var compact = function () { nav.classList.toggle('nav--compact', window.scrollY > 8); };
+    window.addEventListener('scroll', compact, { passive: true });
+    compact();
+  }
+
   // ---- entradas com a rolagem ----
   if (!root.classList.contains('reveal-pending')) return;
   var items = [].slice.call(document.querySelectorAll('[data-reveal]'));

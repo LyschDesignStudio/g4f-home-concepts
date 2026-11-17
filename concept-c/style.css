@@ -41,6 +41,13 @@ h1, h2, h3 { font-weight: 400; }
 /* ---------- Navbar · 4648:67948 ---------- */
 .nav { position: sticky; top: 0; z-index: 50; height: 80px; display: flex; align-items: center; justify-content: space-between;
   padding-left: 56px; background: var(--bg-brand); border-bottom: 1px solid var(--line-hero); color: var(--text-inverse); }
+/* Logo: ao rolar a página, o G, o 4 e o F somem com fade e o ícone anda para a esquerda até ficar a 24px da borda
+   (ref. Figma 4673:131125; main.js põe .nav--compact). */
+.nav__logo { display: block; }
+.nav__logo-svg { display: block; overflow: visible; }
+.nav__logo-icon, .nav__logo-type { transition: transform .9s cubic-bezier(.2,.8,.2,1), opacity .6s cubic-bezier(.2,.8,.2,1); }
+.nav--compact .nav__logo-icon { transform: translateX(-32px); }
+.nav--compact .nav__logo-type { opacity: 0; transform: translateX(-16px); }
 .nav__right { display: flex; align-items: center; gap: 40px; height: 100%; }
 .nav__menu { display: flex; align-items: center; }
 .nav__item { display: flex; align-items: center; gap: 10px; padding: 28px 24px; }
@@ -113,7 +120,14 @@ h1, h2, h3 { font-weight: 400; }
 .hero-pending .hero__detail { opacity: 0; transform: translateY(80px); } /* o quadro inteiro sobe até o lugar, com fade (sem máscara) */
 
 /* ---------- Big numbers · 4648:67675 (coluna da direita; à esquerda, o branco da página) ---------- */
-.stats-row { position: relative; height: 1000px; }
+/* Hero + big numbers: o hero fica preso logo abaixo da navbar enquanto a coluna de números (1000px) sobe por cima
+   do diagrama; o bloco .intro tem a altura do hero + 1000, então quando a base dos números encosta na base do hero
+   o sticky acaba e tudo segue a rolagem junto, mostrando Soluções. A parte da esquerda (título, CTA, quadro menor)
+   fica parada o tempo todo. */
+.intro { position: relative; }
+.intro > .hero { position: sticky; top: 80px; z-index: 1; }
+.stats-row { position: relative; z-index: 2; height: 1000px; pointer-events: none; } /* só a coluna pega o mouse */
+.stats-row .stats { pointer-events: auto; }
 .stats { position: absolute; top: 0; bottom: 0; left: calc(var(--frame) + 951px); right: 0; display: flex; flex-direction: column;
   background: var(--bg-brand); border-top: 1px solid var(--line-hero); color: var(--text-inverse); }
 /* a coluna vai até a borda direita da tela; o conteúdo fica nos 969px do artboard (padding da direita cresce junto) */
