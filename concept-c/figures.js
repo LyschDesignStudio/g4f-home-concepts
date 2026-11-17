@@ -1,7 +1,7 @@
 /* Soluções · ilustrações animadas (Concept C · Blue Print)
    As três ilustrações do Figma viram SVG inline e cada parte delas anima sozinha, em loop, enquanto o card está na
    tela (no espírito das figuras "hairline" dos outros concepts: curvas suaves, molas, nada de fade do bloco inteiro).
-   - Data & AI: a base se abre, os blocos sobem de dentro do chão um a um, como barras 3D (a base de cada um é uma
+   - Data & AI: abre o quadrado maior, depois os quadrados menores, e os blocos sobem de dentro deles um a um, como barras 3D (a base de cada um é uma
      máscara, nada distorce; o mais alto, no centro, por último) e, quando ele
      termina, sobe a haste e a estrela aparece em cima, dentro do anel; depois tudo recolhe e recomeça.
    - Cybersecurity (proteção): a caixa fica no chão; a gaiola tracejada desce do alto e fecha sobre ela, a fechadura
@@ -28,33 +28,40 @@
       var base = q(svg, '.fa-base')[0], stem = q(svg, '.fa-stem')[0], ring = q(svg, '.fa-ring')[0], star = q(svg, '.fa-star')[0];
       var ORDER = [0, 1, 2, 3, 5, 6, 7, 8, 4];                            // o bloco alto do centro (4) cresce por último
       var blocks = ORDER.map(function (i) { return q(svg, '.fa-block--' + i)[0]; });
+      var floors = q(svg, '.fa-floor');                                 // os quadrados menores (base de cada bloco)
       return { T: 8, at: function (t) {
-        var b = out(seg(t, 0, 0.7)) * (1 - inn(seg(t, 7.2, 7.8)));
-        set(base, 'scale(' + (0.92 + 0.08 * b).toFixed(4) + ')', b);
+        // 1. abre o quadrado maior (a base inteira)
+        var b = out(seg(t, 0, 0.7)) * (1 - inn(seg(t, 7.5, 7.95)));
+        set(base, 'scale(' + (0.6 + 0.4 * b).toFixed(4) + ')', b);
+        // 2. abrem os quadrados menores, um a um
+        floors.forEach(function (el, k) {
+          var f = back(seg(t, 0.45 + k * 0.06, 0.95 + k * 0.06)) * (1 - inn(seg(t, 7.3, 7.6)));
+          set(el, 'scale(' + Math.max(0, f).toFixed(4) + ')', clamp(f));
+        });
+        // 3. as barras sobem de dentro de cada quadrado
         blocks.forEach(function (el, k) {
-          var g = back(seg(t, 0.5 + k * 0.2, 1.2 + k * 0.2)), s = inn(seg(t, 6.1 + (8 - k) * 0.07, 6.6 + (8 - k) * 0.07));
+          var g = back(seg(t, 1.0 + k * 0.2, 1.7 + k * 0.2)), s = inn(seg(t, 6.4 + (8 - k) * 0.05, 6.9 + (8 - k) * 0.05));
           var v = Math.max(0, g * (1 - s)), h = +el.getAttribute('data-h');
           // sobe inteiro de dentro do chão: a base do bloco é uma máscara (clip-path no SVG), então nada distorce
           set(el, 'translateY(' + (h * (1 - v)).toFixed(1) + 'px)');
         });
-        var up = out(seg(t, 2.4, 2.9)) * (1 - inn(seg(t, 5.7, 6.0)));
+        var up = out(seg(t, 3.3, 3.8)) * (1 - inn(seg(t, 6.2, 6.5)));
         set(stem, 'scaleY(' + up.toFixed(4) + ')', up);
-        var pop = back(seg(t, 2.8, 3.4)) * (1 - inn(seg(t, 5.5, 5.8)));
+        var pop = back(seg(t, 3.7, 4.3)) * (1 - inn(seg(t, 6.0, 6.3)));
         set(ring, 'scale(' + Math.max(0, pop).toFixed(4) + ')', clamp(pop));
-        var spin = (t - 2.8) * 40;                                       // a estrela gira devagar enquanto está à vista
-        set(star, 'scale(' + Math.max(0, back(seg(t, 3.0, 3.6)) * (1 - inn(seg(t, 5.4, 5.7)))).toFixed(4) + ') rotate(' + spin.toFixed(1) + 'deg)');
+        var spin = (t - 3.7) * 40;                                       // a estrela gira devagar enquanto está à vista
+        set(star, 'scale(' + Math.max(0, back(seg(t, 3.9, 4.5)) * (1 - inn(seg(t, 5.9, 6.2)))).toFixed(4) + ') rotate(' + spin.toFixed(1) + 'deg)');
       } };
     },
     // Cybersecurity · ciclo de 6s
     cyber: function (svg) {
-      var cage = q(svg, '.fc-cage')[0], lock = q(svg, '.fc-lock')[0], dot = q(svg, '.fc-dot')[0], wave = q(svg, '.fc-wave')[0], box = q(svg, '.fc-box')[0];
+      var cage = q(svg, '.fc-cage')[0], lock = q(svg, '.fc-lock')[0], wave = q(svg, '.fc-wave')[0], box = q(svg, '.fc-box')[0];
       return { T: 6, first: function (t) { var g = back(seg(t, 0, 0.8)); set(box, 'scaleY(' + g.toFixed(4) + ')', clamp(g * 3)); }, at: function (t) {
         var down = out(seg(t, 0.4, 1.4)), up = inn(seg(t, 4.6, 5.6)), c = down * (1 - up);
         set(cage, 'translateY(' + (-70 * (1 - c)).toFixed(1) + 'px)', c);
         var locked = seg(t, 1.4, 4.6) > 0 && seg(t, 1.4, 4.6) < 1;
         var k = seg(t, 1.35, 1.75), kick = Math.sin(Math.PI * k) * 0.22;   // tranca: a fechadura pulsa
         set(lock, 'scale(' + (1 + kick).toFixed(4) + ')');
-        set(dot, '', locked ? 0.55 + 0.45 * Math.abs(Math.cos((t - 1.4) * 3.2)) : 1);
         var w = locked ? ((t - 1.6) % 1.5) / 1.5 : 0;                    // ondas de proteção a cada 1,5s enquanto trancada
         set(wave, 'scale(' + (1 + 0.1 * out(w)).toFixed(4) + ')', locked ? 0.9 * (1 - w) : 0.9);
       } };

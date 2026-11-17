@@ -186,7 +186,8 @@ h1, h2, h3 { font-weight: 400; }
 /* partes animadas das ilustrações (figures.js): cada uma gira/escala em torno do próprio desenho */
 .front__svg g { transform-box: fill-box; }
 .fa-stem, .fc-box { transform-origin: 50% 100%; }            /* crescem do chão */
-.fa-base, .fa-ring, .fa-star, .fc-lock, .fc-wave { transform-origin: 50% 50%; }
+.fa-base, .fa-floor, .fa-ring, .fa-star, .fc-lock, .fc-wave { transform-origin: 50% 50%; }
+.front__svg .fa-floor { transform-box: fill-box; }
 .front__ill--data { left: 1044px; top: 106px; width: 803px; height: 740.363px; }
 .front__ill--cyber { left: 1062.594px; top: 216px; width: 757.813px; height: 587px; }
 .front__ill--managed { left: 1076px; top: 100.188px; width: 748px; height: 709.104px; }
@@ -279,7 +280,16 @@ h1, h2, h3 { font-weight: 400; }
   font-size: 14px; line-height: 24px; letter-spacing: 0.14px; color: var(--text-secondary); }
 .footer__credit { width: 176px; padding: 0 24px; font-weight: 500; white-space: nowrap; }
 .footer__logo { position: absolute; left: 0; right: 0; top: 583px; height: 363px; overflow: hidden; }
-.footer__logo img { position: absolute; left: 50%; bottom: -126px; width: 1760px; height: 489px; transform: translateX(-50%); max-width: none; }
+.footer__logo-svg { position: absolute; left: 50%; bottom: -126px; width: 1760px; height: 489px; transform: translateX(-50%); overflow: visible; }
+/* Logo grande: quando o rodapé fica inteiro na tela (main.js põe .is-in), o ícone, o G, o 4 e o F sobem de dentro do
+   corte de baixo, um de cada vez, numa curva bem suave; o rodapé saindo da tela por baixo, voltam ao início */
+.footer__logo-part { transform-box: fill-box; transform: translateY(70%); opacity: 0;
+  transition: transform 1.6s cubic-bezier(.16,1,.3,1), opacity 1.2s cubic-bezier(.16,1,.3,1); }
+.footer__logo-part:nth-child(2) { transition-delay: .18s; }
+.footer__logo-part:nth-child(3) { transition-delay: .36s; }
+.footer__logo-part:nth-child(4) { transition-delay: .54s; }
+.footer__logo.is-in .footer__logo-part { transform: none; opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .footer__logo-part { transform: none; opacity: 1; transition: none; } }
 
 /* ---------- Entradas com a rolagem (reveal.js): sobe com fade quando entra na tela ---------- */
 /* inclui as trocas de cor (sem atraso): sem isso, esta regra apagava a transição de fundo e texto do hover dos cards de Cases */

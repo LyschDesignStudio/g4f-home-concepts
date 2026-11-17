@@ -74,6 +74,13 @@
     var footer = document.querySelector('.footer');
     var compact = function () {
       nav.classList.toggle('nav--compact', window.scrollY > 8);
+      // logo grande do rodapé: entra peça por peça quando o rodapé está inteiro na tela; saindo por baixo, rearma
+      var flogo = document.querySelector('.footer__logo');
+      if (flogo && footer) {
+        var fr = footer.getBoundingClientRect();
+        if (fr.bottom <= window.innerHeight + 1) flogo.classList.add('is-in');
+        else if (fr.top > window.innerHeight) flogo.classList.remove('is-in');
+      }
       // recolhe presa à rolagem: começa quando o rodapé começa a entrar (fim do mapa) e termina com ele inteiro na tela
       if (footer) {
         var f = footer.getBoundingClientRect(), vh = window.innerHeight;
