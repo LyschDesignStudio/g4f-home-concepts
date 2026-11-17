@@ -2,9 +2,9 @@
    1. fundo azul e, no centro, o ícone da G4F só em linha (120px numa tela de 1080);
    2. o ícone cresce e, já enquanto cresce, a estrela de dentro é uma janela (máscara) que mostra o site por dentro;
       ele segue crescendo até a janela cobrir a tela toda (o azul sai pelas bordas);
-      Dentro da janela só aparece o fundo branco do site;
-   3. coberta a tela, o hero entra em sequência (CSS .intro-out): a malha de pontos, o menu descendo do topo, o título,
-      o botão e os cards de números. A barra flutuante só aparece quando a página rola (main.js).
+      O miolo passa de transparente a branco com fade e, com o ícone ainda pequeno, a malha de pontos já começa a se
+      formar do centro para fora (CSS .intro-grid);
+   3. coberta a tela, entram o menu descendo do topo, o título, o botão e os cards de números (CSS .intro-out). A barra flutuante só aparece quando a página rola (main.js).
    A rolagem fica travada até o fim. Com movimento reduzido não há intro: o site abre direto. */
 (function () {
   var root = document.documentElement;
@@ -40,11 +40,12 @@
   function out(x) { return 1 - Math.pow(1 - x, 3); }
 
   // linha do tempo (s)
-  var T_LINE = [0.15, 0.95];   // o ícone em linha aparece
-  var T_GROW = [1.2, 3.4];     // cresce de 120px (numa tela de 1080) até a janela cobrir a tela
-  var T_HOLE = [1.2, 1.5];     // a janela (máscara) se abre logo no começo do crescimento
-  var T_LINEOUT = [2.6, 3.2];  // as linhas saem quando o ícone já passou das bordas
-  var T_END = 3.4;
+  var T_LINE = [0.15, 0.85];   // o ícone em linha aparece
+  var T_GROW = [1.0, 2.3];     // cresce de 120px (numa tela de 1080) até a janela cobrir a tela
+  var T_HOLE = [1.0, 1.5];     // o miolo passa de transparente (azul) a branco: a janela (máscara) abre com fade
+  var T_GRID = 1.4;            // com o ícone ainda pequeno (bem menos da metade), a malha de pontos começa a se formar
+  var T_LINEOUT = [1.85, 2.25];// as linhas saem quando o ícone já passou das bordas
+  var T_END = 2.3;
 
   var W, H;
   function size() { W = window.innerWidth; H = window.innerHeight; svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); }
@@ -80,6 +81,8 @@
     });
     // a janela abre logo que o ícone começa a crescer: o site aparece dentro da estrela
     hole.setAttribute('opacity', out(seg(t, T_HOLE[0], T_HOLE[1])).toFixed(3));
+    // a malha se forma do centro para fora enquanto a janela cresce (CSS .intro-grid)
+    root.classList.toggle('intro-grid', t >= T_GRID);
   }
   function frame(now) {
     if (done) return;
@@ -95,10 +98,10 @@
   function finish() {
     if (done) return; done = true;
     intro.remove();
-    root.classList.add('intro-out');
+    root.classList.add('intro-out', 'intro-grid');
     root.classList.remove('intro-pending');
     unlock();
-    setTimeout(function () { root.classList.remove('intro-out'); }, 2600); // fim da entrada do hero
+    setTimeout(function () { root.classList.remove('intro-out', 'intro-grid'); }, 2400); // fim da entrada do hero
   }
 
   // ?intro=pause: a intro fica parada para conferir quadro a quadro (G4FIntro.at(segundos))
