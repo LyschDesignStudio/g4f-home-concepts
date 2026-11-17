@@ -22,6 +22,7 @@
     };
     window.addEventListener('scroll', function () { if (!navTick) { navTick = true; requestAnimationFrame(navUpdate); } }, { passive: true });
     window.addEventListener('resize', navUpdate);
+    window.addEventListener('load', function () { requestAnimationFrame(navUpdate); }); // depois do "abre sempre no topo" do load
     navUpdate();
   }
 
