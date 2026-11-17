@@ -41,7 +41,7 @@ h1, h2, h3 { font-weight: 400; }
 /* ---------- Navbar · 4648:67948 ---------- */
 .nav { position: sticky; top: 0; z-index: 50; height: 80px; display: flex; align-items: center; justify-content: space-between;
   padding-left: 56px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-line); color: var(--nav-fg);
-  transition: background-color .5s ease, border-color .5s ease, color .5s ease; }
+  transition: background-color .8s cubic-bezier(.4,0,.2,1), border-color .8s cubic-bezier(.4,0,.2,1), color .8s cubic-bezier(.4,0,.2,1); }
 /* no fim do mapa a navbar começa a recolher para cima, presa à rolagem: some de vez quando o rodapé está inteiro
    na tela e volta junto ao rolar para cima (main.js controla o translate, separado do transform da entrada). */
 /* A navbar acompanha a cor da seção que está embaixo dela (main.js põe data-theme conforme a rolagem; ref. Figma 4673:131404):
@@ -51,7 +51,7 @@ h1, h2, h3 { font-weight: 400; }
 .nav[data-theme="light"] { --nav-bg: #fff; --nav-line: var(--neutral-200); --nav-fg: var(--text-primary); }
 .nav[data-theme="dark"] { --nav-bg: var(--tone-900); --nav-line: #12305a; }
 .nav[data-theme="black"] { --nav-bg: #000; --nav-line: #12305a; }
-.nav__action { transition: border-color .5s ease; }
+.nav__action { transition: border-color .8s cubic-bezier(.4,0,.2,1); }
 /* Logo: ao rolar a página, o G, o 4 e o F somem com fade e o ícone anda para a esquerda até ficar a 24px da borda
    (ref. Figma 4673:131125; main.js põe .nav--compact). */
 .nav__logo { display: block; }
@@ -193,13 +193,13 @@ h1, h2, h3 { font-weight: 400; }
 .cases__btn { padding: 20px 18px 20px 24px; border: 1px solid var(--text-primary); }
 .cases__btn:hover, .cases__btn:focus-visible { background: var(--text-primary); color: var(--text-inverse); }
 .cases__grid { display: flex; gap: 20px; height: 600px; }
-.case { display: flex; flex-direction: column; justify-content: space-between; background: var(--neutral-050); flex: 1 0 0; min-width: 0; transition: background-color .4s ease, color .4s ease; }
+.case { display: flex; flex-direction: column; justify-content: space-between; background: var(--neutral-050); flex: 1 0 0; min-width: 0; transition: background-color .8s cubic-bezier(.4,0,.2,1), color .8s cubic-bezier(.4,0,.2,1); }
 .case--wide { flex: 0 0 830px; }
 /* hover (ref. Figma 4678:132069): fundo azul brand, textos claros e a tag com borda clara */
 .case:hover { background: var(--bg-brand); color: var(--text-inverse); }
 .case:hover .pill { border-color: #efeeee; color: var(--text-inverse); }
 .case__head { height: 126px; display: flex; align-items: center; padding: 40px; }
-.case .pill { border-color: var(--neutral-400); color: var(--text-primary); transition: border-color .4s ease, color .4s ease; }
+.case .pill { border-color: var(--neutral-400); color: var(--text-primary); transition: border-color .8s cubic-bezier(.4,0,.2,1), color .8s cubic-bezier(.4,0,.2,1); }
 .case__body { display: flex; flex-direction: column; gap: 24px; padding: 40px; }
 .case__name { font-family: var(--font-label); font-weight: 500; font-size: 32px; line-height: 1.05; white-space: nowrap; }
 .case__desc { width: 275px; font-weight: 300; font-size: 17px; line-height: 1.4; }
