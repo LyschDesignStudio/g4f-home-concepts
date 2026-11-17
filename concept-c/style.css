@@ -114,6 +114,16 @@ h1, h2, h3 { font-weight: 400; }
 .hero-pending .bp-plate--2, .hero-pending .bp-link--1 { transform: translateY(280px); }
 .hero-pending .bp-plate--1 { transform: translateY(420px); }
 .hero-pending .bp-link { opacity: 0; scale: 1 .3; } /* a ligação começa curta (60 de 200px) e estica até a placa de cima */
+/* Rolagem (main.js): a coluna de números empurra o bloco do diagrama para cima (--push, em px) e, enquanto isso, o
+   diagrama comprime de novo, o reverso da entrada (--c, de 0 a 1): as placas voltam a se juntar sobre a de baixo e as
+   ligações encurtam. Usa translate/scale separados do transform da entrada, então as duas coisas não se atrapalham. */
+.hero__stage, .hero__edge { translate: 0 calc(-1 * var(--push, 0px)); }
+.bp-plate--3, .bp-link--2 { translate: 0 calc(var(--c, 0) * 140px); }
+.bp-plate--2, .bp-link--1 { translate: 0 calc(var(--c, 0) * 280px); }
+.bp-plate--1 { translate: 0 calc(var(--c, 0) * 420px); }
+.bp-link { scale: 1 calc(1 - var(--c, 0) * .7); }
+/* depois da entrada, nada de transição nas placas: elas seguem a rolagem sem atraso */
+.hero-settled .bp-plate, .hero-settled .bp-link { transition: none; }
 .bp-mark { transition: opacity 1.3s var(--ease) 1.45s; }
 .hero-pending .bp-mark { opacity: 0; }
 .hero__detail { transition: opacity 1.4s var(--ease) 2s, transform 1.4s var(--ease) 2s; } /* quando o bloco termina de abrir (aos 2s a divisória está a ~99% do caminho, uns 6px do lugar): sem faixa azul entre os dois */
