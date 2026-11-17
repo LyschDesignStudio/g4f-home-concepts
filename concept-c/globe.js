@@ -134,7 +134,7 @@
     rot[0] = START[0] + (HOME[0] - START[0]) * e;
     rot[1] = START[1] + (HOME[1] - START[1]) * e;
     host.style.transform = 'translateY(' + ((1 - e) * RISE).toFixed(1) + 'px)';
-    host.style.opacity = Math.min(1, p * 1.6).toFixed(3);
+    host.style.opacity = (p * p * (3 - 2 * p)).toFixed(3); // fade de entrada ao longo de todo o movimento (0 → 1, suave nas duas pontas)
     // pins: crescem quando o globo chega ao lugar; se o globo voltar bem para baixo, escondem de novo
     if (!pinsOn && p >= 0.98) { pinsOn = true; layer.classList.add('is-on'); }
     else if (pinsOn && p < 0.6) { pinsOn = false; layer.classList.remove('is-on'); }
