@@ -48,7 +48,7 @@ h1, h2, h3 { font-weight: 400; }
 .nav__action { display: flex; align-items: center; padding: 0 30px; border-left: 1px solid var(--line-hero); }
 .nav__item, .nav__action .label { transition: opacity .25s ease; }
 .nav__item:hover, .nav__item:focus-visible, .nav__action:hover .label, .nav__action:focus-visible .label { opacity: .5; }
-.nav { animation: nav-in .9s cubic-bezier(.2, .8, .2, 1) .1s both; }
+.nav { animation: nav-in .8s cubic-bezier(.2, .8, .2, 1) .05s both; }
 @keyframes nav-in { from { transform: translateY(-100%); opacity: 0; } to { transform: none; opacity: 1; } }
 
 /* ---------- Hero · 4648:67458 ----------
@@ -71,18 +71,18 @@ h1, h2, h3 { font-weight: 400; }
 .hero__btn:hover, .hero__btn:focus-visible { background: var(--neutral-050); color: var(--bg-brand); }
 
 /* Entrada (main.js põe .hero-in quando as fontes carregam). Começa só com o fundo azul (a navbar inclusive):
-   1. a navbar desce de cima, com a linha de baixo (0,1s → 1s);
-   2. o título e depois o CTA entram com fade, vindo da esquerda para a direita (0,8s e 1s);
+   1. a navbar desce de cima, com a linha de baixo (0,05s → 0,85s);
+   2. ainda com a navbar terminando de descer, entram o título e o CTA, com fade, vindo da esquerda para a
+      direita (0,45s e 0,65s), junto com o bloco do diagrama (0,4s);
    3. o bloco do diagrama se abre da direita para a esquerda, como uma máscara, com a divisória da esquerda
       andando junto com a borda; ao mesmo tempo o diagrama abre como uma sanfona, de baixo para cima: as quatro
       placas começam próximas, mais para baixo, e sobem até o lugar do Figma, cada uma um pouco depois da de
-      baixo, aparecendo com fade; as ligações verticais entre elas se esticam junto (0,7s → ~2,5s: começa junto
-      com o título e o CTA, para a entrada ser contínua);
-   4. com o bloco no lugar, o quadro menor (representação do diagrama e coordenadas) desce de cima para baixo (2s → 2,9s). */
-.hero { --open: 1.3s cubic-bezier(.65,0,.35,1) .7s; } /* tempo da máscara: o mesmo para o bloco, a divisória e o diagrama */
+      baixo, aparecendo com fade; as ligações verticais entre elas se esticam junto (0,4s → ~2,2s);
+   4. com o bloco no lugar, o quadro menor (representação do diagrama e coordenadas) desce de cima para baixo (1,7s → 2,6s). */
+.hero { --open: 1.3s cubic-bezier(.65,0,.35,1) .4s; } /* tempo da máscara: o mesmo para o bloco, a divisória e o diagrama */
 .hero__title, .hero__btn { transition: opacity .8s ease, transform .9s cubic-bezier(.2,.8,.2,1), background-color .25s ease, color .25s ease; }
-.hero__title { transition-delay: .8s; }
-.hero__btn { transition-delay: 1s, 1s, 0s, 0s; }
+.hero__title { transition-delay: .45s; }
+.hero__btn { transition-delay: .65s, .65s, 0s, 0s; }
 .hero-pending .hero__title, .hero-pending .hero__btn { opacity: 0; transform: translateX(-40px); }
 .hero__stage { clip-path: inset(0 0 0 0); transition: clip-path var(--open); }
 .hero-pending .hero__stage { clip-path: inset(0 0 0 100%); }
@@ -94,10 +94,10 @@ h1, h2, h3 { font-weight: 400; }
 .bp-plate { transition: transform 1.5s cubic-bezier(.2,.8,.2,1) var(--bp-d), opacity .9s ease var(--bp-d); }
 .bp-link { transform-box: fill-box; transform-origin: 50% 100%;
   transition: transform 1.5s cubic-bezier(.2,.8,.2,1) var(--bp-d), scale 1.5s cubic-bezier(.2,.8,.2,1) var(--bp-d), opacity .9s ease var(--bp-d); }
-.bp-plate--4 { --bp-d: .7s; } .bp-link--3 { --bp-d: .75s; }
-.bp-plate--3 { --bp-d: .8s; } .bp-link--2 { --bp-d: .85s; }
-.bp-plate--2 { --bp-d: .9s; } .bp-link--1 { --bp-d: .95s; }
-.bp-plate--1 { --bp-d: 1s; }
+.bp-plate--4 { --bp-d: .4s; } .bp-link--3 { --bp-d: .45s; }
+.bp-plate--3 { --bp-d: .5s; } .bp-link--2 { --bp-d: .55s; }
+.bp-plate--2 { --bp-d: .6s; } .bp-link--1 { --bp-d: .65s; }
+.bp-plate--1 { --bp-d: .7s; }
 /* no começo as placas ficam a 60px uma da outra (no Figma, 200px), empilhadas sobre a de baixo;
    a ligação n (entre as placas n e n+1) anda junto com a placa de baixo (n+1) */
 .hero-pending .bp-plate { opacity: 0; }
@@ -106,9 +106,9 @@ h1, h2, h3 { font-weight: 400; }
 .hero-pending .bp-plate--2, .hero-pending .bp-link--1 { transform: translateY(280px); }
 .hero-pending .bp-plate--1 { transform: translateY(420px); }
 .hero-pending .bp-link { opacity: 0; scale: 1 .3; } /* a ligação começa curta (60 de 200px) e estica até a placa de cima */
-.bp-mark { transition: opacity .8s ease 1.9s; }
+.bp-mark { transition: opacity .8s ease 1.6s; }
 .hero-pending .bp-mark { opacity: 0; }
-.hero__detail { transition: clip-path .9s cubic-bezier(.65,0,.35,1) 2s, transform .9s cubic-bezier(.2,.8,.2,1) 2s; clip-path: inset(0 0 0 0); }
+.hero__detail { transition: clip-path .9s cubic-bezier(.65,0,.35,1) 1.7s, transform .9s cubic-bezier(.2,.8,.2,1) 1.7s; clip-path: inset(0 0 0 0); }
 .hero-pending .hero__detail { clip-path: inset(0 0 100% 0); transform: translateY(-40px); }
 
 /* ---------- Big numbers · 4648:67675 (coluna da direita; à esquerda, o branco da página) ---------- */
