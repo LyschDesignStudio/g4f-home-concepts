@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Archivo:wght@400;500&display=swap">
-<link rel="stylesheet" href="style.css?v=34">
+<link rel="stylesheet" href="style.css?v=35">
 <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('hero-pending', 'reveal-pending');</script>
 <script>
   /* No refresh a página sempre abre do começo (o navegador não restaura a rolagem nem pula para âncoras). */
@@ -83,7 +83,7 @@
             <p class="front__desc">Inteligência Artificial aplicada na prática com governança e resultados que aceleram decisões e entregam valor mensurável.</p>
           </div>
           <a class="btn front__btn label" href="#solucoes"><span class="t">Conheça Data &amp; AI</span></a>
-          <img class="front__ill front__ill--data" src="assets/front-data.svg" width="803" height="740" alt="" data-reveal>
+          <div class="front__ill front__ill--data" data-fig="data" aria-hidden="true"><img src="assets/front-data.svg?v=2" width="803" height="740" alt=""></div>
         </div>
       </article>
       <article class="front">
@@ -94,7 +94,7 @@
             <p class="front__desc">Protegemos toda a estrutura digital sob os mais rígidos padrões internacionais para que nossos clientes operem com total estabilidade e sem o risco de paralisação.</p>
           </div>
           <a class="btn front__btn label" href="#solucoes"><span class="t">Conheça Cybersecurity</span></a>
-          <img class="front__ill front__ill--cyber" src="assets/front-cyber.svg" width="758" height="587" alt="" data-reveal>
+          <div class="front__ill front__ill--cyber" data-fig="cyber" aria-hidden="true"><img src="assets/front-cyber.svg?v=2" width="758" height="587" alt=""></div>
         </div>
       </article>
       <article class="front">
@@ -105,7 +105,7 @@
             <p class="front__desc">Gestão e sustentação de ambientes tecnológicos complexos e infraestruturas em nuvem, que garantem estabilidade contínua e necessária para o crescimento de nossos clientes.</p>
           </div>
           <a class="btn front__btn label" href="#solucoes"><span class="t">Conheça Digital &amp; Managed Services</span></a>
-          <img class="front__ill front__ill--managed" src="assets/front-managed.svg" width="748" height="709" alt="" data-reveal>
+          <div class="front__ill front__ill--managed" data-fig="managed" aria-hidden="true"><img src="assets/front-managed.svg?v=2" width="748" height="709" alt=""></div>
         </div>
       </article>
     </div>
@@ -245,6 +245,7 @@
 <script src="https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script src="globe.js?v=10"></script>
+<script src="figures.js?v=1"></script>
 <script src="/switch.js?v=2"></script>
 </body>
 </html>

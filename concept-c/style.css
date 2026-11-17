@@ -182,6 +182,11 @@ h1, h2, h3 { font-weight: 400; }
 .front__btn { position: absolute; left: 80px; top: 580px; border: 1px solid var(--line-fronts); }
 .front__btn:hover, .front__btn:focus-visible { background: var(--bg-brand); border-color: var(--bg-brand); }
 .front__ill { position: absolute; max-width: none; }
+.front__ill > img, .front__ill > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* partes animadas das ilustrações (figures.js): cada uma gira/escala em torno do próprio desenho */
+.front__svg g { transform-box: fill-box; }
+.fa-block, .fa-stem, .fc-box { transform-origin: 50% 100%; }            /* crescem do chão */
+.fa-base, .fa-ring, .fa-star, .fc-lock, .fc-wave { transform-origin: 50% 50%; }
 .front__ill--data { left: 1044px; top: 106px; width: 803px; height: 740.363px; }
 .front__ill--cyber { left: 1062.594px; top: 216px; width: 757.813px; height: 587px; }
 .front__ill--managed { left: 1076px; top: 100.188px; width: 748px; height: 709.104px; }
