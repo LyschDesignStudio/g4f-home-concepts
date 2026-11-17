@@ -5,7 +5,13 @@
 (function () {
   var root = document.documentElement;
 
-  // ---- hero: a sequência de entrada é toda em CSS; aqui só dispara quando as fontes carregam ----
+  // ---- hero: a sequência de entrada é toda em CSS; aqui o diagrama vira SVG inline (as placas da sanfona
+  //      precisam ser elementos da página) e a entrada dispara quando as fontes e o SVG estão prontos ----
+  var art = document.querySelector('.hero__art');
+  var svgReady = !art ? Promise.resolve() : fetch(art.querySelector('img').getAttribute('src'))
+    .then(function (r) { return r.ok ? r.text() : null; })
+    .then(function (txt) { if (txt && txt.indexOf('<svg') > -1) art.innerHTML = txt.slice(txt.indexOf('<svg')); })
+    .catch(function () {}); // sem o SVG inline fica a imagem estática (sem sanfona)
   if (root.classList.contains('hero-pending')) {
     var started = false;
     var start = function () {
@@ -15,8 +21,8 @@
         root.classList.add('hero-in'); root.classList.remove('hero-pending');
       }); });
     };
-    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
-    setTimeout(start, 1200);
+    Promise.all([document.fonts && document.fonts.ready ? document.fonts.ready : null, svgReady]).then(start);
+    setTimeout(start, 1500);
   }
 
   // ---- entradas com a rolagem ----
